@@ -20,5 +20,6 @@ namespace DogVetAPI.Data.Models
         // Relationships
         public Owner? Owner { get; set; }
         public ICollection<MedicalHistory> MedicalHistories { get; set; } = new List<MedicalHistory>();
+        public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
     }
 }

@@ -21,6 +21,7 @@ namespace DogVetAPI.Data
         public DbSet<Prescription> Prescriptions { get; set; }
         public DbSet<SaleNote> SaleNotes { get; set; }
         public DbSet<SaleNoteConcept> SaleNoteConcepts { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -153,6 +154,31 @@ namespace DogVetAPI.Data
                 entity.HasIndex(e => e.SaleNoteId);
             });
 
+            // Appointment entity configuration
+            modelBuilder.Entity<Appointment>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Date).IsRequired();
+                entity.Property(e => e.Status).HasConversion<string>().HasMaxLength(50);
+
+                // One-to-many relationships
+                entity.HasOne(e => e.Owner)
+                    .WithMany()
+                    .HasForeignKey(e => e.OwnerId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(e => e.Pet)
+                    .WithMany()
+                    .HasForeignKey(e => e.PetId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                // Indexes
+                entity.HasIndex(e => e.Date);
+                entity.HasIndex(e => e.Status);
+                entity.HasIndex(e => e.OwnerId);
+                entity.HasIndex(e => e.PetId);
+            });
+
             // Seed data
             var seedDate = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
@@ -217,6 +243,14 @@ namespace DogVetAPI.Data
                 new SaleNoteConcept { Id = 10, Description = "Consultation fee",      Quantity = 1, UnitPrice = 60.00m,  ConceptPrice = 60.00m,  SaleNoteId = 5, CreatedAt = seedDate, UpdatedAt = seedDate },
                 new SaleNoteConcept { Id = 11, Description = "X-ray – hind leg",      Quantity = 1, UnitPrice = 85.75m,  ConceptPrice = 85.75m,  SaleNoteId = 5, CreatedAt = seedDate, UpdatedAt = seedDate },
                 new SaleNoteConcept { Id = 12, Description = "Meloxicam 1mg x7",      Quantity = 1, UnitPrice = 30.00m,  ConceptPrice = 30.00m,  SaleNoteId = 5, CreatedAt = seedDate, UpdatedAt = seedDate }
+            );
+
+            modelBuilder.Entity<Appointment>().HasData(
+                new Appointment { Id = 1, Date = new DateTime(2026, 2, 1, 10, 0, 0, DateTimeKind.Utc),  Status = AppointmentStatus.Scheduled, OwnerId = 1, PetId = 1, CreatedAt = seedDate, UpdatedAt = seedDate },
+                new Appointment { Id = 2, Date = new DateTime(2026, 2, 5, 14, 30, 0, DateTimeKind.Utc), Status = AppointmentStatus.Scheduled, OwnerId = 2, PetId = 2, CreatedAt = seedDate, UpdatedAt = seedDate },
+                new Appointment { Id = 3, Date = new DateTime(2026, 1, 30, 9, 0, 0, DateTimeKind.Utc),  Status = AppointmentStatus.Completed,  OwnerId = 3, PetId = 3, CreatedAt = seedDate, UpdatedAt = seedDate },
+                new Appointment { Id = 4, Date = new DateTime(2026, 2, 10, 11, 15, 0, DateTimeKind.Utc), Status = AppointmentStatus.Cancelled, OwnerId = 4, PetId = 4, CreatedAt = seedDate, UpdatedAt = seedDate },
+                new Appointment { Id = 5, Date = new DateTime(2026, 2, 3, 15, 45, 0, DateTimeKind.Utc),  Status = AppointmentStatus.Scheduled, OwnerId = 5, PetId = 5, CreatedAt = seedDate, UpdatedAt = seedDate }
             );
         }
     }
