@@ -1,0 +1,59 @@
+## Build results
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.so
+*.dylib
+
+## User-specific files
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## IDE
+.idea/
+*.swp
+*.swo
+*~
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Dependencies
+node_modules/
+.npm
+.yarn
+
+## Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+## Environment
+.env
+.env.local
+.env.*.local
+
+## Database
+*.db
+*.sqlite
+*.sqlite3
+DogVetAPI.db
+
+## Migrations (optional - uncomment to ignore)
+# Migrations/
+
+## NuGet
+.nuget/
+*.nupkg
+*.snupkg
+
+## Test Results
+TestResults/
