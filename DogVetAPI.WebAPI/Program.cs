@@ -1,9 +1,5 @@
 using DogVetAPI.Data;
-using DogVetAPI.Data.Repositories.Interfaces;
-using DogVetAPI.Application.Services.Interfaces;
-using DogVetAPI.Data.Repositories;
-using DogVetAPI.Application.Services;
-using Microsoft.EntityFrameworkCore;
+using DogVetAPI.Application;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,24 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 
-// Configure DbContext
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-    ?? "Server=.;Database=DogVetAPI;Trusted_Connection=true;TrustServerCertificate=true;";
-builder.Services.AddDbContext<DogVetContext>(options =>
-    options.UseSqlServer(connectionString));
-
-// Register Repositories
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
-builder.Services.AddScoped<IPetRepository, PetRepository>();
-builder.Services.AddScoped<IVeterinarianRepository, VeterinarianRepository>();
-builder.Services.AddScoped<IMedicalHistoryRepository, MedicalHistoryRepository>();
-
-// Register Services
-builder.Services.AddScoped<IOwnerService, OwnerService>();
-builder.Services.AddScoped<IPetService, PetService>();
-builder.Services.AddScoped<IVeterinarianService, VeterinarianService>();
-builder.Services.AddScoped<IMedicalHistoryService, MedicalHistoryService>();
+// Register Data and Application services
+builder.Services.AddDataServices(builder.Configuration);
+builder.Services.AddApplicationServices();
 
 // Add CORS
 builder.Services.AddCors(options =>
