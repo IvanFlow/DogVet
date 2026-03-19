@@ -30,7 +30,14 @@ app.MapOpenApi();
 app.MapScalarApiReference("/api/scalar");
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
-app.MapGet("/", () => Results.Redirect("/api/scalar"));
+
+// Serve static files (Angular app)
+app.UseStaticFiles();
+
+// API Controllers
 app.MapControllers();
+
+// Fallback to index.html for Angular routing
+app.MapFallbackToFile("index.html");
 
 app.Run();
