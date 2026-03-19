@@ -1,4 +1,4 @@
-using DogVetAPI.Data;
+using DogVetAPI.Data.DBContext;
 using DogVetAPI.Data.Repositories.Interfaces;
 using DogVetAPI.Data.Models;
 using Microsoft.EntityFrameworkCore;
