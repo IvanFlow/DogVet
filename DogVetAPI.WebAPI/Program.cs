@@ -34,6 +34,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
+app.MapGet("/", () => Results.Redirect("/scalar/v1"));
 app.MapControllers();
 
 app.Run();
