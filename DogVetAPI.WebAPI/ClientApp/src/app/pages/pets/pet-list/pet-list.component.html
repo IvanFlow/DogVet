@@ -1,0 +1,65 @@
+<div class="page-content">
+  <div class="page-header">
+    <h1>🐕 Mascotas</h1>
+    <a routerLink="/pets/new" class="btn btn-primary">+ Nueva Mascota</a>
+  </div>
+
+  <div class="card" style="margin-bottom: var(--space-md); display: flex; gap: var(--space-md); flex-wrap: wrap;">
+    <input class="form-control" style="flex: 1; min-width: 200px;" [(ngModel)]="search" placeholder="🔍 Buscar por nombre o raza..." />
+    <select class="form-control" style="width: 180px;" [(ngModel)]="filterOwner">
+      <option value="">Todos los Propietarios</option>
+      <option *ngFor="let o of owners" [value]="o.id">{{ o.firstName }} {{ o.lastName }}</option>
+    </select>
+    <select class="form-control" style="width: 150px;" [(ngModel)]="filterStatus">
+      <option value="">Todos los Estados</option>
+      <option value="true">Activa</option>
+      <option value="false">Inactiva</option>
+    </select>
+  </div>
+
+  <div *ngIf="loading" class="spinner-wrap"><div class="spinner"></div><p style="text-align: center; margin-top: var(--space-md); color: var(--color-text-muted);">Cargando mascotas...</p></div>
+  <div *ngIf="!loading && error" class="alert alert-danger">{{ error }}</div>
+
+  <div *ngIf="!loading && !error">
+    <div *ngIf="filtered.length === 0" class="empty-state">
+      <span class="empty-icon">🐕</span>
+      <p>No se encontraron mascotas.</p>
+      <a routerLink="/pets/new" class="btn btn-primary" style="margin-top: var(--space-md);">Registrar primera mascota</a>
+    </div>
+
+    <div *ngIf="filtered.length > 0" class="card table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Raza</th>
+            <th class="hide-mobile">Edad / Peso</th>
+            <th class="hide-mobile">Género</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let pet of filtered">
+            <td><a [routerLink]="['/pets', pet.id]" style="font-weight:500;">{{ pet.name }}</a></td>
+            <td>{{ pet.breed }}</td>
+            <td class="hide-mobile">{{ pet.age }}a · {{ pet.weight }}kg</td>
+            <td class="hide-mobile">{{ pet.gender }}</td>
+            <td>
+              <span class="badge" [class.badge-success]="pet.isActive" [class.badge-muted]="!pet.isActive">
+                {{ pet.isActive ? 'Activa' : 'Inactiva' }}
+              </span>
+            </td>
+            <td>
+              <div style="display:flex; gap: var(--space-xs);">
+                <a [routerLink]="['/pets', pet.id]" class="btn btn-ghost btn-sm">Ver</a>
+                <a [routerLink]="['/pets', pet.id, 'edit']" class="btn btn-outline btn-sm">Editar</a>
+                <button class="btn btn-danger btn-sm" (click)="delete(pet)">Eliminar</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

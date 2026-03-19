@@ -1,0 +1,65 @@
+.dashboard-hero {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl) var(--space-xl);
+  color: white;
+  margin-bottom: var(--space-xl);
+}
+.dashboard-hero h1 { font-size: var(--font-size-2xl); margin-bottom: var(--space-xs); }
+.dashboard-hero p { opacity: 0.85; font-size: var(--font-size-lg); }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+  margin-bottom: var(--space-2xl);
+}
+.stat-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.stat-icon { font-size: 2.5rem; }
+.stat-body {
+  text-align: center;
+  flex: 1;
+}
+.stat-number { font-size: var(--font-size-2xl); font-weight: 700; color: var(--color-primary-dark); }
+.stat-label { font-size: var(--font-size-sm); color: var(--color-text-muted); margin-top: 2px; }
+
+.quick-actions { margin-top: var(--space-2xl); }
+.quick-actions h2 { margin-bottom: var(--space-md); color: var(--color-primary-dark); }
+.actions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
+.action-card {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  text-align: center;
+  font-weight: 500;
+  color: var(--color-primary);
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+.action-card:hover { border-color: var(--color-primary); box-shadow: var(--shadow-md); transform: translateY(-2px); text-decoration: none; }
+.action-icon { font-size: 2rem; }
+
+@media (max-width: 768px) {
+  .stats-grid, .actions-grid { grid-template-columns: 1fr; }
+  .stat-card { flex-wrap: wrap; }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .stats-grid, .actions-grid { grid-template-columns: 1fr 1fr; }
+}

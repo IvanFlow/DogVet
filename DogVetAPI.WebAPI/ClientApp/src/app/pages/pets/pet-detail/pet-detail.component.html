@@ -1,0 +1,63 @@
+<div class="page-content">
+  <div *ngIf="loading" class="spinner-wrap"><div class="spinner"></div><p style="text-align: center; margin-top: var(--space-md); color: var(--color-text-muted);">Cargando mascota...</p></div>
+  <div *ngIf="!loading && error" class="alert alert-danger">{{ error }}</div>
+
+  <ng-container *ngIf="!loading && !error && pet">
+    <div class="page-header">
+      <h1>🐕 {{ pet.name }}</h1>
+      <div style="display:flex; gap: var(--space-sm);">
+        <a routerLink="/pets" class="btn btn-ghost">← Atrás</a>
+        <a [routerLink]="['/owners', pet.ownerId]" class="btn btn-ghost">👤 Propietario</a>
+        <a [routerLink]="['/pets', pet.id, 'edit']" class="btn btn-outline">Editar</a>
+        <a [routerLink]="['/medical-histories/new']" [queryParams]="{petId: pet.id}" class="btn btn-primary">+ Registro Médico</a>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom: var(--space-lg);">
+      <h2 style="margin-bottom: var(--space-md); color: var(--color-primary-dark);">Información de Mascota</h2>
+      <div class="info-grid">
+        <div class="info-item"><span class="info-label">Raza</span><span class="info-value">{{ pet.breed }}</span></div>
+        <div class="info-item"><span class="info-label">Género</span><span class="info-value">{{ pet.gender }}</span></div>
+        <div class="info-item"><span class="info-label">Color</span><span class="info-value">{{ pet.color || '—' }}</span></div>
+        <div class="info-item"><span class="info-label">Edad</span><span class="info-value">{{ pet.age }} años</span></div>
+        <div class="info-item"><span class="info-label">Peso</span><span class="info-value">{{ pet.weight }} kg</span></div>
+        <div class="info-item"><span class="info-label">Fecha de Nacimiento</span><span class="info-value">{{ pet.dateOfBirth | date:'mediumDate' }}</span></div>
+        <div class="info-item"><span class="info-label">Estado</span><span class="info-value"><span class="badge" [class.badge-success]="pet.isActive" [class.badge-muted]="!pet.isActive">{{ pet.isActive ? 'Activa' : 'Inactiva' }}</span></span></div>
+      </div>
+    </div>
+
+    <div *ngIf="pet.medicalHistories && pet.medicalHistories.length > 0" class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md);">
+        <h2 style="color: var(--color-primary-dark);">📋 Historial Médico ({{ pet.medicalHistories.length }})</h2>
+        <a [routerLink]="['/medical-histories/new']" [queryParams]="{petId: pet.id}" class="btn btn-primary btn-sm">+ Añadir Registro</a>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Diagnóstico</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let record of pet.medicalHistories">
+              <td>{{ record.visitDate | date:'mediumDate' }}</td>
+              <td><a [routerLink]="['/medical-histories', record.id]">{{ record.diagnosis }}</a></td>
+              <td><span class="badge badge-info">{{ record.status }}</span></td>
+              <td>
+                <a [routerLink]="['/medical-histories', record.id]" class="btn btn-ghost btn-sm">Ver</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="!pet.medicalHistories || pet.medicalHistories.length === 0" class="empty-state">
+      <span class="empty-icon">📋</span>
+      <p>No hay registros médicos para esta mascota.</p>
+      <a [routerLink]="['/medical-histories/new']" [queryParams]="{petId: pet.id}" class="btn btn-primary" style="margin-top: var(--space-md);">Añadir Registro Médico</a>
+    </div>
+  </ng-container>
+</div>

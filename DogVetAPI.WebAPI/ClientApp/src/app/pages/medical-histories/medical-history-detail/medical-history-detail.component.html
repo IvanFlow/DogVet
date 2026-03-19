@@ -1,0 +1,40 @@
+<div class="page-content">
+  <div *ngIf="loading" class="spinner-wrap"><div class="spinner"></div><p style="text-align: center; margin-top: var(--space-md); color: var(--color-text-muted);">Cargando registro...</p></div>
+  <div *ngIf="!loading && error" class="alert alert-danger">{{ error }}</div>
+
+  <ng-container *ngIf="!loading && !error && record">
+    <div class="page-header">
+      <h1>📋 Registro Médico</h1>
+      <div style="display:flex; gap: var(--space-sm);">
+        <a routerLink="/medical-histories" class="btn btn-ghost">← Atrás</a>
+        <a *ngIf="pet" [routerLink]="['/pets', pet.id]" class="btn btn-ghost">🐕 {{ pet.name }}</a>
+        <a [routerLink]="['/medical-histories', record.id, 'edit']" class="btn btn-outline">Editar</a>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom: var(--space-lg);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-md);">
+        <span class="badge badge-info" style="font-size: var(--font-size-base); padding: 6px 16px;">{{ record.status }}</span>
+        <span style="color: var(--color-text-muted); font-size: var(--font-size-sm);">Visita: {{ record.visitDate | date:'fullDate' }}</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item" style="grid-column: 1 / -1;">
+          <span class="info-label">Diagnóstico</span>
+          <span class="info-value" style="font-size: var(--font-size-lg);">{{ record.diagnosis }}</span>
+        </div>
+        <div class="info-item" style="grid-column: 1 / -1;">
+          <span class="info-label">Notas</span>
+          <span class="info-value" style="white-space: pre-wrap;">{{ record.notes || '—' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Fecha de Seguimiento</span>
+          <span class="info-value">{{ record.followUpDate ? (record.followUpDate | date:'mediumDate') : 'No programado' }}</span>
+        </div>
+        <div class="info-item" *ngIf="pet">
+          <span class="info-label">Paciente</span>
+          <a [routerLink]="['/pets', pet.id]" class="info-value">{{ pet.name }} ({{ pet.breed }})</a>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

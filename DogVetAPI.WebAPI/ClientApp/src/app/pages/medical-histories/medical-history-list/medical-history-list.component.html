@@ -1,0 +1,75 @@
+<div class="page-content">
+  <div class="page-header">
+    <h1>📋 Registros Médicos</h1>
+    <a routerLink="/medical-histories/new" class="btn btn-primary">+ Nuevo Registro</a>
+  </div>
+
+  <div class="card" style="margin-bottom: var(--space-md);">
+    <div style="display: grid; gap: var(--space-md); grid-template-columns: 1fr 1fr;">
+      <div>
+        <label style="font-size: var(--font-size-sm); color: var(--color-text-muted); font-weight: 500; margin-bottom: 2px; display: block;">Propietario</label>
+        <select class="form-control" [(ngModel)]="filterOwner" (change)="onOwnerFilter()">
+          <option value="">— Todos los Propietarios —</option>
+          <option *ngFor="let o of owners" [value]="o.id">{{ o.firstName }} {{ o.lastName }}</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size: var(--font-size-sm); color: var(--color-text-muted); font-weight: 500; margin-bottom: 2px; display: block;">Mascota</label>
+        <select class="form-control" [(ngModel)]="filterPet">
+          <option value="">— Todas las Mascotas —</option>
+          <option *ngFor="let p of filteredPets" [value]="p.id">{{ p.name }}</option>
+        </select>
+      </div>
+      <div style="grid-column: 1 / -1;">
+        <label style="font-size: var(--font-size-sm); color: var(--color-text-muted); font-weight: 500; margin-bottom: 2px; display: block;">Buscar</label>
+        <input class="form-control" [(ngModel)]="search" placeholder="🔍 Buscar por diagnóstico…" />
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="spinner-wrap"><div class="spinner"></div><p style="text-align: center; margin-top: var(--space-md); color: var(--color-text-muted);">Cargando registros...</p></div>
+  <div *ngIf="!loading && error" class="alert alert-danger">{{ error }}</div>
+
+  <div *ngIf="!loading && !error">
+    <div *ngIf="filtered.length === 0" class="empty-state">
+      <span class="empty-icon">📋</span>
+      <p>No se encontraron registros médicos.</p>
+      <a routerLink="/medical-histories/new" class="btn btn-primary" style="margin-top: var(--space-md);">Crear primer registro</a>
+    </div>
+
+    <div *ngIf="filtered.length > 0" class="card table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Mascota</th>
+            <th>Diagnóstico</th>
+            <th class="hide-mobile">Estado</th>
+            <th class="hide-mobile">Seguimiento</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let record of filtered">
+            <td>{{ record.visitDate | date:'mediumDate' }}</td>
+            <td>
+              <a [routerLink]="['/pets', record.petId]">
+                {{ getPetName(record.petId) }}
+              </a>
+            </td>
+            <td>{{ record.diagnosis }}</td>
+            <td class="hide-mobile"><span class="badge badge-info">{{ record.status }}</span></td>
+            <td class="hide-mobile">{{ record.followUpDate ? (record.followUpDate | date:'mediumDate') : '—' }}</td>
+            <td>
+              <div style="display:flex; gap: var(--space-xs);">
+                <a [routerLink]="['/medical-histories', record.id]" class="btn btn-ghost btn-sm">Ver</a>
+                <a [routerLink]="['/medical-histories', record.id, 'edit']" class="btn btn-outline btn-sm">Editar</a>
+                <button class="btn btn-danger btn-sm" (click)="delete(record)">Eliminar</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

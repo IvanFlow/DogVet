@@ -1,0 +1,67 @@
+<div class="page-content">
+  <div class="page-header">
+    <h1>{{ isEdit ? '✏️ Editar Registro Médico' : '➕ Nuevo Registro Médico' }}</h1>
+    <a routerLink="/medical-histories" class="btn btn-ghost">← Cancelar</a>
+  </div>
+
+  <div class="card" style="max-width: 700px;">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-grid">
+        <!-- Filtro de propietario (no se envía, solo para filtrar mascotas) -->
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label>Filtrar por Propietario</label>
+          <select class="form-control" [(ngModel)]="selectedOwner" [ngModelOptions]="{standalone: true}" (change)="onOwnerChange()">
+            <option value="">— Todos los Propietarios —</option>
+            <option *ngFor="let o of owners" [value]="o.id">{{ o.firstName }} {{ o.lastName }}</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label>Mascota *</label>
+          <select class="form-control" formControlName="petId">
+            <option value="">— Seleccionar Mascota —</option>
+            <option *ngFor="let p of availablePets" [value]="p.id">{{ p.name }} ({{ p.breed }})</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label>Diagnóstico *</label>
+          <input class="form-control" formControlName="diagnosis" placeholder="Ingrese el diagnóstico…" />
+        </div>
+
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label>Notas</label>
+          <textarea class="form-control" formControlName="notes" rows="4" placeholder="Notas adicionales…"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Fecha de Visita *</label>
+          <input class="form-control" type="date" formControlName="visitDate" />
+        </div>
+
+        <div class="form-group">
+          <label>Fecha de Seguimiento</label>
+          <input class="form-control" type="date" formControlName="followUpDate" />
+        </div>
+
+        <div *ngIf="isEdit" class="form-group">
+          <label>Estado</label>
+          <select class="form-control" formControlName="status">
+            <option value="Completed">Completado</option>
+            <option value="Pending">Pendiente</option>
+            <option value="Follow-up">Seguimiento</option>
+          </select>
+        </div>
+      </div>
+
+      <div *ngIf="error" class="alert alert-danger" style="margin-top: var(--space-md);">{{ error }}</div>
+
+      <div style="display:flex; gap: var(--space-sm); margin-top: var(--space-lg);">
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid || saving">
+          {{ saving ? 'Guardando…' : (isEdit ? 'Guardar Cambios' : 'Crear Registro') }}
+        </button>
+        <a routerLink="/medical-histories" class="btn btn-ghost">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>

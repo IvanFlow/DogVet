@@ -1,4 +1,14 @@
 import { bootstrapApplication } from '@angular/platform-browser';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 import { AppComponent } from './app/app.component';
+import { routes } from './app/app.routes';
+import { loggingInterceptor } from './app/interceptors/error.interceptor';
 
-bootstrapApplication(AppComponent).catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideHttpClient(withInterceptors([loggingInterceptor])),
+    provideRouter(routes)
+  ]
+}).catch(err => console.error('Bootstrap error:', err));
+

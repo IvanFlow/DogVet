@@ -1,0 +1,75 @@
+<div class="page-content">
+  <div class="page-header">
+    <h1>{{ isEdit ? '✏️ Editar Mascota' : '➕ Nueva Mascota' }}</h1>
+    <a routerLink="/pets" class="btn btn-ghost">← Cancelar</a>
+  </div>
+
+  <div class="card" style="max-width: 700px;">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-grid">
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label>Propietario *</label>
+          <select class="form-control" formControlName="ownerId">
+            <option value="">— Seleccionar Propietario —</option>
+            <option *ngFor="let o of owners" [value]="o.id">{{ o.firstName }} {{ o.lastName }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Nombre *</label>
+          <input class="form-control" formControlName="name" placeholder="Nombre de la mascota…" />
+        </div>
+
+        <div class="form-group">
+          <label>Raza *</label>
+          <input class="form-control" formControlName="breed" placeholder="ej., Golden Retriever…" />
+        </div>
+
+        <div class="form-group">
+          <label>Género *</label>
+          <select class="form-control" formControlName="gender">
+            <option value="">— Seleccionar Género —</option>
+            <option value="Male">Macho</option>
+            <option value="Female">Hembra</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Color</label>
+          <input class="form-control" formControlName="color" placeholder="ej., Dorado…" />
+        </div>
+
+        <div class="form-group">
+          <label>Edad *</label>
+          <input class="form-control" type="number" formControlName="age" placeholder="0" />
+        </div>
+
+        <div class="form-group">
+          <label>Peso (kg) *</label>
+          <input class="form-control" type="number" step="0.5" formControlName="weight" placeholder="0" />
+        </div>
+
+        <div class="form-group">
+          <label>Fecha de Nacimiento *</label>
+          <input class="form-control" type="date" formControlName="dateOfBirth" />
+        </div>
+
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label style="display: flex; align-items: center; gap: var(--space-xs);">
+            <input type="checkbox" formControlName="isActive" />
+            <span>Activa</span>
+          </label>
+        </div>
+      </div>
+
+      <div *ngIf="error" class="alert alert-danger" style="margin-top: var(--space-md);">{{ error }}</div>
+
+      <div style="display:flex; gap: var(--space-sm); margin-top: var(--space-lg);">
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid || saving">
+          {{ saving ? 'Guardando…' : (isEdit ? 'Guardar Cambios' : 'Crear Mascota') }}
+        </button>
+        <a routerLink="/pets" class="btn btn-ghost">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>

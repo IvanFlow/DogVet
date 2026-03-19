@@ -1,28 +1,14 @@
 import { Component } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  template: `
-    <div class="container">
-      <h1>{{ title }}</h1>
-    </div>
-  `,
-  styles: [`
-    .container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      font-family: Arial, sans-serif;
-    }
-    h1 {
-      font-size: 3em;
-      color: #333;
-      margin: 0;
-    }
-  `]
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Hello World!';
+  menuOpen = false;
 }
+

@@ -1,0 +1,54 @@
+<div class="page-content">
+  <div class="page-header">
+    <h1>👤 Propietarios</h1>
+    <a routerLink="/owners/new" class="btn btn-primary">+ Nuevo Propietario</a>
+  </div>
+
+  <div class="card" style="margin-bottom: var(--space-md);">
+    <input class="form-control" [(ngModel)]="search" placeholder="🔍 Buscar por nombre, email o ciudad..." />
+  </div>
+
+  <div *ngIf="loading" class="spinner-wrap"><div class="spinner"></div><p style="text-align: center; margin-top: var(--space-md); color: var(--color-text-muted);">Cargando propietarios...</p></div>
+  <div *ngIf="!loading && error" class="alert alert-danger">{{ error }}</div>
+
+  <div *ngIf="!loading ">
+    <div *ngIf="filtered.length === 0" class="empty-state">
+      <span class="empty-icon">👤</span>
+      <p>No se encontraron propietarios.</p>
+      <a routerLink="/owners/new" class="btn btn-primary" style="margin-top: var(--space-md);">Registrar primer propietario</a>
+    </div>
+
+    <div *ngIf="filtered.length > 0" class="card table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th class="hide-mobile">Email</th>
+            <th class="hide-mobile">Teléfono</th>
+            <th class="hide-mobile">Ciudad</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let owner of filtered">
+            <td>
+              <a [routerLink]="['/owners', owner.id]" style="font-weight: 500;">
+                {{ owner.firstName }} {{ owner.lastName }}
+              </a>
+            </td>
+            <td class="hide-mobile">{{ owner.email }}</td>
+            <td class="hide-mobile">{{ owner.phoneNumber }}</td>
+            <td class="hide-mobile">{{ owner.city }}</td>
+            <td>
+              <div style="display:flex; gap: var(--space-xs);">
+                <a [routerLink]="['/owners', owner.id]" class="btn btn-ghost btn-sm">Ver</a>
+                <a [routerLink]="['/owners', owner.id, 'edit']" class="btn btn-outline btn-sm">Editar</a>
+                <button class="btn btn-danger btn-sm" (click)="delete(owner)">Eliminar</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
