@@ -1,4 +1,5 @@
 using DogVetAPI.Data;
+using DogVetAPI.Data.DBContext;
 using DogVetAPI.Application;
 using Scalar.AspNetCore;
 
@@ -24,6 +25,24 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+// Seed local database
+if (app.Environment.IsDevelopment())
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<DogVetContext>();
+        try
+        {
+            await dbContext.SeedAllDataAsync();
+        }
+        catch (Exception ex)
+        {
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+            logger.LogError(ex, "Error al migrar o sembrar la base de datos.");
+        }
+    }
+}
 
 // Configure the HTTP request pipeline
 app.MapOpenApi();

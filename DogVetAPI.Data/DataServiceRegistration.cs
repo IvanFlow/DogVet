@@ -17,10 +17,16 @@ namespace DogVetAPI.Data
         /// </summary>
         public static IServiceCollection AddDataServices(this IServiceCollection services, IConfiguration configuration)
         {
-            // Configure DbContext
-            var connectionString = configuration.GetConnectionString("DefaultConnection") 
-                ?? "Server=.;Database=DogVetAPI;Trusted_Connection=true;TrustServerCertificate=true;";
-            services.AddDbContext<DogVetContext>(options =>
+        // Configure DbContext based on environment
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        
+        if (string.IsNullOrEmpty(connectionString))
+        {
+            // Fallback: use LocalDB if no connection string is provided
+            connectionString = "Server=(localdb)\\\\mssqllocaldb;Database=DogVetAPI;Trusted_Connection=true;TrustServerCertificate=true;";
+        }
+
+        services.AddDbContext<DogVetContext>(options =>
                 options.UseSqlServer(connectionString));
 
             // Register Generic Repository

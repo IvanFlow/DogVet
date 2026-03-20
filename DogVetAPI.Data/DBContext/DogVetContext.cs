@@ -178,9 +178,6 @@ namespace DogVetAPI.Data.DBContext
                 entity.HasIndex(e => e.OwnerId);
                 entity.HasIndex(e => e.PetId);
             });
-
-            // Apply seed data
-            modelBuilder.SeedAllData();
         }
     }
 }
