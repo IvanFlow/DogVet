@@ -83,15 +83,4 @@ export class MedicalHistoryListComponent implements OnInit {
   getPetName(petId: number): string {
     return this.pets.find(p => p.id === petId)?.name ?? `Pet #${petId}`;
   }
-
-  delete(record: MedicalHistory) {
-    if (!confirm('Delete this medical record?')) return;
-    this.medicalHistoryService.delete(record.id).subscribe({
-      next: () => {
-        this.records = this.records.filter(r => r.id !== record.id);
-        this.cdr.markForCheck();
-      },
-      error: () => alert('Error deleting record.')
-    });
-  }
 }

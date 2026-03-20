@@ -59,12 +59,4 @@ export class PetListComponent implements OnInit {
       error: (err) => console.error('[PetList] Owner error:', err)
     });
   }
-
-  delete(pet: Pet) {
-    if (!confirm(`Delete ${pet.name}?`)) return;
-    this.petService.delete(pet.id).subscribe({
-      next: () => this.pets = this.pets.filter(p => p.id !== pet.id),
-      error: () => alert('Error deleting pet.')
-    });
-  }
 }

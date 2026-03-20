@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, ActivatedRoute } from '@angular/router';
+import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { PetService } from '../../../services/pet.service';
 import { Pet } from '../../../models/pet.model';
 
@@ -15,7 +15,7 @@ export class PetDetailComponent implements OnInit {
   loading = true;
   error: string | null = null;
 
-  constructor(private petService: PetService, private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
+  constructor(private petService: PetService, private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -33,6 +33,22 @@ export class PetDetailComponent implements OnInit {
         this.error = 'Pet not found.';
         this.loading = false;
         this.cdr.detectChanges();
+      }
+    });
+  }
+
+  delete() {
+    if (!confirm(`¿Deseas eliminar a ${this.pet?.name}?`)) return;
+    if (!this.pet) return;
+    
+    this.petService.delete(this.pet.id).subscribe({
+      next: () => {
+        console.log('[PetDetail] Deleted successfully');
+        this.router.navigate(['/pets']);
+      },
+      error: (err) => {
+        console.error('[PetDetail] Delete error:', err);
+        alert('Error al eliminar la mascota.');
       }
     });
   }

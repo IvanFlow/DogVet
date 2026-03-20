@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, ActivatedRoute } from '@angular/router';
+import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { OwnerService } from '../../../services/owner.service';
 import { Owner } from '../../../models/owner.model';
 
@@ -30,7 +30,7 @@ export class OwnerDetailComponent implements OnInit {
   loading = true;
   error: string | null = null;
 
-  constructor(private ownerService: OwnerService, private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
+  constructor(private ownerService: OwnerService, private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -48,6 +48,22 @@ export class OwnerDetailComponent implements OnInit {
         this.error = 'Owner not found.';
         this.loading = false;
         this.cdr.detectChanges();
+      }
+    });
+  }
+
+  delete() {
+    if (!confirm(`¿Deseas eliminar a ${this.owner?.firstName} ${this.owner?.lastName}?`)) return;
+    if (!this.owner) return;
+    
+    this.ownerService.delete(this.owner.id).subscribe({
+      next: () => {
+        console.log('[OwnerDetail] Deleted successfully');
+        this.router.navigate(['/owners']);
+      },
+      error: (err) => {
+        console.error('[OwnerDetail] Delete error:', err);
+        alert('Error al eliminar el propietario.');
       }
     });
   }

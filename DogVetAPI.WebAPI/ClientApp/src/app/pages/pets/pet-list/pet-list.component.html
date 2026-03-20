@@ -54,7 +54,6 @@
               <div style="display:flex; gap: var(--space-xs);">
                 <a [routerLink]="['/pets', pet.id]" class="btn btn-ghost btn-sm">Ver</a>
                 <a [routerLink]="['/pets', pet.id, 'edit']" class="btn btn-outline btn-sm">Editar</a>
-                <button class="btn btn-danger btn-sm" (click)="delete(pet)">Eliminar</button>
               </div>
             </td>
           </tr>

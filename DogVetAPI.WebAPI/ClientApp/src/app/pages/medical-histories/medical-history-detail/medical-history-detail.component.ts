@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, ActivatedRoute } from '@angular/router';
+import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { MedicalHistoryService } from '../../../services/medical-history.service';
 import { PetService } from '../../../services/pet.service';
 import { MedicalHistory } from '../../../models/medical-history.model';
@@ -22,6 +22,7 @@ export class MedicalHistoryDetailComponent implements OnInit {
     private medicalHistoryService: MedicalHistoryService,
     private petService: PetService,
     private route: ActivatedRoute,
+    private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -42,6 +43,22 @@ export class MedicalHistoryDetailComponent implements OnInit {
         this.error = 'Record not found.';
         this.loading = false;
         this.cdr.detectChanges();
+      }
+    });
+  }
+
+  delete() {
+    if (!confirm('¿Deseas eliminar este registro médico?')) return;
+    if (!this.record) return;
+    
+    this.medicalHistoryService.delete(this.record.id).subscribe({
+      next: () => {
+        console.log('[MedicalHistoryDetail] Deleted successfully');
+        this.router.navigate(['/medical-histories']);
+      },
+      error: (err) => {
+        console.error('[MedicalHistoryDetail] Delete error:', err);
+        alert('Error al eliminar el registro.');
       }
     });
   }

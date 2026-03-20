@@ -5,10 +5,9 @@
   <ng-container *ngIf="!loading && !error && record">
     <div class="page-header">
       <h1>📋 Registro Médico</h1>
-      <div style="display:flex; gap: var(--space-sm);">
+      <div style="display:flex; gap: var(--space-sm); flex-wrap: wrap;">
         <a routerLink="/medical-histories" class="btn btn-ghost">← Atrás</a>
         <a *ngIf="pet" [routerLink]="['/pets', pet.id]" class="btn btn-ghost">🐕 {{ pet.name }}</a>
-        <a [routerLink]="['/medical-histories', record.id, 'edit']" class="btn btn-outline">Editar</a>
       </div>
     </div>
 
@@ -34,6 +33,10 @@
           <span class="info-label">Paciente</span>
           <a [routerLink]="['/pets', pet.id]" class="info-value">{{ pet.name }} ({{ pet.breed }})</a>
         </div>
+      </div>
+      <div style="display:flex; gap: var(--space-sm); margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--color-border);">
+        <a [routerLink]="['/medical-histories', record.id, 'edit']" class="btn btn-ghost btn-sm">✏️ Editar</a>
+        <button class="btn btn-ghost btn-sm" style="color: var(--color-danger);" (click)="delete()">🗑️ Eliminar</button>
       </div>
     </div>
   </ng-container>

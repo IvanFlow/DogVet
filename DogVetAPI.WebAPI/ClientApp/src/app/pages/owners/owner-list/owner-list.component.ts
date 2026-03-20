@@ -51,12 +51,4 @@ constructor(private ownerService: OwnerService, private cdr: ChangeDetectorRef) 
       }
     });
   }
-
-  delete(owner: Owner) {
-    if (!confirm(`Delete ${owner.firstName} ${owner.lastName}?`)) return;
-    this.ownerService.delete(owner.id).subscribe({
-      next: () => this.owners = this.owners.filter(o => o.id !== owner.id),
-      error: () => alert('Error deleting owner.')
-    });
-  }
 }
