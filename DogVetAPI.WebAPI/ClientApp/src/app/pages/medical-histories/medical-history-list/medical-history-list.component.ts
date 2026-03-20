@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +13,8 @@ import { Owner } from '../../../models/owner.model';
   selector: 'app-medical-history-list',
   standalone: true,
   imports: [CommonModule, RouterLink, FormsModule],
-  templateUrl: './medical-history-list.component.html'
+  templateUrl: './medical-history-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MedicalHistoryListComponent implements OnInit {
   records: MedicalHistory[] = [];
@@ -44,7 +45,8 @@ export class MedicalHistoryListComponent implements OnInit {
   constructor(
     private medicalHistoryService: MedicalHistoryService,
     private petService: PetService,
-    private ownerService: OwnerService
+    private ownerService: OwnerService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -55,15 +57,23 @@ export class MedicalHistoryListComponent implements OnInit {
         this.records = data;
         this.loading = false;
         this.error = null;
+        this.cdr.markForCheck();
       },
       error: (err) => {
         console.error('[MedicalHistoryList] Error:', err);
         this.error = 'Failed to load records.';
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
-    this.petService.getAll().subscribe(data => this.pets = data);
-    this.ownerService.getAll().subscribe(data => this.owners = data);
+    this.petService.getAll().subscribe(data => {
+      this.pets = data;
+      this.cdr.markForCheck();
+    });
+    this.ownerService.getAll().subscribe(data => {
+      this.owners = data;
+      this.cdr.markForCheck();
+    });
   }
 
   onOwnerFilter() {
@@ -77,7 +87,10 @@ export class MedicalHistoryListComponent implements OnInit {
   delete(record: MedicalHistory) {
     if (!confirm('Delete this medical record?')) return;
     this.medicalHistoryService.delete(record.id).subscribe({
-      next: () => this.records = this.records.filter(r => r.id !== record.id),
+      next: () => {
+        this.records = this.records.filter(r => r.id !== record.id);
+        this.cdr.markForCheck();
+      },
       error: () => alert('Error deleting record.')
     });
   }
