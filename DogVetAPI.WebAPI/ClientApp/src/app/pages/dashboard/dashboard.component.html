@@ -8,6 +8,14 @@
 
   <div class="stats-grid">
     <div class="stat-card">
+      <div class="stat-icon">📋</div>
+      <div class="stat-body">
+        <div class="stat-number">{{ recordCount }}</div>
+        <div class="stat-label">Registros Médicos</div>
+      </div>
+      <a routerLink="/medical-histories" class="btn btn-outline btn-sm">Ver Todos</a>
+    </div>
+    <div class="stat-card">
       <div class="stat-icon">👤</div>
       <div class="stat-body">
         <div class="stat-number">{{ ownerCount }}</div>
@@ -23,19 +31,15 @@
       </div>
       <a routerLink="/pets" class="btn btn-outline btn-sm">Ver Todos</a>
     </div>
-    <div class="stat-card">
-      <div class="stat-icon">📋</div>
-      <div class="stat-body">
-        <div class="stat-number">{{ recordCount }}</div>
-        <div class="stat-label">Registros Médicos</div>
-      </div>
-      <a routerLink="/medical-histories" class="btn btn-outline btn-sm">Ver Todos</a>
-    </div>
   </div>
 
   <div class="quick-actions">
     <h2>Acciones Rápidas</h2>
     <div class="actions-grid">
+      <a routerLink="/medical-histories/new" class="action-card">
+        <span class="action-icon">➕📋</span>
+        <span>Nuevo Registro Médico</span>
+      </a>
       <a routerLink="/owners/new" class="action-card">
         <span class="action-icon">➕👤</span>
         <span>Registrar Propietario</span>
@@ -43,10 +47,6 @@
       <a routerLink="/pets/new" class="action-card">
         <span class="action-icon">➕🐕</span>
         <span>Registrar Mascota</span>
-      </a>
-      <a routerLink="/medical-histories/new" class="action-card">
-        <span class="action-icon">➕📋</span>
-        <span>Nuevo Registro Médico</span>
       </a>
     </div>
   </div>
