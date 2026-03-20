@@ -77,10 +77,11 @@ namespace DogVetAPI.Data.DBContext
                 entity.Property(e => e.PhoneNumber).HasMaxLength(20);
                 
                 // One-to-many relationship with MedicalHistory
+                // SetNull: deleting a veterinarian nullifies VeterinarianId in their records
                 entity.HasMany(e => e.MedicalHistories)
                     .WithOne(m => m.Veterinarian)
                     .HasForeignKey(m => m.VeterinarianId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.SetNull);
                 
                 // Indexes
                 entity.HasIndex(e => e.Email).IsUnique();
@@ -165,15 +166,18 @@ namespace DogVetAPI.Data.DBContext
                 entity.Property(e => e.Status).HasConversion<string>().HasMaxLength(50);
 
                 // One-to-many relationships
+                // Cascade: deleting an owner removes their appointments at DB level
                 entity.HasOne(e => e.Owner)
                     .WithMany(o => o.Appointments)
                     .HasForeignKey(e => e.OwnerId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
 
+                // ClientCascade: EF handles deletion before DB to avoid multiple cascade paths
+                // (Owner→Pets→Appointments AND Owner→Appointments would violate SQL Server restriction)
                 entity.HasOne(e => e.Pet)
                     .WithMany(p => p.Appointments)
                     .HasForeignKey(e => e.PetId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.ClientCascade);
 
                 // Indexes
                 entity.HasIndex(e => e.Date);

@@ -31,5 +31,20 @@ namespace DogVetAPI.Data.Repositories
         {
             return await _dbSet.Where(p => p.IsActive).ToListAsync();
         }
+
+        public override async Task<bool> DeleteAsync(int id)
+        {
+            // Load pet with appointments so EF's ClientCascade can delete them
+            // before the DB delete fires (Pet→Appointments uses ClientCascade)
+            var pet = await _dbSet
+                .Include(p => p.Appointments)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (pet == null)
+                return false;
+
+            _dbSet.Remove(pet);
+            return true;
+        }
     }
 }
