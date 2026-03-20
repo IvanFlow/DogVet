@@ -2,6 +2,7 @@ using DogVetAPI.Data;
 using DogVetAPI.Data.DBContext;
 using DogVetAPI.Application;
 using Scalar.AspNetCore;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,7 @@ if (app.Environment.IsDevelopment())
         var dbContext = scope.ServiceProvider.GetRequiredService<DogVetContext>();
         try
         {
+            await dbContext.Database.MigrateAsync();
             await dbContext.SeedAllDataAsync();
         }
         catch (Exception ex)

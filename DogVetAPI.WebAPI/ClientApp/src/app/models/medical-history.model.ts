@@ -17,7 +17,6 @@ export interface CreateMedicalHistory {
   visitDate: string;
   followUpDate?: string | null;
   petId: number;
-  veterinarianId: number;
 }
 
 export interface UpdateMedicalHistory extends CreateMedicalHistory {

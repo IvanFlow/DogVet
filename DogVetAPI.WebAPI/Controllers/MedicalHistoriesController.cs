@@ -1,6 +1,7 @@
 using DogVetAPI.Application;
 using DogVetAPI.Application.Services.Interfaces;
 using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogVetAPI.WebAPI.Controllers
@@ -11,10 +12,12 @@ namespace DogVetAPI.WebAPI.Controllers
     {
         private readonly IMedicalHistoryService _medicalHistoryService;
         private readonly ILogger<MedicalHistoriesController> _logger;
+        private readonly IVeterinarianRepository _veterinarianRepository;
 
-        public MedicalHistoriesController(IMedicalHistoryService medicalHistoryService, ILogger<MedicalHistoriesController> logger)
+        public MedicalHistoriesController(IMedicalHistoryService medicalHistoryService, IVeterinarianRepository veterinarianRepository, ILogger<MedicalHistoriesController> logger)
         {
             _medicalHistoryService = medicalHistoryService;
+            _veterinarianRepository = veterinarianRepository;
             _logger = logger;
         }
 
@@ -130,9 +133,15 @@ namespace DogVetAPI.WebAPI.Controllers
                     VisitDate = createRecordDto.VisitDate,
                     FollowUpDate = createRecordDto.FollowUpDate,
                     PetId = createRecordDto.PetId,
-                    VeterinarianId = createRecordDto.VeterinarianId,
                     Status = "Completed"
                 };
+
+                var firstVet = await _veterinarianRepository.GetFirstVeterinarianAsync();
+
+                if(firstVet != null)
+                {
+                    record.VeterinarianId = firstVet.Id;
+                }
 
                 var createdRecord = await _medicalHistoryService.CreateRecordAsync(record);
                 return CreatedAtAction(nameof(GetRecordById), new { id = createdRecord.Id }, MapToDto(createdRecord));

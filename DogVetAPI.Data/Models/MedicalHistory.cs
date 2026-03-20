@@ -13,7 +13,7 @@ namespace DogVetAPI.Data.Models
 
         // Foreign keys
         public int PetId { get; set; }
-        public int VeterinarianId { get; set; }
+        public int? VeterinarianId { get; set; }
 
         // Relationships
         public Pet? Pet { get; set; }

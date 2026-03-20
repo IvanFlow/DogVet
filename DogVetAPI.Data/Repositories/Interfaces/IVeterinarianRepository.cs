@@ -9,5 +9,6 @@ namespace DogVetAPI.Data.Repositories.Interfaces
     {
         Task<Veterinarian?> GetByEmailAsync(string email);
         Task<IEnumerable<Veterinarian>> GetActiveVeterinariansAsync();
+        Task<Veterinarian> GetFirstVeterinarianAsync();
     }
 }

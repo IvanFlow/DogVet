@@ -23,5 +23,10 @@ namespace DogVetAPI.Data.Repositories
         {
             return await _dbSet.Where(v => v.IsActive).ToListAsync();
         }
+
+        public async Task<Veterinarian?> GetFirstVeterinarianAsync()
+        {
+            return await _dbSet.FirstOrDefaultAsync();
+        }
     }
 }

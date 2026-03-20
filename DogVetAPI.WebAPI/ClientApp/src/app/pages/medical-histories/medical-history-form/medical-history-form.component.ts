@@ -48,7 +48,6 @@ export class MedicalHistoryFormComponent implements OnInit {
       visitDate:   [today, Validators.required],
       followUpDate:[''],
       status:      ['Completed'],
-      veterinarianId: [1] // default vet ID; extend with auth later
     });
 
     this.petService.getAll().subscribe(data => { this.pets = data; this.cdr.detectChanges(); });

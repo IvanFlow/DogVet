@@ -94,6 +94,9 @@ namespace DogVetAPI.Data.DBContext
                 entity.Property(e => e.Notes).HasMaxLength(1000);
                 entity.Property(e => e.Status).HasMaxLength(50);
                 
+                // Foreign key configuration - VeterinarianId is optional
+                entity.Property(e => e.VeterinarianId).IsRequired(false);
+                
                 // One-to-many relationship with Prescription
                 entity.HasMany(e => e.Prescriptions)
                     .WithOne(p => p.MedicalHistory)
