@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MedicalHistoryService } from '../../../services/medical-history.service';
 import { OwnerService } from '../../../services/owner.service';
@@ -46,8 +46,13 @@ export class MedicalHistoryListComponent implements OnInit {
     private medicalHistoryService: MedicalHistoryService,
     private petService: PetService,
     private ownerService: OwnerService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
+
+  navigateTo(id: number) {
+    this.router.navigate(['/medical-histories', id]);
+  }
 
   ngOnInit() {
     console.log('[MedicalHistoryList] Loading...');

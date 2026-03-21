@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { OwnerService } from '../../../services/owner.service';
 import { Owner } from '../../../models/owner.model';
@@ -26,7 +26,11 @@ export class OwnerListComponent implements OnInit {
     );
   }
 
-constructor(private ownerService: OwnerService, private cdr: ChangeDetectorRef) {}
+constructor(private ownerService: OwnerService, private cdr: ChangeDetectorRef, private router: Router) {}
+
+  navigateTo(id: number) {
+    this.router.navigate(['/owners', id]);
+  }
 
   ngOnInit() {
     console.log('[OwnerList] Initializing, about to call getAll()');

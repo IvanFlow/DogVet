@@ -10,11 +10,6 @@
       <option value="">Todos los Propietarios</option>
       <option *ngFor="let o of owners" [value]="o.id">{{ o.firstName }} {{ o.lastName }}</option>
     </select>
-    <select class="form-control" style="width: 150px;" [(ngModel)]="filterStatus">
-      <option value="">Todos los Estados</option>
-      <option value="true">Activa</option>
-      <option value="false">Inactiva</option>
-    </select>
   </div>
 
   <div *ngIf="loading" class="spinner-wrap"><div class="spinner"></div><p style="text-align: center; margin-top: var(--space-md); color: var(--color-text-muted);">Cargando mascotas...</p></div>
@@ -36,12 +31,11 @@
             <th class="hide-mobile">Edad / Peso</th>
             <th class="hide-mobile">Género</th>
             <th>Estado</th>
-            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let pet of filtered">
-            <td><a [routerLink]="['/pets', pet.id]" style="font-weight:500;">{{ pet.name }}</a></td>
+          <tr *ngFor="let pet of filtered" (click)="navigateTo(pet.id)" style="cursor:pointer;">
+            <td><a [routerLink]="['/pets', pet.id]" style="font-weight:500;" (click)="$event.stopPropagation()">{{ pet.name }}</a></td>
             <td>{{ pet.breed }}</td>
             <td class="hide-mobile">{{ pet.age }}a · {{ pet.weight }}kg</td>
             <td class="hide-mobile">{{ pet.gender }}</td>
@@ -49,12 +43,6 @@
               <span class="badge" [class.badge-success]="pet.isActive" [class.badge-muted]="!pet.isActive">
                 {{ pet.isActive ? 'Activa' : 'Inactiva' }}
               </span>
-            </td>
-            <td>
-              <div style="display:flex; gap: var(--space-xs);">
-                <a [routerLink]="['/pets', pet.id]" class="btn btn-ghost btn-sm">Ver</a>
-                <a [routerLink]="['/pets', pet.id, 'edit']" class="btn btn-outline btn-sm">Editar</a>
-              </div>
             </td>
           </tr>
         </tbody>

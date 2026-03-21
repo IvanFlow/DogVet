@@ -46,27 +46,20 @@
             <th>Diagnóstico</th>
             <th class="hide-mobile">Estado</th>
             <th class="hide-mobile">Seguimiento</th>
-            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           <ng-container *ngFor="let record of filtered">
-            <tr *ngIf="getPetName(record.petId)">
+            <tr *ngIf="getPetName(record.petId)" (click)="navigateTo(record.id)" style="cursor:pointer;">
               <td>{{ record.visitDate | date:'mediumDate' }}</td>
               <td>
-                <a [routerLink]="['/pets', record.petId]">
+                <a [routerLink]="['/pets', record.petId]" (click)="$event.stopPropagation()">
                   {{ getPetName(record.petId) }}
                 </a>
               </td>
               <td>{{ record.diagnosis }}</td>
               <td class="hide-mobile"><span class="badge badge-info">{{ record.status }}</span></td>
               <td class="hide-mobile">{{ record.followUpDate ? (record.followUpDate | date:'mediumDate') : '—' }}</td>
-              <td>
-                <div style="display:flex; gap: var(--space-xs);">
-                  <a [routerLink]="['/medical-histories', record.id]" class="btn btn-ghost btn-sm">Ver</a>
-                  <a [routerLink]="['/medical-histories', record.id, 'edit']" class="btn btn-outline btn-sm">Editar</a>
-                </div>
-              </td>
             </tr>
           </ng-container>
         </tbody>

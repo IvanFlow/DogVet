@@ -26,25 +26,18 @@
             <th class="hide-mobile">Email</th>
             <th class="hide-mobile">Teléfono</th>
             <th class="hide-mobile">Ciudad</th>
-            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let owner of filtered">
+          <tr *ngFor="let owner of filtered" (click)="navigateTo(owner.id)" style="cursor:pointer;">
             <td>
-              <a [routerLink]="['/owners', owner.id]" style="font-weight: 500;">
+              <a [routerLink]="['/owners', owner.id]" style="font-weight: 500;" (click)="$event.stopPropagation()">
                 {{ owner.firstName }} {{ owner.lastName }}
               </a>
             </td>
             <td class="hide-mobile">{{ owner.email }}</td>
             <td class="hide-mobile">{{ owner.phoneNumber }}</td>
             <td class="hide-mobile">{{ owner.city }}</td>
-            <td>
-              <div style="display:flex; gap: var(--space-xs);">
-                <a [routerLink]="['/owners', owner.id]" class="btn btn-ghost btn-sm">Ver</a>
-                <a [routerLink]="['/owners', owner.id, 'edit']" class="btn btn-outline btn-sm">Editar</a>
-              </div>
-            </td>
           </tr>
         </tbody>
       </table>

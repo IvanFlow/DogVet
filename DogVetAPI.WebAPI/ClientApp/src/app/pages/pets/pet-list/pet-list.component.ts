@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PetService } from '../../../services/pet.service';
 import { OwnerService } from '../../../services/owner.service';
@@ -18,7 +18,6 @@ export class PetListComponent implements OnInit {
   owners: Owner[] = [];
   search = '';
   filterOwner = '';
-  filterStatus = '';
   loading = true;
   error: string | null = null;
 
@@ -27,12 +26,15 @@ export class PetListComponent implements OnInit {
       const s = this.search.toLowerCase();
       const matchSearch = !s || p.name.toLowerCase().includes(s) || p.breed.toLowerCase().includes(s);
       const matchOwner = !this.filterOwner || p.ownerId === Number(this.filterOwner);
-      const matchStatus = this.filterStatus === '' || String(p.isActive) === this.filterStatus;
-      return matchSearch && matchOwner && matchStatus;
+      return matchSearch && matchOwner;
     });
   }
 
-  constructor(private petService: PetService, private ownerService: OwnerService, private cdr: ChangeDetectorRef) {}
+  constructor(private petService: PetService, private ownerService: OwnerService, private cdr: ChangeDetectorRef, private router: Router) {}
+
+  navigateTo(id: number) {
+    this.router.navigate(['/pets', id]);
+  }
 
   ngOnInit() {
     console.log('[PetList] Loading...');
@@ -55,6 +57,7 @@ export class PetListComponent implements OnInit {
       next: (data) => {
         console.log('[PetList] Owners:', data);
         this.owners = data;
+        this.cdr.detectChanges();
       },
       error: (err) => console.error('[PetList] Owner error:', err)
     });
