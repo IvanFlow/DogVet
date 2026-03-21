@@ -29,6 +29,14 @@ namespace DogVetAPI.Data.Repositories
             return await _dbSet.Include(o => o.Pets).FirstOrDefaultAsync(o => o.Id == id);
         }
 
+        public async Task<Owner?> GetOwnerWithPetsWithMedicalHistoriesAsync(int id)
+        {
+            return await _dbSet
+                .Include(o => o.Pets)
+                    .ThenInclude(p => p.MedicalHistories)
+                .FirstOrDefaultAsync(o => o.Id == id);
+        }
+
         public override async Task<bool> DeleteAsync(int id)
         {
             // Load owner with pets and their appointments so EF's ClientCascade

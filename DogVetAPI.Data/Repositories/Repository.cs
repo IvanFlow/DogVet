@@ -34,10 +34,10 @@ namespace DogVetAPI.Data.Repositories
             return entity;
         }
 
-        public virtual async Task<T> UpdateAsync(T entity)
+        public virtual T Update(T entity)
         {
             _dbSet.Update(entity);
-            return await Task.FromResult(entity);
+            return entity;
         }
 
         public virtual async Task<bool> DeleteAsync(int id)

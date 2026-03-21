@@ -41,7 +41,7 @@ namespace DogVetAPI.Application.Services
         {
             veterinarian.UpdatedAt = DateTime.UtcNow;
             
-            var updatedVeterinarian = await _veterinarianRepository.UpdateAsync(veterinarian);
+            var updatedVeterinarian = _veterinarianRepository.Update(veterinarian);
             await _veterinarianRepository.SaveChangesAsync();
             
             return updatedVeterinarian;

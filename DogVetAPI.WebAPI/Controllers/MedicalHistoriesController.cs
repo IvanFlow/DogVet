@@ -204,6 +204,27 @@ namespace DogVetAPI.WebAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Soft deletes a medical history record (sets IsActive to false)
+        /// </summary>
+        [HttpDelete("soft-delete/{id}")]
+        public async Task<IActionResult> SoftDeleteRecord(int id)
+        {
+            try
+            {
+                var deleted = await _medicalHistoryService.SoftDeleteRecordAsync(id);
+                if (!deleted)
+                    return NotFound($"Medical record with ID {id} not found");
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error soft deleting medical record");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
         private MedicalHistoryDto MapToDto(MedicalHistory record)
         {
             return new MedicalHistoryDto

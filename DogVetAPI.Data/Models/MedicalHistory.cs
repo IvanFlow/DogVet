@@ -10,6 +10,7 @@ namespace DogVetAPI.Data.Models
         public DateTime VisitDate { get; set; }
         public DateTime? FollowUpDate { get; set; }
         public string Status { get; set; } = "Completed"; // Completed, Pending, Scheduled
+        public bool IsActive { get; set; } = true;
 
         // Foreign keys
         public int PetId { get; set; }

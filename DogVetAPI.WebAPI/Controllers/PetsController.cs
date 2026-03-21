@@ -181,6 +181,28 @@ namespace DogVetAPI.WebAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Soft deletes a pet (sets IsActive to false)
+        /// Also soft deletes all their medical histories
+        /// </summary>
+        [HttpDelete("soft-delete/{id}")]
+        public async Task<IActionResult> SoftDeletePet(int id)
+        {
+            try
+            {
+                var deleted = await _petService.SoftDeletePetAsync(id);
+                if (!deleted)
+                    return NotFound($"Pet with ID {id} not found");
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error soft deleting pet");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
         private PetDto MapToDto(Pet pet)
         {
             return new PetDto

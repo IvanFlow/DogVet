@@ -12,6 +12,7 @@ namespace DogVetAPI.Application.Services.Interfaces
         Task<Owner> CreateOwnerAsync(Owner owner);
         Task<Owner> UpdateOwnerAsync(Owner owner);
         Task<bool> DeleteOwnerAsync(int id);
+        Task<bool> SoftDeleteOwnerAsync(int id);
         Task<Owner?> GetOwnerWithPetsAsync(int id);
     }
 }

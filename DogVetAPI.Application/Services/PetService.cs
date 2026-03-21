@@ -41,7 +41,7 @@ namespace DogVetAPI.Application.Services
         {
             pet.UpdatedAt = DateTime.UtcNow;
             
-            var updatedPet = await _petRepository.UpdateAsync(pet);
+            var updatedPet = _petRepository.Update(pet);
             await _petRepository.SaveChangesAsync();
             
             return updatedPet;
@@ -64,6 +64,30 @@ namespace DogVetAPI.Application.Services
         public async Task<Pet?> GetPetWithHistoryAsync(int id)
         {
             return await _petRepository.GetPetWithHistoryAsync(id);
+        }
+
+        public async Task<bool> SoftDeletePetAsync(int id)
+        {
+            // Get pet with medical histories
+            var pet = await _petRepository.GetPetWithHistoryAsync(id);
+            if (pet == null)
+                return false;
+
+            // Set pet as inactive
+            pet.IsActive = false;
+            pet.UpdatedAt = DateTime.UtcNow;
+
+            // Set all medical histories as inactive
+            foreach (var medicalHistory in pet.MedicalHistories)
+            {
+                medicalHistory.IsActive = false;
+                medicalHistory.UpdatedAt = DateTime.UtcNow;
+            }
+
+            _petRepository.Update(pet);
+            await _petRepository.SaveChangesAsync();
+
+            return true;
         }
     }
 }

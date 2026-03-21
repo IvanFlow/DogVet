@@ -10,5 +10,6 @@ namespace DogVetAPI.Data.Repositories.Interfaces
         Task<Owner?> GetByEmailAsync(string email);
         Task<IEnumerable<Owner>> GetOwnersWithPetsAsync();
         Task<Owner?> GetOwnerWithPetsAsync(int id);
+        Task<Owner?> GetOwnerWithPetsWithMedicalHistoriesAsync(int id);
     }
 }

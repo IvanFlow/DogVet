@@ -37,6 +37,7 @@ namespace DogVetAPI.Data.DBContext
                 entity.Property(e => e.PhoneNumber).HasMaxLength(20);
                 entity.Property(e => e.Address).HasMaxLength(300);
                 entity.Property(e => e.City).HasMaxLength(100);
+                entity.Property(e => e.IsActive).HasDefaultValue(true);
                 
                 // One-to-many relationship with Pet
                 entity.HasMany(e => e.Pets)
@@ -46,6 +47,7 @@ namespace DogVetAPI.Data.DBContext
                 
                 // Indexes
                 entity.HasIndex(e => e.Email).IsUnique();
+                entity.HasIndex(e => e.IsActive);
             });
 
             // Pet entity configuration
@@ -56,6 +58,7 @@ namespace DogVetAPI.Data.DBContext
                 entity.Property(e => e.Breed).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.Color).HasMaxLength(100);
                 entity.Property(e => e.Gender).HasMaxLength(20);
+                entity.Property(e => e.IsActive).HasDefaultValue(true);
                 
                 // One-to-many relationship with MedicalHistory
                 entity.HasMany(e => e.MedicalHistories)
@@ -65,6 +68,7 @@ namespace DogVetAPI.Data.DBContext
                 
                 // Indexes
                 entity.HasIndex(e => e.OwnerId);
+                entity.HasIndex(e => e.IsActive);
             });
 
             // Veterinarian entity configuration
@@ -94,6 +98,7 @@ namespace DogVetAPI.Data.DBContext
                 entity.Property(e => e.Diagnosis).IsRequired().HasMaxLength(500);
                 entity.Property(e => e.Notes).HasMaxLength(1000);
                 entity.Property(e => e.Status).HasMaxLength(50);
+                entity.Property(e => e.IsActive).HasDefaultValue(true);
                 
                 // Foreign key configuration - VeterinarianId is optional
                 entity.Property(e => e.VeterinarianId).IsRequired(false);
@@ -114,6 +119,7 @@ namespace DogVetAPI.Data.DBContext
                 entity.HasIndex(e => e.PetId);
                 entity.HasIndex(e => e.VeterinarianId);
                 entity.HasIndex(e => e.VisitDate);
+                entity.HasIndex(e => e.IsActive);
             });
 
             // Prescription entity configuration

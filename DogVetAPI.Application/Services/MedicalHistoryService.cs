@@ -41,7 +41,7 @@ namespace DogVetAPI.Application.Services
         {
             record.UpdatedAt = DateTime.UtcNow;
             
-            var updatedRecord = await _medicalHistoryRepository.UpdateAsync(record);
+            var updatedRecord = _medicalHistoryRepository.Update(record);
             await _medicalHistoryRepository.SaveChangesAsync();
             
             return updatedRecord;
@@ -69,6 +69,22 @@ namespace DogVetAPI.Application.Services
         public async Task<IEnumerable<MedicalHistory>> GetHistoryByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
             return await _medicalHistoryRepository.GetHistoryByDateRangeAsync(startDate, endDate);
+        }
+
+        public async Task<bool> SoftDeleteRecordAsync(int id)
+        {
+            var record = await _medicalHistoryRepository.GetHistoryWithDetailsAsync(id);
+            if (record == null)
+                return false;
+
+            record.IsActive = false;
+            record.UpdatedAt = DateTime.UtcNow;
+
+            
+            _medicalHistoryRepository.Update(record);
+            await _medicalHistoryRepository.SaveChangesAsync();
+
+            return true;
         }
     }
 }
