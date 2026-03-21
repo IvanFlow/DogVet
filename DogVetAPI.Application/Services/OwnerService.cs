@@ -7,14 +7,9 @@ namespace DogVetAPI.Application.Services
     /// <summary>
     /// Business logic service for owners
     /// </summary>
-    public class OwnerService : IOwnerService
+    public class OwnerService(IOwnerRepository ownerRepository) : IOwnerService
     {
-        private readonly IOwnerRepository _ownerRepository;
-
-        public OwnerService(IOwnerRepository ownerRepository)
-        {
-            _ownerRepository = ownerRepository;
-        }
+        private readonly IOwnerRepository _ownerRepository = ownerRepository ?? throw new ArgumentNullException(nameof(ownerRepository));
 
         public async Task<IEnumerable<Owner>> GetAllOwnersAsync()
         {

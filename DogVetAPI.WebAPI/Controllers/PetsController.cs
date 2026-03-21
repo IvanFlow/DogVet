@@ -7,16 +7,10 @@ namespace DogVetAPI.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PetsController : ControllerBase
+    public class PetsController(IPetService petService, ILogger<PetsController> logger) : ControllerBase
     {
-        private readonly IPetService _petService;
-        private readonly ILogger<PetsController> _logger;
-
-        public PetsController(IPetService petService, ILogger<PetsController> logger)
-        {
-            _petService = petService;
-            _logger = logger;
-        }
+        private readonly IPetService _petService = petService ?? throw new ArgumentNullException(nameof(petService));
+        private readonly ILogger<PetsController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         /// <summary>
         /// Gets all pets
@@ -54,46 +48,6 @@ namespace DogVetAPI.WebAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving pet");
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
-        /// <summary>
-        /// Gets pets by owner
-        /// </summary>
-        [HttpGet("owner/{ownerId}")]
-        public async Task<ActionResult<IEnumerable<PetDto>>> GetPetsByOwner(int ownerId)
-        {
-            try
-            {
-                var pets = await _petService.GetPetsByOwnerAsync(ownerId);
-                var petDtos = pets.Select(p => MapToDto(p)).ToList();
-                return Ok(petDtos);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving pets by owner");
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
-        /// <summary>
-        /// Gets a pet with its medical history
-        /// </summary>
-        [HttpGet("{id}/with-history")]
-        public async Task<ActionResult<PetDto>> GetPetWithHistory(int id)
-        {
-            try
-            {
-                var pet = await _petService.GetPetWithHistoryAsync(id);
-                if (pet == null)
-                    return NotFound($"Pet with ID {id} not found");
-
-                return Ok(MapToDto(pet));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving pet with history");
                 return StatusCode(500, "Internal server error");
             }
         }

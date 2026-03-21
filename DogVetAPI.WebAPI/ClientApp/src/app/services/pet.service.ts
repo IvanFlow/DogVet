@@ -17,14 +17,6 @@ export class PetService {
     return this.http.get<Pet>(`${this.baseUrl}/${id}`);
   }
 
-  getByOwner(ownerId: number): Observable<Pet[]> {
-    return this.http.get<Pet[]>(`${this.baseUrl}/owner/${ownerId}`);
-  }
-
-  getWithHistory(id: number): Observable<Pet> {
-    return this.http.get<Pet>(`${this.baseUrl}/${id}/with-history`);
-  }
-
   create(pet: CreatePet): Observable<Pet> {
     return this.http.post<Pet>(this.baseUrl, pet);
   }

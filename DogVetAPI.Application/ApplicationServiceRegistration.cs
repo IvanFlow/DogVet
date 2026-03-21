@@ -17,7 +17,6 @@ namespace DogVetAPI.Application
             // Register Services
             services.AddScoped<IOwnerService, OwnerService>();
             services.AddScoped<IPetService, PetService>();
-            services.AddScoped<IVeterinarianService, VeterinarianService>();
             services.AddScoped<IMedicalHistoryService, MedicalHistoryService>();
 
             return services;

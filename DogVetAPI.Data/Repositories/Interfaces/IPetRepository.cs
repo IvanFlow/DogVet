@@ -7,7 +7,6 @@ namespace DogVetAPI.Data.Repositories.Interfaces
     /// </summary>
     public interface IPetRepository : IRepository<Pet>
     {
-        Task<IEnumerable<Pet>> GetPetsByOwnerAsync(int ownerId);
         Task<Pet?> GetPetWithHistoryAsync(int id);
         Task<IEnumerable<Pet>> GetAllActiveAsync();
     }

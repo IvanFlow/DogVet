@@ -7,14 +7,9 @@ namespace DogVetAPI.Application.Services
     /// <summary>
     /// Business logic service for medical history records
     /// </summary>
-    public class MedicalHistoryService : IMedicalHistoryService
+    public class MedicalHistoryService(IMedicalHistoryRepository medicalHistoryRepository) : IMedicalHistoryService
     {
-        private readonly IMedicalHistoryRepository _medicalHistoryRepository;
-
-        public MedicalHistoryService(IMedicalHistoryRepository medicalHistoryRepository)
-        {
-            _medicalHistoryRepository = medicalHistoryRepository;
-        }
+        private readonly IMedicalHistoryRepository _medicalHistoryRepository = medicalHistoryRepository ?? throw new ArgumentNullException(nameof(medicalHistoryRepository));
 
         public async Task<IEnumerable<MedicalHistory>> GetAllRecordsAsync()
         {
@@ -54,21 +49,6 @@ namespace DogVetAPI.Application.Services
                 await _medicalHistoryRepository.SaveChangesAsync();
             
             return deleted;
-        }
-
-        public async Task<IEnumerable<MedicalHistory>> GetHistoryByPetAsync(int petId)
-        {
-            return await _medicalHistoryRepository.GetHistoryByPetAsync(petId);
-        }
-
-        public async Task<IEnumerable<MedicalHistory>> GetHistoryByVeterinarianAsync(int veterinarianId)
-        {
-            return await _medicalHistoryRepository.GetHistoryByVeterinarianAsync(veterinarianId);
-        }
-
-        public async Task<IEnumerable<MedicalHistory>> GetHistoryByDateRangeAsync(DateTime startDate, DateTime endDate)
-        {
-            return await _medicalHistoryRepository.GetHistoryByDateRangeAsync(startDate, endDate);
         }
 
         public async Task<bool> SoftDeleteRecordAsync(int id)

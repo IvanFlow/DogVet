@@ -50,23 +50,25 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let record of filtered">
-            <td>{{ record.visitDate | date:'mediumDate' }}</td>
-            <td>
-              <a [routerLink]="['/pets', record.petId]">
-                {{ getPetName(record.petId) }}
-              </a>
-            </td>
-            <td>{{ record.diagnosis }}</td>
-            <td class="hide-mobile"><span class="badge badge-info">{{ record.status }}</span></td>
-            <td class="hide-mobile">{{ record.followUpDate ? (record.followUpDate | date:'mediumDate') : '—' }}</td>
-            <td>
-              <div style="display:flex; gap: var(--space-xs);">
-                <a [routerLink]="['/medical-histories', record.id]" class="btn btn-ghost btn-sm">Ver</a>
-                <a [routerLink]="['/medical-histories', record.id, 'edit']" class="btn btn-outline btn-sm">Editar</a>
-              </div>
-            </td>
-          </tr>
+          <ng-container *ngFor="let record of filtered">
+            <tr *ngIf="getPetName(record.petId)">
+              <td>{{ record.visitDate | date:'mediumDate' }}</td>
+              <td>
+                <a [routerLink]="['/pets', record.petId]">
+                  {{ getPetName(record.petId) }}
+                </a>
+              </td>
+              <td>{{ record.diagnosis }}</td>
+              <td class="hide-mobile"><span class="badge badge-info">{{ record.status }}</span></td>
+              <td class="hide-mobile">{{ record.followUpDate ? (record.followUpDate | date:'mediumDate') : '—' }}</td>
+              <td>
+                <div style="display:flex; gap: var(--space-xs);">
+                  <a [routerLink]="['/medical-histories', record.id]" class="btn btn-ghost btn-sm">Ver</a>
+                  <a [routerLink]="['/medical-histories', record.id, 'edit']" class="btn btn-outline btn-sm">Editar</a>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>

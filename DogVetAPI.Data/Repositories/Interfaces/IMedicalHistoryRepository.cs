@@ -7,9 +7,6 @@ namespace DogVetAPI.Data.Repositories.Interfaces
     /// </summary>
     public interface IMedicalHistoryRepository : IRepository<MedicalHistory>
     {
-        Task<IEnumerable<MedicalHistory>> GetHistoryByPetAsync(int petId);
-        Task<IEnumerable<MedicalHistory>> GetHistoryByVeterinarianAsync(int veterinarianId);
-        Task<IEnumerable<MedicalHistory>> GetHistoryByDateRangeAsync(DateTime startDate, DateTime endDate);
         Task<MedicalHistory?> GetHistoryWithDetailsAsync(int id);
         Task<IEnumerable<MedicalHistory>> GetAllActiveAsync();
     }

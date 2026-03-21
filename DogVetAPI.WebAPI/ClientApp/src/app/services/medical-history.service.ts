@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MedicalHistory, CreateMedicalHistory, UpdateMedicalHistory } from '../models/medical-history.model';
 
@@ -15,19 +15,6 @@ export class MedicalHistoryService {
 
   getById(id: number): Observable<MedicalHistory> {
     return this.http.get<MedicalHistory>(`${this.baseUrl}/${id}`);
-  }
-
-  getByPet(petId: number): Observable<MedicalHistory[]> {
-    return this.http.get<MedicalHistory[]>(`${this.baseUrl}/pet/${petId}`);
-  }
-
-  getByVeterinarian(vetId: number): Observable<MedicalHistory[]> {
-    return this.http.get<MedicalHistory[]>(`${this.baseUrl}/veterinarian/${vetId}`);
-  }
-
-  getByDateRange(startDate: string, endDate: string): Observable<MedicalHistory[]> {
-    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
-    return this.http.get<MedicalHistory[]>(`${this.baseUrl}/by-date-range`, { params });
   }
 
   create(record: CreateMedicalHistory): Observable<MedicalHistory> {

@@ -8,12 +8,8 @@ namespace DogVetAPI.Data.Repositories
     /// <summary>
     /// Repository for the Owner entity
     /// </summary>
-    public class OwnerRepository : Repository<Owner>, IOwnerRepository
+    public class OwnerRepository(DogVetContext context) : Repository<Owner>(context), IOwnerRepository
     {
-        public OwnerRepository(DogVetContext context) : base(context)
-        {
-        }
-
         public async Task<Owner?> GetByEmailAsync(string email)
         {
             return await _dbSet.FirstOrDefaultAsync(o => o.Email == email);

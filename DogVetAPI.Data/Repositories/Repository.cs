@@ -7,16 +7,10 @@ namespace DogVetAPI.Data.Repositories
     /// <summary>
     /// Generic base repository for all entities
     /// </summary>
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T>(DogVetContext context) : IRepository<T> where T : class
     {
-        protected readonly DogVetContext _context;
-        protected readonly DbSet<T> _dbSet;
-
-        public Repository(DogVetContext context)
-        {
-            _context = context;
-            _dbSet = context.Set<T>();
-        }
+        protected readonly DogVetContext _context = context ?? throw new ArgumentNullException(nameof(context));
+        protected readonly DbSet<T> _dbSet = context.Set<T>();
 
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {

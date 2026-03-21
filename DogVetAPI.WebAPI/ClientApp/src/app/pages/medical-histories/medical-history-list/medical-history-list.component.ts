@@ -80,7 +80,7 @@ export class MedicalHistoryListComponent implements OnInit {
     this.filterPet = '';
   }
 
-  getPetName(petId: number): string {
-    return this.pets.find(p => p.id === petId)?.name ?? `Pet #${petId}`;
+  getPetName(petId: number): string | null {
+    return this.pets.find(p => p.id === petId)?.name ?? null;
   }
 }

@@ -1,25 +1,16 @@
 using DogVetAPI.Application;
 using DogVetAPI.Application.Services.Interfaces;
 using DogVetAPI.Data.Models;
-using DogVetAPI.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogVetAPI.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class MedicalHistoriesController : ControllerBase
+    public class MedicalHistoriesController(IMedicalHistoryService medicalHistoryService, ILogger<MedicalHistoriesController> logger) : ControllerBase
     {
-        private readonly IMedicalHistoryService _medicalHistoryService;
-        private readonly ILogger<MedicalHistoriesController> _logger;
-        private readonly IVeterinarianRepository _veterinarianRepository;
-
-        public MedicalHistoriesController(IMedicalHistoryService medicalHistoryService, IVeterinarianRepository veterinarianRepository, ILogger<MedicalHistoriesController> logger)
-        {
-            _medicalHistoryService = medicalHistoryService;
-            _veterinarianRepository = veterinarianRepository;
-            _logger = logger;
-        }
+        private readonly IMedicalHistoryService _medicalHistoryService = medicalHistoryService ?? throw new ArgumentNullException(nameof(medicalHistoryService));
+        private readonly ILogger<MedicalHistoriesController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         /// <summary>
         /// Gets all medical history records
@@ -62,63 +53,6 @@ namespace DogVetAPI.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Gets medical history by pet
-        /// </summary>
-        [HttpGet("pet/{petId}")]
-        public async Task<ActionResult<IEnumerable<MedicalHistoryDto>>> GetHistoryByPet(int petId)
-        {
-            try
-            {
-                var records = await _medicalHistoryService.GetHistoryByPetAsync(petId);
-                var recordDtos = records.Select(r => MapToDto(r)).ToList();
-                return Ok(recordDtos);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving history by pet");
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
-        /// <summary>
-        /// Gets medical history by veterinarian
-        /// </summary>
-        [HttpGet("veterinarian/{veterinarianId}")]
-        public async Task<ActionResult<IEnumerable<MedicalHistoryDto>>> GetHistoryByVeterinarian(int veterinarianId)
-        {
-            try
-            {
-                var records = await _medicalHistoryService.GetHistoryByVeterinarianAsync(veterinarianId);
-                var recordDtos = records.Select(r => MapToDto(r)).ToList();
-                return Ok(recordDtos);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving history by veterinarian");
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
-        /// <summary>
-        /// Gets medical history by date range
-        /// </summary>
-        [HttpGet("by-date-range")]
-        public async Task<ActionResult<IEnumerable<MedicalHistoryDto>>> GetHistoryByDateRange([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
-        {
-            try
-            {
-                var records = await _medicalHistoryService.GetHistoryByDateRangeAsync(startDate, endDate);
-                var recordDtos = records.Select(r => MapToDto(r)).ToList();
-                return Ok(recordDtos);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving history by date range");
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
-        /// <summary>
         /// Creates a new medical history record
         /// </summary>
         [HttpPost]
@@ -135,13 +69,6 @@ namespace DogVetAPI.WebAPI.Controllers
                     PetId = createRecordDto.PetId,
                     Status = "Completed"
                 };
-
-                var firstVet = await _veterinarianRepository.GetFirstVeterinarianAsync();
-
-                if(firstVet != null)
-                {
-                    record.VeterinarianId = firstVet.Id;
-                }
 
                 var createdRecord = await _medicalHistoryService.CreateRecordAsync(record);
                 return CreatedAtAction(nameof(GetRecordById), new { id = createdRecord.Id }, MapToDto(createdRecord));

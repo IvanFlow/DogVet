@@ -7,16 +7,10 @@ namespace DogVetAPI.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class OwnersController : ControllerBase
+    public class OwnersController(IOwnerService ownerService, ILogger<OwnersController> logger) : ControllerBase
     {
-        private readonly IOwnerService _ownerService;
-        private readonly ILogger<OwnersController> _logger;
-
-        public OwnersController(IOwnerService ownerService, ILogger<OwnersController> logger)
-        {
-            _ownerService = ownerService;
-            _logger = logger;
-        }
+        private readonly IOwnerService _ownerService = ownerService ?? throw new ArgumentNullException(nameof(ownerService));
+        private readonly ILogger<OwnersController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         /// <summary>
         /// Gets all owners

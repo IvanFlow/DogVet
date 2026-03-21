@@ -7,14 +7,9 @@ namespace DogVetAPI.Application.Services
     /// <summary>
     /// Business logic service for pets
     /// </summary>
-    public class PetService : IPetService
+    public class PetService(IPetRepository petRepository) : IPetService
     {
-        private readonly IPetRepository _petRepository;
-
-        public PetService(IPetRepository petRepository)
-        {
-            _petRepository = petRepository;
-        }
+        private readonly IPetRepository _petRepository = petRepository ?? throw new ArgumentNullException(nameof(petRepository));
 
         public async Task<IEnumerable<Pet>> GetAllPetsAsync()
         {
@@ -54,16 +49,6 @@ namespace DogVetAPI.Application.Services
                 await _petRepository.SaveChangesAsync();
             
             return deleted;
-        }
-
-        public async Task<IEnumerable<Pet>> GetPetsByOwnerAsync(int ownerId)
-        {
-            return await _petRepository.GetPetsByOwnerAsync(ownerId);
-        }
-
-        public async Task<Pet?> GetPetWithHistoryAsync(int id)
-        {
-            return await _petRepository.GetPetWithHistoryAsync(id);
         }
 
         public async Task<bool> SoftDeletePetAsync(int id)
