@@ -18,7 +18,7 @@ namespace DogVetAPI.Application.Services
 
         public async Task<IEnumerable<MedicalHistory>> GetAllRecordsAsync()
         {
-            return await _medicalHistoryRepository.GetAllAsync();
+            return await _medicalHistoryRepository.GetAllActiveAsync();
         }
 
         public async Task<MedicalHistory?> GetRecordByIdAsync(int id)

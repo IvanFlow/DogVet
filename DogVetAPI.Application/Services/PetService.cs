@@ -18,7 +18,7 @@ namespace DogVetAPI.Application.Services
 
         public async Task<IEnumerable<Pet>> GetAllPetsAsync()
         {
-            return await _petRepository.GetAllAsync();
+            return await _petRepository.GetAllActiveAsync();
         }
 
         public async Task<Pet?> GetPetByIdAsync(int id)

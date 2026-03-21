@@ -37,6 +37,11 @@ namespace DogVetAPI.Data.Repositories
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
 
+        public async Task<IEnumerable<Owner>> GetAllActiveAsync()
+        {
+            return await _dbSet.Where(o => o.IsActive).ToListAsync();
+        }
+
         public override async Task<bool> DeleteAsync(int id)
         {
             // Load owner with pets and their appointments so EF's ClientCascade

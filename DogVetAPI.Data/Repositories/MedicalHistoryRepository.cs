@@ -45,5 +45,10 @@ namespace DogVetAPI.Data.Repositories
                 .Include(m => m.Veterinarian)
                 .FirstOrDefaultAsync(m => m.Id == id);
         }
+
+        public async Task<IEnumerable<MedicalHistory>> GetAllActiveAsync()
+        {
+            return await _dbSet.Where(m => m.IsActive).ToListAsync();
+        }
     }
 }

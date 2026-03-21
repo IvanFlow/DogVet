@@ -27,7 +27,7 @@ namespace DogVetAPI.Data.Repositories
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<IEnumerable<Pet>> GetActivePetsAsync()
+        public async Task<IEnumerable<Pet>> GetAllActiveAsync()
         {
             return await _dbSet.Where(p => p.IsActive).ToListAsync();
         }

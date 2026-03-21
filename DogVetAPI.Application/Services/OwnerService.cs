@@ -18,7 +18,7 @@ namespace DogVetAPI.Application.Services
 
         public async Task<IEnumerable<Owner>> GetAllOwnersAsync()
         {
-            return await _ownerRepository.GetAllAsync();
+            return await _ownerRepository.GetAllActiveAsync();
         }
 
         public async Task<Owner?> GetOwnerByIdAsync(int id)

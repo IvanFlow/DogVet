@@ -11,5 +11,6 @@ namespace DogVetAPI.Data.Repositories.Interfaces
         Task<IEnumerable<MedicalHistory>> GetHistoryByVeterinarianAsync(int veterinarianId);
         Task<IEnumerable<MedicalHistory>> GetHistoryByDateRangeAsync(DateTime startDate, DateTime endDate);
         Task<MedicalHistory?> GetHistoryWithDetailsAsync(int id);
+        Task<IEnumerable<MedicalHistory>> GetAllActiveAsync();
     }
 }
