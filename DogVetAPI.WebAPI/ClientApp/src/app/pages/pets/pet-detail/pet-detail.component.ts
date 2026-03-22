@@ -22,7 +22,7 @@ export class PetDetailComponent implements OnInit {
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     console.log('[PetDetail] Loading pet id:', id);
-    this.petService.getById(id).subscribe({
+    this.petService.getWithHistory(id).subscribe({
       next: (data) => {
         console.log('[PetDetail] Success:', data);
         this.pet = data;

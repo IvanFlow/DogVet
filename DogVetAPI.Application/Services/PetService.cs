@@ -21,6 +21,11 @@ namespace DogVetAPI.Application.Services
             return await _petRepository.GetByIdAsync(id);
         }
 
+        public async Task<Pet?> GetPetWithHistoryAsync(int id)
+        {
+            return await _petRepository.GetPetWithHistoryAsync(id);
+        }
+
         public async Task<Pet> CreatePetAsync(Pet pet)
         {
             pet.CreatedAt = DateTime.UtcNow;

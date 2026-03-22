@@ -53,6 +53,27 @@ namespace DogVetAPI.WebAPI.Controllers
         }
 
         /// <summary>
+        /// Gets a pet with its medical history
+        /// </summary>
+        [HttpGet("{id}/with-history")]
+        public async Task<ActionResult<PetDto>> GetPetWithHistory(int id)
+        {
+            try
+            {
+                var pet = await _petService.GetPetWithHistoryAsync(id);
+                if (pet == null)
+                    return NotFound($"Mascota con ID {id} no encontrada");
+
+                return Ok(MapToDto(pet, withHistory: true));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving pet with history");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        /// <summary>
         /// Creates a new pet
         /// </summary>
         [HttpPost]
@@ -157,7 +178,7 @@ namespace DogVetAPI.WebAPI.Controllers
             }
         }
 
-        private PetDto MapToDto(Pet pet)
+        private PetDto MapToDto(Pet pet, bool withHistory = false)
         {
             return new PetDto
             {
@@ -170,7 +191,22 @@ namespace DogVetAPI.WebAPI.Controllers
                 Gender = pet.Gender,
                 DateOfBirth = pet.DateOfBirth,
                 IsActive = pet.IsActive,
-                OwnerId = pet.OwnerId
+                OwnerId = pet.OwnerId,
+                CreatedAt = pet.CreatedAt,
+                UpdatedAt = pet.UpdatedAt,
+                MedicalHistories = withHistory && pet.MedicalHistories != null
+                    ? pet.MedicalHistories.Select(m => new MedicalHistoryDto
+                    {
+                        Id = m.Id,
+                        Diagnosis = m.Diagnosis,
+                        Notes = m.Notes,
+                        VisitDate = m.VisitDate,
+                        FollowUpDate = m.FollowUpDate,
+                        Status = m.Status,
+                        PetId = m.PetId,
+                        VeterinarianId = m.VeterinarianId
+                    }).ToList()
+                    : null
             };
         }
     }

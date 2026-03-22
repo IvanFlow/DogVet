@@ -17,6 +17,7 @@ namespace DogVetAPI.Application
         public int OwnerId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public List<MedicalHistoryDto>? MedicalHistories { get; set; }
     }
 
     /// <summary>

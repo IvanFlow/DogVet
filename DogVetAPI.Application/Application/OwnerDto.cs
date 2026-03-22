@@ -14,6 +14,7 @@ namespace DogVetAPI.Application
         public string City { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public List<PetDto>? Pets { get; set; }
     }
 
     /// <summary>

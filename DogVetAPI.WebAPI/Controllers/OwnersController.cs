@@ -64,7 +64,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 if (owner == null)
                     return NotFound($"Owner with ID {id} not found");
 
-                return Ok(MapToDto(owner));
+                return Ok(MapToDto(owner, withPets: true));
             }
             catch (Exception ex)
             {
@@ -173,7 +173,7 @@ namespace DogVetAPI.WebAPI.Controllers
             }
         }
 
-        private OwnerDto MapToDto(Owner owner)
+        private OwnerDto MapToDto(Owner owner, bool withPets = false)
         {
             return new OwnerDto
             {
@@ -185,7 +185,24 @@ namespace DogVetAPI.WebAPI.Controllers
                 Address = owner.Address,
                 City = owner.City,
                 CreatedAt = owner.CreatedAt,
-                UpdatedAt = owner.UpdatedAt
+                UpdatedAt = owner.UpdatedAt,
+                Pets = withPets && owner.Pets != null
+                    ? owner.Pets.Select(p => new PetDto
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Breed = p.Breed,
+                        Age = p.Age,
+                        Weight = p.Weight,
+                        Color = p.Color,
+                        Gender = p.Gender,
+                        DateOfBirth = p.DateOfBirth,
+                        IsActive = p.IsActive,
+                        OwnerId = p.OwnerId,
+                        CreatedAt = p.CreatedAt,
+                        UpdatedAt = p.UpdatedAt
+                    }).ToList()
+                    : null
             };
         }
     }

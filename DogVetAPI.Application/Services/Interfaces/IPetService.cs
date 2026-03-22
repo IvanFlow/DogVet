@@ -9,6 +9,7 @@ namespace DogVetAPI.Application.Services.Interfaces
     {
         Task<IEnumerable<Pet>> GetAllPetsAsync();
         Task<Pet?> GetPetByIdAsync(int id);
+        Task<Pet?> GetPetWithHistoryAsync(int id);
         Task<Pet> CreatePetAsync(Pet pet);
         Task<Pet> UpdatePetAsync(Pet pet);
         Task<bool> DeletePetAsync(int id);
