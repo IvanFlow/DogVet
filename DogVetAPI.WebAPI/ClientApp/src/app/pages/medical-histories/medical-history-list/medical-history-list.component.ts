@@ -8,11 +8,12 @@ import { PetService } from '../../../services/pet.service';
 import { MedicalHistory } from '../../../models/medical-history.model';
 import { Pet } from '../../../models/pet.model';
 import { Owner } from '../../../models/owner.model';
+import { StatusPipe } from '../../../pipes/status.pipe';
 
 @Component({
   selector: 'app-medical-history-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, StatusPipe],
   templateUrl: './medical-history-list.component.html'
 })
 export class MedicalHistoryListComponent implements OnInit {

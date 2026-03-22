@@ -38,7 +38,7 @@
             <td><a [routerLink]="['/pets', pet.id]" style="font-weight:500;" (click)="$event.stopPropagation()">{{ pet.name }}</a></td>
             <td>{{ pet.breed }}</td>
             <td class="hide-mobile">{{ pet.age }}a · {{ pet.weight }}kg</td>
-            <td class="hide-mobile">{{ pet.gender }}</td>
+            <td class="hide-mobile">{{ pet.gender | gender }}</td>
             <td>
               <span class="badge" [class.badge-success]="pet.isActive" [class.badge-muted]="!pet.isActive">
                 {{ pet.isActive ? 'Activa' : 'Inactiva' }}

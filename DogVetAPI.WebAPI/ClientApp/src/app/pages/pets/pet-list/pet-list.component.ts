@@ -6,11 +6,12 @@ import { PetService } from '../../../services/pet.service';
 import { OwnerService } from '../../../services/owner.service';
 import { Pet } from '../../../models/pet.model';
 import { Owner } from '../../../models/owner.model';
+import { GenderPipe } from '../../../pipes/gender.pipe';
 
 @Component({
   selector: 'app-pet-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, GenderPipe],
   templateUrl: './pet-list.component.html'
 })
 export class PetListComponent implements OnInit {

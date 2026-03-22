@@ -13,7 +13,7 @@
 
     <div class="card" style="margin-bottom: var(--space-lg);">
       <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-md);">
-        <span class="badge badge-info" style="font-size: var(--font-size-base); padding: 6px 16px;">{{ record.status }}</span>
+        <span class="badge badge-info" style="font-size: var(--font-size-base); padding: 6px 16px;">{{ record.status | status }}</span>
         <span style="color: var(--color-text-muted); font-size: var(--font-size-sm);">Visita: {{ record.visitDate | date:'fullDate' }}</span>
       </div>
       <div class="info-grid">

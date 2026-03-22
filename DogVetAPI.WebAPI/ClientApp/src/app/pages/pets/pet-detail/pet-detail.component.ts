@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { PetService } from '../../../services/pet.service';
 import { Pet } from '../../../models/pet.model';
+import { GenderPipe } from '../../../pipes/gender.pipe';
+import { StatusPipe } from '../../../pipes/status.pipe';
 
 @Component({
   selector: 'app-pet-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, GenderPipe, StatusPipe],
   templateUrl: './pet-detail.component.html'
 })
 export class PetDetailComponent implements OnInit {

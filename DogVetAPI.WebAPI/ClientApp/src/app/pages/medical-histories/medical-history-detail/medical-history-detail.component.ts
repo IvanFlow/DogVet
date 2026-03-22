@@ -5,11 +5,12 @@ import { MedicalHistoryService } from '../../../services/medical-history.service
 import { PetService } from '../../../services/pet.service';
 import { MedicalHistory } from '../../../models/medical-history.model';
 import { Pet } from '../../../models/pet.model';
+import { StatusPipe } from '../../../pipes/status.pipe';
 
 @Component({
   selector: 'app-medical-history-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, StatusPipe],
   templateUrl: './medical-history-detail.component.html'
 })
 export class MedicalHistoryDetailComponent implements OnInit {

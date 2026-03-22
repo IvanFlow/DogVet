@@ -58,7 +58,7 @@
                 </a>
               </td>
               <td>{{ record.diagnosis }}</td>
-              <td class="hide-mobile"><span class="badge badge-info">{{ record.status }}</span></td>
+              <td class="hide-mobile"><span class="badge badge-info">{{ record.status | status }}</span></td>
               <td class="hide-mobile">{{ record.followUpDate ? (record.followUpDate | date:'mediumDate') : '—' }}</td>
             </tr>
           </ng-container>

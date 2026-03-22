@@ -16,7 +16,7 @@
       <h2 style="margin-bottom: var(--space-md); color: var(--color-primary-dark);">Información de Mascota</h2>
       <div class="info-grid">
         <div class="info-item"><span class="info-label">Raza</span><span class="info-value">{{ pet.breed }}</span></div>
-        <div class="info-item"><span class="info-label">Género</span><span class="info-value">{{ pet.gender }}</span></div>
+        <div class="info-item"><span class="info-label">Género</span><span class="info-value">{{ pet.gender | gender }}</span></div>
         <div class="info-item"><span class="info-label">Color</span><span class="info-value">{{ pet.color || '—' }}</span></div>
         <div class="info-item"><span class="info-label">Edad</span><span class="info-value">{{ pet.age }} años</span></div>
         <div class="info-item"><span class="info-label">Peso</span><span class="info-value">{{ pet.weight }} kg</span></div>
@@ -48,7 +48,7 @@
             <tr *ngFor="let record of pet.medicalHistories">
               <td>{{ record.visitDate | date:'mediumDate' }}</td>
               <td><a [routerLink]="['/medical-histories', record.id]">{{ record.diagnosis }}</a></td>
-              <td><span class="badge badge-info">{{ record.status }}</span></td>
+              <td><span class="badge badge-info">{{ record.status | status }}</span></td>
               <td>
                 <a [routerLink]="['/medical-histories', record.id]" class="btn btn-ghost btn-sm">Ver</a>
               </td>
