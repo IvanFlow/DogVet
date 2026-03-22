@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { OwnerService } from '../../../services/owner.service';
@@ -30,7 +30,7 @@ export class OwnerDetailComponent implements OnInit {
   loading = true;
   error: string | null = null;
 
-  constructor(private ownerService: OwnerService, private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) {}
+  constructor(private ownerService: OwnerService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -41,13 +41,11 @@ export class OwnerDetailComponent implements OnInit {
         this.owner = data;
         this.loading = false;
         this.error = null;
-        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('[OwnerDetail] Error:', err);
         this.error = 'Owner not found.';
         this.loading = false;
-        this.cdr.detectChanges();
       }
     });
   }

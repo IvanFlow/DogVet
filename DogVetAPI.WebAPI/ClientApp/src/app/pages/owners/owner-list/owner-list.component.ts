@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -26,7 +26,7 @@ export class OwnerListComponent implements OnInit {
     );
   }
 
-constructor(private ownerService: OwnerService, private cdr: ChangeDetectorRef, private router: Router) {}
+constructor(private ownerService: OwnerService, private router: Router) {}
 
   navigateTo(id: number) {
     this.router.navigate(['/owners', id]);
@@ -40,14 +40,12 @@ constructor(private ownerService: OwnerService, private cdr: ChangeDetectorRef, 
         this.owners = data;
         this.loading = false;
         this.error = null;
-        this.cdr.detectChanges(); 
         console.log('[OwnerList] loading set to false');
       },
       error: (err) => {
         console.error('[OwnerList] Error callback triggered:', err);
         this.error = `Failed to load owners: ${err?.message || 'Unknown error'}`;
         this.loading = false;
-        this.cdr.detectChanges();
         console.log('[OwnerList] loading set to false due to error');
       },
       complete: () => {

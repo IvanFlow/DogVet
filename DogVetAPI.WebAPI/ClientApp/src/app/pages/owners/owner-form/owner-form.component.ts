@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
@@ -21,8 +21,7 @@ export class OwnerFormComponent implements OnInit {
     private fb: FormBuilder,
     private ownerService: OwnerService,
     private router: Router,
-    private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -43,12 +42,10 @@ export class OwnerFormComponent implements OnInit {
         next: (owner) => {
           this.form.patchValue(owner);
           this.error = null;
-          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('[OwnerForm] Error loading:', err);
           this.error = 'Failed to load owner.';
-          this.cdr.detectChanges();
         }
       });
     }

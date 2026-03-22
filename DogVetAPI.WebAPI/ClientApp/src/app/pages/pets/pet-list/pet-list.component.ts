@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -30,7 +30,7 @@ export class PetListComponent implements OnInit {
     });
   }
 
-  constructor(private petService: PetService, private ownerService: OwnerService, private cdr: ChangeDetectorRef, private router: Router) {}
+  constructor(private petService: PetService, private ownerService: OwnerService, private router: Router) {}
 
   navigateTo(id: number) {
     this.router.navigate(['/pets', id]);
@@ -44,20 +44,17 @@ export class PetListComponent implements OnInit {
         this.pets = data;
         this.loading = false;
         this.error = null;
-        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('[PetList] Error:', err);
         this.error = 'Failed to load pets.';
         this.loading = false;
-        this.cdr.detectChanges();
       }
     });
     this.ownerService.getAll().subscribe({
       next: (data) => {
         console.log('[PetList] Owners:', data);
         this.owners = data;
-        this.cdr.detectChanges();
       },
       error: (err) => console.error('[PetList] Owner error:', err)
     });

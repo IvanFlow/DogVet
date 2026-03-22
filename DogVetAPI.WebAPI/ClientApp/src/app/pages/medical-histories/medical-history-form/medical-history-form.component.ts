@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
@@ -35,8 +35,7 @@ export class MedicalHistoryFormComponent implements OnInit {
     private petService: PetService,
     private ownerService: OwnerService,
     private router: Router,
-    private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -50,8 +49,8 @@ export class MedicalHistoryFormComponent implements OnInit {
       status:      ['Completed'],
     });
 
-    this.petService.getAll().subscribe(data => { this.pets = data; this.cdr.detectChanges(); });
-    this.ownerService.getAll().subscribe(data => { this.owners = data; this.cdr.detectChanges(); });
+    this.petService.getAll().subscribe(data => { this.pets = data; });
+    this.ownerService.getAll().subscribe(data => { this.owners = data; });
 
     const preselectedPet = this.route.snapshot.queryParamMap.get('petId');
     if (preselectedPet) {
@@ -72,12 +71,10 @@ export class MedicalHistoryFormComponent implements OnInit {
             followUpDate: record.followUpDate?.substring(0, 10) ?? ''
           });
           this.error = null;
-          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('[MedicalHistoryForm] Error loading:', err);
           this.error = 'Failed to load record.';
-          this.cdr.detectChanges();
         }
       });
     }

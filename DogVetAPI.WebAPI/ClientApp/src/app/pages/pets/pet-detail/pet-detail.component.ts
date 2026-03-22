@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { PetService } from '../../../services/pet.service';
@@ -15,7 +15,7 @@ export class PetDetailComponent implements OnInit {
   loading = true;
   error: string | null = null;
 
-  constructor(private petService: PetService, private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) {}
+  constructor(private petService: PetService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -26,13 +26,11 @@ export class PetDetailComponent implements OnInit {
         this.pet = data;
         this.loading = false;
         this.error = null;
-        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('[PetDetail] Error:', err);
         this.error = 'Pet not found.';
         this.loading = false;
-        this.cdr.detectChanges();
       }
     });
   }

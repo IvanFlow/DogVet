@@ -4,11 +4,13 @@ import { provideRouter } from '@angular/router';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { loggingInterceptor } from './app/interceptors/error.interceptor';
+import { provideZoneChangeDetection } from '@angular/core';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(withInterceptors([loggingInterceptor])),
-    provideRouter(routes)
+    provideRouter(routes),
+    provideZoneChangeDetection({ eventCoalescing: true })
   ]
 }).catch(err => console.error('Bootstrap error:', err));
 

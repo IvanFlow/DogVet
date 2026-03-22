@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
@@ -25,8 +25,7 @@ export class PetFormComponent implements OnInit {
     private petService: PetService,
     private ownerService: OwnerService,
     private router: Router,
-    private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -42,7 +41,7 @@ export class PetFormComponent implements OnInit {
       isActive:    [true]
     });
 
-    this.ownerService.getAll().subscribe(data => { this.owners = data; this.cdr.detectChanges(); });
+    this.ownerService.getAll().subscribe(data => { this.owners = data; });
 
     const preselectedOwner = this.route.snapshot.queryParamMap.get('ownerId');
     if (preselectedOwner) this.form.patchValue({ ownerId: Number(preselectedOwner) });
@@ -58,12 +57,10 @@ export class PetFormComponent implements OnInit {
             dateOfBirth: pet.dateOfBirth?.substring(0, 10) ?? ''
           });
           this.error = null;
-          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('[PetForm] Error loading:', err);
           this.error = 'Failed to load pet.';
-          this.cdr.detectChanges();
         }
       });
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { MedicalHistoryService } from '../../../services/medical-history.service';
@@ -22,8 +22,7 @@ export class MedicalHistoryDetailComponent implements OnInit {
     private medicalHistoryService: MedicalHistoryService,
     private petService: PetService,
     private route: ActivatedRoute,
-    private router: Router,
-    private cdr: ChangeDetectorRef
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -35,14 +34,12 @@ export class MedicalHistoryDetailComponent implements OnInit {
         this.record = data;
         this.loading = false;
         this.error = null;
-        this.cdr.detectChanges();
-        this.petService.getById(data.petId).subscribe(p => { this.pet = p; this.cdr.detectChanges(); });
+        this.petService.getById(data.petId).subscribe(p => { this.pet = p; });
       },
       error: (err) => {
         console.error('[MedicalHistoryDetail] Error:', err);
         this.error = 'Record not found.';
         this.loading = false;
-        this.cdr.detectChanges();
       }
     });
   }
