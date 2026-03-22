@@ -1,6 +1,7 @@
 using DogVetAPI.Data.Repositories.Interfaces;
 using DogVetAPI.Application.Services.Interfaces;
 using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Models.Enums;
 
 namespace DogVetAPI.Application.Services
 {
@@ -23,6 +24,9 @@ namespace DogVetAPI.Application.Services
 
         public async Task<MedicalHistory> CreateRecordAsync(MedicalHistory record)
         {
+            record.Status = record.FollowUpDate.HasValue
+                ? MedicalHistoryStatusStrings.FollowUp
+                : MedicalHistoryStatusStrings.Completed;
             record.CreatedAt = DateTime.UtcNow;
             record.UpdatedAt = DateTime.UtcNow;
             

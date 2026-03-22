@@ -1,6 +1,7 @@
 using DogVetAPI.Application;
 using DogVetAPI.Application.Services.Interfaces;
 using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogVetAPI.WebAPI.Controllers
@@ -66,8 +67,7 @@ namespace DogVetAPI.WebAPI.Controllers
                     Notes = createRecordDto.Notes,
                     VisitDate = createRecordDto.VisitDate,
                     FollowUpDate = createRecordDto.FollowUpDate,
-                    PetId = createRecordDto.PetId,
-                    Status = "Completed"
+                    PetId = createRecordDto.PetId
                 };
 
                 var createdRecord = await _medicalHistoryService.CreateRecordAsync(record);
