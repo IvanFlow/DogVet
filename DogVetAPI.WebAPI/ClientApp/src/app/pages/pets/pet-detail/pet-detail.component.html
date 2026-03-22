@@ -41,17 +41,13 @@
               <th>Fecha</th>
               <th>Diagnóstico</th>
               <th>Estado</th>
-              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let record of pet.medicalHistories">
+            <tr *ngFor="let record of pet.medicalHistories" [routerLink]="['/medical-histories', record.id]" style="cursor:pointer;">
               <td>{{ record.visitDate | date:'mediumDate' }}</td>
-              <td><a [routerLink]="['/medical-histories', record.id]">{{ record.diagnosis }}</a></td>
+              <td><a [routerLink]="['/medical-histories', record.id]" (click)="$event.stopPropagation()">{{ record.diagnosis }}</a></td>
               <td><span class="badge badge-info">{{ record.status | status }}</span></td>
-              <td>
-                <a [routerLink]="['/medical-histories', record.id]" class="btn btn-ghost btn-sm">Ver</a>
-              </td>
             </tr>
           </tbody>
         </table>
