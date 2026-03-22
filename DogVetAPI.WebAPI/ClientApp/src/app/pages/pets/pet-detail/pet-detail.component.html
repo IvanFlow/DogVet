@@ -6,7 +6,7 @@
     <div class="page-header">
       <h1>🐕 {{ pet.name }}</h1>
       <div style="display:flex; gap: var(--space-sm); flex-wrap: wrap;">
-        <a routerLink="/pets" class="btn btn-ghost">← Atrás</a>
+        <button class="btn btn-ghost" (click)="goBack()">← Atrás</button>
         <a [routerLink]="['/owners', pet.ownerId]" class="btn btn-ghost">👤 Propietario</a>
         <a [routerLink]="['/medical-histories/new']" [queryParams]="{petId: pet.id}" class="btn btn-primary">+ Registro Médico</a>
       </div>

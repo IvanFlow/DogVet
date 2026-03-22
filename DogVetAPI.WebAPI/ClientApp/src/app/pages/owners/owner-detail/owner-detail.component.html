@@ -6,7 +6,7 @@
     <div class="page-header">
       <h1>👤 {{ owner.firstName }} {{ owner.lastName }}</h1>
       <div style="display:flex; gap: var(--space-sm); flex-wrap: wrap;">
-        <a routerLink="/owners" class="btn btn-ghost">← Atrás</a>
+        <button class="btn btn-ghost" (click)="goBack()">← Atrás</button>
       </div>
     </div>
 

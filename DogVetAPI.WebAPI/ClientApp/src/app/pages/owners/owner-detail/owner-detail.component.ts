@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { OwnerService } from '../../../services/owner.service';
 import { Owner } from '../../../models/owner.model';
@@ -31,7 +31,9 @@ export class OwnerDetailComponent implements OnInit {
   loading = true;
   error: string | null = null;
 
-  constructor(private ownerService: OwnerService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private ownerService: OwnerService, private route: ActivatedRoute, private router: Router, private location: Location) {}
+
+  goBack() { this.location.back(); }
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));

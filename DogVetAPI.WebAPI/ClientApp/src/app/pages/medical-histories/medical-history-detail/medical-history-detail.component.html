@@ -6,7 +6,7 @@
     <div class="page-header">
       <h1>📋 Registro Médico</h1>
       <div style="display:flex; gap: var(--space-sm); flex-wrap: wrap;">
-        <a routerLink="/medical-histories" class="btn btn-ghost">← Atrás</a>
+        <button class="btn btn-ghost" (click)="goBack()">← Atrás</button>
         <a *ngIf="pet" [routerLink]="['/pets', pet.id]" class="btn btn-ghost">🐕 {{ pet.name }}</a>
       </div>
     </div>

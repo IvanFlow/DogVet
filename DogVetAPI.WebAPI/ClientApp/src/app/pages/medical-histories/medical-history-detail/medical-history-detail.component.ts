@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { MedicalHistoryService } from '../../../services/medical-history.service';
 import { PetService } from '../../../services/pet.service';
@@ -23,8 +23,11 @@ export class MedicalHistoryDetailComponent implements OnInit {
     private medicalHistoryService: MedicalHistoryService,
     private petService: PetService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {}
+
+  goBack() { this.location.back(); }
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
