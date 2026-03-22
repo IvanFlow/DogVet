@@ -19,6 +19,8 @@ export class PetFormComponent implements OnInit {
   owners: Owner[] = [];
   saving = false;
   error: string | null = null;
+  lockedOwnerId: number | null = null;
+  lockedOwnerName = '';
 
   constructor(
     private fb: FormBuilder,
@@ -41,10 +43,19 @@ export class PetFormComponent implements OnInit {
       isActive:    [true]
     });
 
-    this.ownerService.getAll().subscribe(data => { this.owners = data; });
+    const preselectedOwnerId = Number(this.route.snapshot.queryParamMap.get('ownerId')) || null;
+    if (preselectedOwnerId) {
+      this.lockedOwnerId = preselectedOwnerId;
+      this.form.patchValue({ ownerId: preselectedOwnerId });
+    }
 
-    const preselectedOwner = this.route.snapshot.queryParamMap.get('ownerId');
-    if (preselectedOwner) this.form.patchValue({ ownerId: Number(preselectedOwner) });
+    this.ownerService.getAll().subscribe(data => {
+      this.owners = data;
+      if (this.lockedOwnerId) {
+        const owner = data.find(o => o.id === this.lockedOwnerId);
+        if (owner) this.lockedOwnerName = `${owner.firstName} ${owner.lastName}`;
+      }
+    });
 
     this.petId = Number(this.route.snapshot.paramMap.get('id')) || undefined;
     this.isEdit = !!this.petId;

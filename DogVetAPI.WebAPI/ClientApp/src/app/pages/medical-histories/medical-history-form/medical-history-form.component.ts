@@ -23,10 +23,23 @@ export class MedicalHistoryFormComponent implements OnInit {
   selectedOwner = '';
   saving = false;
   error: string | null = null;
+  lockedPetId: number | null = null;
+  lockedPetName = '';
+  lockedOwnerName = '';
 
   get availablePets() {
     if (!this.selectedOwner) return this.pets;
     return this.pets.filter(p => p.ownerId === Number(this.selectedOwner));
+  }
+
+  private resolveLockedOwner() {
+    if (!this.lockedPetId || !this.pets.length || !this.owners.length) return;
+    const pet = this.pets.find(p => p.id === this.lockedPetId);
+    if (!pet) return;
+    this.lockedPetName = `${pet.name} (${pet.breed})`;
+    this.selectedOwner = String(pet.ownerId);
+    const owner = this.owners.find(o => o.id === pet.ownerId);
+    if (owner) this.lockedOwnerName = `${owner.firstName} ${owner.lastName}`;
   }
 
   constructor(
@@ -49,15 +62,14 @@ export class MedicalHistoryFormComponent implements OnInit {
       status:      ['Completed'],
     });
 
-    this.petService.getAll().subscribe(data => { this.pets = data; });
-    this.ownerService.getAll().subscribe(data => { this.owners = data; });
-
-    const preselectedPet = this.route.snapshot.queryParamMap.get('petId');
-    if (preselectedPet) {
-      this.form.patchValue({ petId: Number(preselectedPet) });
-      const pet = this.pets.find(p => p.id === Number(preselectedPet));
-      if (pet) this.selectedOwner = String(pet.ownerId);
+    const preselectedPetId = Number(this.route.snapshot.queryParamMap.get('petId')) || null;
+    if (preselectedPetId) {
+      this.lockedPetId = preselectedPetId;
+      this.form.patchValue({ petId: preselectedPetId });
     }
+
+    this.petService.getAll().subscribe(data => { this.pets = data; this.resolveLockedOwner(); });
+    this.ownerService.getAll().subscribe(data => { this.owners = data; this.resolveLockedOwner(); });
 
     this.recordId = Number(this.route.snapshot.paramMap.get('id')) || undefined;
     this.isEdit = !!this.recordId;

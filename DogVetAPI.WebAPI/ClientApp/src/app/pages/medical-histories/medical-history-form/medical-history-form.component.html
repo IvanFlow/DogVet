@@ -9,19 +9,29 @@
       <div class="form-grid">
         <!-- Filtro de propietario (no se envía, solo para filtrar mascotas) -->
         <div class="form-group" style="grid-column: 1 / -1;">
-          <label>Filtrar por Propietario</label>
-          <select class="form-control" [(ngModel)]="selectedOwner" [ngModelOptions]="{standalone: true}" (change)="onOwnerChange()">
-            <option value="">— Todos los Propietarios —</option>
-            <option *ngFor="let o of owners" [value]="o.id">{{ o.firstName }} {{ o.lastName }}</option>
-          </select>
+          <label>Propietario</label>
+          <ng-container *ngIf="lockedPetId; else ownerSelect">
+            <input class="form-control" [value]="lockedOwnerName" disabled />
+          </ng-container>
+          <ng-template #ownerSelect>
+            <select class="form-control" [(ngModel)]="selectedOwner" [ngModelOptions]="{standalone: true}" (change)="onOwnerChange()">
+              <option value="">— Todos los Propietarios —</option>
+              <option *ngFor="let o of owners" [value]="o.id">{{ o.firstName }} {{ o.lastName }}</option>
+            </select>
+          </ng-template>
         </div>
 
         <div class="form-group" style="grid-column: 1 / -1;">
           <label>Mascota *</label>
-          <select class="form-control" formControlName="petId">
-            <option value="">— Seleccionar Mascota —</option>
-            <option *ngFor="let p of availablePets" [value]="p.id">{{ p.name }} ({{ p.breed }})</option>
-          </select>
+          <ng-container *ngIf="lockedPetId; else petSelect">
+            <input class="form-control" [value]="lockedPetName" disabled />
+          </ng-container>
+          <ng-template #petSelect>
+            <select class="form-control" formControlName="petId">
+              <option value="">— Seleccionar Mascota —</option>
+              <option *ngFor="let p of availablePets" [value]="p.id">{{ p.name }} ({{ p.breed }})</option>
+            </select>
+          </ng-template>
         </div>
 
         <div class="form-group" style="grid-column: 1 / -1;">

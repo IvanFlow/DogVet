@@ -9,10 +9,15 @@
       <div class="form-grid">
         <div class="form-group" style="grid-column: 1 / -1;">
           <label>Propietario *</label>
-          <select class="form-control" formControlName="ownerId">
-            <option value="">— Seleccionar Propietario —</option>
-            <option *ngFor="let o of owners" [value]="o.id">{{ o.firstName }} {{ o.lastName }}</option>
-          </select>
+          <ng-container *ngIf="lockedOwnerId; else ownerSelect">
+            <input class="form-control" [value]="lockedOwnerName" disabled />
+          </ng-container>
+          <ng-template #ownerSelect>
+            <select class="form-control" formControlName="ownerId">
+              <option value="">— Seleccionar Propietario —</option>
+              <option *ngFor="let o of owners" [value]="o.id">{{ o.firstName }} {{ o.lastName }}</option>
+            </select>
+          </ng-template>
         </div>
 
         <div class="form-group">
