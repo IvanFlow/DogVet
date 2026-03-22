@@ -6,6 +6,7 @@ namespace DogVetAPI.Data.Models.Enums
         Every12Hours = 2,
         Every8Hours = 3,
         Every6Hours = 4,
-        Every4Hours = 5
+        Every4Hours = 5,
+        Weekly = 6
     }
 }
