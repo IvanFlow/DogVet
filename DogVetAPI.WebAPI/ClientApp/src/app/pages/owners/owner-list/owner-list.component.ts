@@ -4,11 +4,12 @@ import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { OwnerService } from '../../../services/owner.service';
 import { Owner } from '../../../models/owner.model';
+import { PhonePipe } from '../../../pipes/phone.pipe';
 
 @Component({
   selector: 'app-owner-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, PhonePipe],
   templateUrl: './owner-list.component.html'
 })
 export class OwnerListComponent implements OnInit {

@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { OwnerService } from '../../../services/owner.service';
 import { Owner } from '../../../models/owner.model';
+import { PhonePipe } from '../../../pipes/phone.pipe';
 
 @Component({
   selector: 'app-owner-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, PhonePipe],
   templateUrl: './owner-detail.component.html',
   styles: [`
     .pets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--space-md); }

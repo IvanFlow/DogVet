@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { OwnerService } from '../../../services/owner.service';
+import { PhoneFormatterDirective } from '../../../directives/phone-formatter.directive';
+import { phoneValidator } from '../../../validators/phone.validator';
 
 @Component({
   selector: 'app-owner-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, PhoneFormatterDirective],
   templateUrl: './owner-form.component.html'
 })
 export class OwnerFormComponent implements OnInit {
@@ -29,7 +31,7 @@ export class OwnerFormComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName:  ['', Validators.required],
       email:     ['', [Validators.required, Validators.email]],
-      phoneNumber: [''],
+      phoneNumber: ['', phoneValidator()],
       address:   [''],
       city:      ['']
     });
@@ -52,9 +54,15 @@ export class OwnerFormComponent implements OnInit {
   }
 
   submit() {
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      return;
+    }
     this.saving = true;
     const value = this.form.value;
+    // Remove only dashes from phone number for storage
+    if (value.phoneNumber) {
+      value.phoneNumber = value.phoneNumber.replace(/\D/g, '');
+    }
 
     const req = this.isEdit && this.ownerId
       ? this.ownerService.update(this.ownerId, { ...value, id: this.ownerId })

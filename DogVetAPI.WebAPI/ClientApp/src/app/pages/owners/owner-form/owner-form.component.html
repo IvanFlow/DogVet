@@ -24,7 +24,15 @@
 
         <div class="form-group">
           <label>Teléfono</label>
-          <input class="form-control" formControlName="phoneNumber" placeholder="+1 (555) 123-4567" />
+          <input 
+            class="form-control" 
+            formControlName="phoneNumber" 
+            appPhoneFormatter
+            placeholder="33-12-34-56-78"
+            maxlength="14" />
+          <div *ngIf="form.get('phoneNumber')?.invalid && form.get('phoneNumber')?.touched" style="color: var(--color-danger); font-size: var(--font-size-sm); margin-top: 4px;">
+            El teléfono debe contener exactamente 10 dígitos
+          </div>
         </div>
 
         <div class="form-group">
