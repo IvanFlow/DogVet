@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -9,6 +9,7 @@ import { MedicalHistory } from '../../../models/medical-history.model';
 import { Pet } from '../../../models/pet.model';
 import { Owner } from '../../../models/owner.model';
 import { StatusPipe } from '../../../pipes/status.pipe';
+import { ListStateService } from '../../../services/list-state.service';
 
 @Component({
   selector: 'app-medical-history-list',
@@ -16,7 +17,7 @@ import { StatusPipe } from '../../../pipes/status.pipe';
   imports: [CommonModule, RouterLink, FormsModule, StatusPipe],
   templateUrl: './medical-history-list.component.html'
 })
-export class MedicalHistoryListComponent implements OnInit {
+export class MedicalHistoryListComponent implements OnInit, OnDestroy {
   records: MedicalHistory[] = [];
   pets: Pet[] = [];
   owners: Owner[] = [];
@@ -46,14 +47,23 @@ export class MedicalHistoryListComponent implements OnInit {
     private medicalHistoryService: MedicalHistoryService,
     private petService: PetService,
     private ownerService: OwnerService,
-    private router: Router
+    private router: Router,
+    private listState: ListStateService
   ) {}
 
   navigateTo(id: number) {
     this.router.navigate(['/medical-histories', id]);
   }
 
+  ngOnDestroy() {
+    this.listState.medicalHistoryList = { search: this.search, filterOwner: this.filterOwner, filterPet: this.filterPet };
+  }
+
   ngOnInit() {
+    const s = this.listState.medicalHistoryList;
+    this.search = s.search;
+    this.filterOwner = s.filterOwner;
+    this.filterPet = s.filterPet;
     console.log('[MedicalHistoryList] Loading...');
     this.medicalHistoryService.getAll().subscribe({
       next: (data) => {

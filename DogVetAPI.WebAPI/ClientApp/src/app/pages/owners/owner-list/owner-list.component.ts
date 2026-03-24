@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { OwnerService } from '../../../services/owner.service';
 import { Owner } from '../../../models/owner.model';
 import { PhonePipe } from '../../../pipes/phone.pipe';
+import { ListStateService } from '../../../services/list-state.service';
 
 @Component({
   selector: 'app-owner-list',
@@ -12,7 +13,7 @@ import { PhonePipe } from '../../../pipes/phone.pipe';
   imports: [CommonModule, RouterLink, FormsModule, PhonePipe],
   templateUrl: './owner-list.component.html'
 })
-export class OwnerListComponent implements OnInit {
+export class OwnerListComponent implements OnInit, OnDestroy {
   owners: Owner[] = [];
   search = '';
   loading = true;
@@ -27,13 +28,18 @@ export class OwnerListComponent implements OnInit {
     );
   }
 
-constructor(private ownerService: OwnerService, private router: Router) {}
+constructor(private ownerService: OwnerService, private router: Router, private listState: ListStateService) {}
 
   navigateTo(id: number) {
     this.router.navigate(['/owners', id]);
   }
 
+  ngOnDestroy() {
+    this.listState.ownerList = { search: this.search };
+  }
+
   ngOnInit() {
+    this.search = this.listState.ownerList.search;
     console.log('[OwnerList] Initializing, about to call getAll()');
     this.ownerService.getAll().subscribe({
       next: (data) => {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -7,6 +7,7 @@ import { OwnerService } from '../../../services/owner.service';
 import { Pet } from '../../../models/pet.model';
 import { Owner } from '../../../models/owner.model';
 import { GenderPipe } from '../../../pipes/gender.pipe';
+import { ListStateService } from '../../../services/list-state.service';
 
 @Component({
   selector: 'app-pet-list',
@@ -14,7 +15,7 @@ import { GenderPipe } from '../../../pipes/gender.pipe';
   imports: [CommonModule, RouterLink, FormsModule, GenderPipe],
   templateUrl: './pet-list.component.html'
 })
-export class PetListComponent implements OnInit {
+export class PetListComponent implements OnInit, OnDestroy {
   pets: Pet[] = [];
   owners: Owner[] = [];
   search = '';
@@ -31,13 +32,25 @@ export class PetListComponent implements OnInit {
     });
   }
 
-  constructor(private petService: PetService, private ownerService: OwnerService, private router: Router) {}
+  constructor(
+    private petService: PetService,
+    private ownerService: OwnerService,
+    private router: Router,
+    private listState: ListStateService
+  ) {}
 
   navigateTo(id: number) {
     this.router.navigate(['/pets', id]);
   }
 
+  ngOnDestroy() {
+    this.listState.petList = { search: this.search, filterOwner: this.filterOwner };
+  }
+
   ngOnInit() {
+    const s = this.listState.petList;
+    this.search = s.search;
+    this.filterOwner = s.filterOwner;
     console.log('[PetList] Loading...');
     this.petService.getAll().subscribe({
       next: (data) => {
