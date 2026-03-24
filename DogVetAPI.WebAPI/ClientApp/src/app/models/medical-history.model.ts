@@ -9,6 +9,8 @@ export interface MedicalHistory {
   petName?: string;
   ownerName?: string;
   veterinarianId: number;
+  followUpOf?: number | null;
+  followUpOfRecord?: MedicalHistory | null;
 }
 
 export interface CreateMedicalHistory {
@@ -17,6 +19,7 @@ export interface CreateMedicalHistory {
   visitDate: string;
   followUpDate?: string | null;
   petId: number;
+  followUpOf?: number | null;
 }
 
 export interface UpdateMedicalHistory extends CreateMedicalHistory {

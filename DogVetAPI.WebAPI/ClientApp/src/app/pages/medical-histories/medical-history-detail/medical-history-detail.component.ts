@@ -16,6 +16,7 @@ import { StatusPipe } from '../../../pipes/status.pipe';
 export class MedicalHistoryDetailComponent implements OnInit {
   record?: MedicalHistory;
   pet?: Pet;
+  followUpOfRecord?: MedicalHistory;
   loading = true;
   error: string | null = null;
 
@@ -36,6 +37,7 @@ export class MedicalHistoryDetailComponent implements OnInit {
       next: (data) => {
         console.log('[MedicalHistoryDetail] Success:', data);
         this.record = data;
+        this.followUpOfRecord = data.followUpOfRecord ?? undefined;
         this.loading = false;
         this.error = null;
         this.petService.getById(data.petId).subscribe(p => { this.pet = p; });

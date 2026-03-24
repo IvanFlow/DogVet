@@ -17,6 +17,10 @@ export class MedicalHistoryService {
     return this.http.get<MedicalHistory>(`${this.baseUrl}/${id}`);
   }
 
+  getByPetId(petId: number): Observable<MedicalHistory[]> {
+    return this.http.get<MedicalHistory[]>(`${this.baseUrl}/pet/${petId}`);
+  }
+
   create(record: CreateMedicalHistory): Observable<MedicalHistory> {
     return this.http.post<MedicalHistory>(this.baseUrl, record);
   }

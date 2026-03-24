@@ -9,5 +9,6 @@ namespace DogVetAPI.Data.Repositories.Interfaces
     {
         Task<MedicalHistory?> GetHistoryWithDetailsAsync(int id);
         Task<IEnumerable<MedicalHistory>> GetAllActiveAsync();
+        Task<IEnumerable<MedicalHistory>> GetByPetIdAsync(int petId);
     }
 }

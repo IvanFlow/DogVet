@@ -10,17 +10,33 @@ namespace DogVetAPI.Data.Repositories
     /// </summary>
     public class MedicalHistoryRepository(DogVetContext context) : Repository<MedicalHistory>(context), IMedicalHistoryRepository
     {
+        public override async Task<MedicalHistory?> GetByIdAsync(int id)
+        {
+            return await _dbSet
+                .Include(m => m.FollowUpOfRecord)
+                .FirstOrDefaultAsync(m => m.Id == id);
+        }
+
         public async Task<MedicalHistory?> GetHistoryWithDetailsAsync(int id)
         {
             return await _dbSet
                 .Include(m => m.Pet)
                 .Include(m => m.Veterinarian)
+                .Include(m => m.FollowUpOfRecord)
                 .FirstOrDefaultAsync(m => m.Id == id);
         }
 
         public async Task<IEnumerable<MedicalHistory>> GetAllActiveAsync()
         {
             return await _dbSet.Where(m => m.IsActive).ToListAsync();
+        }
+
+        public async Task<IEnumerable<MedicalHistory>> GetByPetIdAsync(int petId)
+        {
+            return await _dbSet
+                .Where(m => m.PetId == petId && m.IsActive)
+                .OrderByDescending(m => m.VisitDate)
+                .ToListAsync();
         }
     }
 }

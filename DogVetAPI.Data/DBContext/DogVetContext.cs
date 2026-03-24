@@ -100,8 +100,15 @@ namespace DogVetAPI.Data.DBContext
                 entity.Property(e => e.Status).HasMaxLength(50);
                 entity.Property(e => e.IsActive).HasDefaultValue(true);
                 
-                // Foreign key configuration - VeterinarianId is optional
+                // Foreign key configuration - VeterinarianId and FollowUpOf are optional
                 entity.Property(e => e.VeterinarianId).IsRequired(false);
+                entity.Property(e => e.FollowUpOf).IsRequired(false);
+                
+                // Self-referential one-to-one relationship (MedicalHistory → Previous MedicalHistory)
+                entity.HasOne(e => e.FollowUpOfRecord)
+                    .WithOne(m => m.FollowUpRecord)
+                    .HasForeignKey<MedicalHistory>(e => e.FollowUpOf)
+                    .OnDelete(DeleteBehavior.NoAction);
                 
                 // One-to-many relationship with Prescription
                 entity.HasMany(e => e.Prescriptions)
@@ -120,6 +127,7 @@ namespace DogVetAPI.Data.DBContext
                 entity.HasIndex(e => e.VeterinarianId);
                 entity.HasIndex(e => e.VisitDate);
                 entity.HasIndex(e => e.IsActive);
+                entity.HasIndex(e => e.FollowUpOf);
             });
 
             // Prescription entity configuration

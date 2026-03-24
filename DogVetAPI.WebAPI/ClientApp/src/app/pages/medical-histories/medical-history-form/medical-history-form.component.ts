@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { MedicalHistoryService } from '../../../services/medical-history.service';
 import { PetService } from '../../../services/pet.service';
 import { OwnerService } from '../../../services/owner.service';
 import { Pet } from '../../../models/pet.model';
 import { Owner } from '../../../models/owner.model';
+import { MedicalHistory } from '../../../models/medical-history.model';
 
 @Component({
   selector: 'app-medical-history-form',
@@ -14,18 +16,20 @@ import { Owner } from '../../../models/owner.model';
   imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink],
   templateUrl: './medical-history-form.component.html'
 })
-export class MedicalHistoryFormComponent implements OnInit {
+export class MedicalHistoryFormComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   isEdit = false;
   recordId?: number;
   pets: Pet[] = [];
   owners: Owner[] = [];
+  availableFollowUpRecords: MedicalHistory[] = [];
   selectedOwner = '';
   saving = false;
   error: string | null = null;
   lockedPetId: number | null = null;
   lockedPetName = '';
   lockedOwnerName = '';
+  private destroy$ = new Subject<void>();
 
   get availablePets() {
     if (!this.selectedOwner) return this.pets;
@@ -59,6 +63,7 @@ export class MedicalHistoryFormComponent implements OnInit {
       notes:       [''],
       visitDate:   [today, Validators.required],
       followUpDate:[''],
+      followUpOf:  [''],
       status:      ['Completed'],
     });
 
@@ -66,10 +71,22 @@ export class MedicalHistoryFormComponent implements OnInit {
     if (preselectedPetId) {
       this.lockedPetId = preselectedPetId;
       this.form.patchValue({ petId: preselectedPetId });
+      this.loadRecordsForPet(preselectedPetId);
     }
 
     this.petService.getAll().subscribe(data => { this.pets = data; this.resolveLockedOwner(); });
     this.ownerService.getAll().subscribe(data => { this.owners = data; this.resolveLockedOwner(); });
+
+    // Subscribe to petId changes to load records for that pet
+    this.form.get('petId')?.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(petId => {
+        if (petId) {
+          this.loadRecordsForPet(Number(petId));
+        } else {
+          this.availableFollowUpRecords = [];
+        }
+      });
 
     this.recordId = Number(this.route.snapshot.paramMap.get('id')) || undefined;
     this.isEdit = !!this.recordId;
@@ -80,7 +97,8 @@ export class MedicalHistoryFormComponent implements OnInit {
           this.form.patchValue({
             ...record,
             visitDate: record.visitDate?.substring(0, 10) ?? today,
-            followUpDate: record.followUpDate?.substring(0, 10) ?? ''
+            followUpDate: record.followUpDate?.substring(0, 10) ?? '',
+            followUpOf: record.followUpOf ?? ''
           });
           this.error = null;
         },
@@ -92,8 +110,30 @@ export class MedicalHistoryFormComponent implements OnInit {
     }
   }
 
+  private loadRecordsForPet(petId: number) {
+    this.medicalHistoryService.getByPetId(petId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (records) => {
+          this.availableFollowUpRecords = records.filter(r => 
+            r.status === 'Completed' || r.status === 'Follow-up'
+          );
+        },
+        error: (err) => {
+          console.error('[MedicalHistoryForm] Error loading pet records:', err);
+          this.availableFollowUpRecords = [];
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   onOwnerChange() {
     this.form.patchValue({ petId: '' });
+    this.availableFollowUpRecords = [];
   }
 
   submit() {
@@ -102,6 +142,8 @@ export class MedicalHistoryFormComponent implements OnInit {
     const value = this.form.value;
     value.petId = Number(value.petId);
     if (!value.followUpDate) value.followUpDate = null;
+    if (value.followUpOf) value.followUpOf = Number(value.followUpOf);
+    else value.followUpOf = null;
 
     const req = this.isEdit && this.recordId
       ? this.medicalHistoryService.update(this.recordId, { ...value, id: this.recordId })

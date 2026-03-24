@@ -15,10 +15,13 @@ namespace DogVetAPI.Data.Models
         // Foreign keys
         public int PetId { get; set; }
         public int? VeterinarianId { get; set; }
+        public int? FollowUpOf { get; set; }
 
         // Relationships
         public Pet? Pet { get; set; }
         public Veterinarian? Veterinarian { get; set; }
+        public MedicalHistory? FollowUpOfRecord { get; set; }
+        public MedicalHistory? FollowUpRecord { get; set; }
         public ICollection<Prescription> Prescriptions { get; set; } = new List<Prescription>();
         public ICollection<SaleNote> SaleNotes { get; set; } = new List<SaleNote>();
     }

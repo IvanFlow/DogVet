@@ -13,6 +13,8 @@ namespace DogVetAPI.Application
         public string Status { get; set; } = string.Empty;
         public int PetId { get; set; }
         public int? VeterinarianId { get; set; }
+        public int? FollowUpOf { get; set; }
+        public MedicalHistoryDto? FollowUpOfRecord { get; set; }
     }
 
     /// <summary>
@@ -25,6 +27,7 @@ namespace DogVetAPI.Application
         public DateTime VisitDate { get; set; }
         public DateTime? FollowUpDate { get; set; }
         public int PetId { get; set; }
+        public int? FollowUpOf { get; set; }
     }
 
     /// <summary>
@@ -39,6 +42,7 @@ namespace DogVetAPI.Application
         public DateTime? FollowUpDate { get; set; }
         public string Status { get; set; } = string.Empty;
         public int PetId { get; set; }
-        public int VeterinarianId { get; set; }
+        public int? VeterinarianId { get; set; }
+        public int? FollowUpOf { get; set; }
     }
 }

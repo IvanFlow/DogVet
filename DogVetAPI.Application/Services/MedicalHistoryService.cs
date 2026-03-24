@@ -22,11 +22,29 @@ namespace DogVetAPI.Application.Services
             return await _medicalHistoryRepository.GetByIdAsync(id);
         }
 
+        public async Task<IEnumerable<MedicalHistory>> GetRecordsByPetIdAsync(int petId)
+        {
+            return await _medicalHistoryRepository.GetByPetIdAsync(petId);
+        }
+
         public async Task<MedicalHistory> CreateRecordAsync(MedicalHistory record)
         {
             record.Status = record.FollowUpDate.HasValue
                 ? MedicalHistoryStatusStrings.FollowUp
                 : MedicalHistoryStatusStrings.Completed;
+            
+            // If this is a follow-up record, mark the original record as Completed
+            if (record.FollowUpOf.HasValue)
+            {
+                var previousRecord = await _medicalHistoryRepository.GetByIdAsync(record.FollowUpOf.Value);
+                if (previousRecord != null)
+                {
+                    previousRecord.Status = MedicalHistoryStatusStrings.Completed;
+                    previousRecord.UpdatedAt = DateTime.UtcNow;
+                    _medicalHistoryRepository.Update(previousRecord);
+                }
+            }
+            
             record.CreatedAt = DateTime.UtcNow;
             record.UpdatedAt = DateTime.UtcNow;
             

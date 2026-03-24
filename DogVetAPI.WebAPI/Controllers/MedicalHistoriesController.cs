@@ -44,11 +44,30 @@ namespace DogVetAPI.WebAPI.Controllers
                 if (record == null)
                     return NotFound($"Medical record with ID {id} not found");
 
-                return Ok(MapToDto(record));
+                return Ok(MapToDto(record, includeFollowUpOfRecord: true));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving medical record");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        /// <summary>
+        /// Gets medical history records by Pet ID
+        /// </summary>
+        [HttpGet("pet/{petId}")]
+        public async Task<ActionResult<IEnumerable<MedicalHistoryDto>>> GetRecordsByPetId(int petId)
+        {
+            try
+            {
+                var records = await _medicalHistoryService.GetRecordsByPetIdAsync(petId);
+                var recordDtos = records.Select(r => MapToDto(r)).ToList();
+                return Ok(recordDtos);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving medical records for pet");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -67,7 +86,8 @@ namespace DogVetAPI.WebAPI.Controllers
                     Notes = createRecordDto.Notes,
                     VisitDate = createRecordDto.VisitDate,
                     FollowUpDate = createRecordDto.FollowUpDate,
-                    PetId = createRecordDto.PetId
+                    PetId = createRecordDto.PetId,
+                    FollowUpOf = createRecordDto.FollowUpOf
                 };
 
                 var createdRecord = await _medicalHistoryService.CreateRecordAsync(record);
@@ -99,6 +119,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 existingRecord.Status = updateRecordDto.Status;
                 existingRecord.PetId = updateRecordDto.PetId;
                 existingRecord.VeterinarianId = updateRecordDto.VeterinarianId;
+                existingRecord.FollowUpOf = updateRecordDto.FollowUpOf;
 
                 var updatedRecord = await _medicalHistoryService.UpdateRecordAsync(existingRecord);
                 return Ok(MapToDto(updatedRecord));
@@ -152,9 +173,9 @@ namespace DogVetAPI.WebAPI.Controllers
             }
         }
 
-        private MedicalHistoryDto MapToDto(MedicalHistory record)
+        private MedicalHistoryDto MapToDto(MedicalHistory record, bool includeFollowUpOfRecord = false)
         {
-            return new MedicalHistoryDto
+            var dto = new MedicalHistoryDto
             {
                 Id = record.Id,
                 Diagnosis = record.Diagnosis,
@@ -163,8 +184,27 @@ namespace DogVetAPI.WebAPI.Controllers
                 FollowUpDate = record.FollowUpDate,
                 Status = record.Status,
                 PetId = record.PetId,
-                VeterinarianId = record.VeterinarianId
+                VeterinarianId = record.VeterinarianId,
+                FollowUpOf = record.FollowUpOf
             };
+
+            if (includeFollowUpOfRecord && record.FollowUpOfRecord != null)
+            {
+                dto.FollowUpOfRecord = new MedicalHistoryDto
+                {
+                    Id = record.FollowUpOfRecord.Id,
+                    Diagnosis = record.FollowUpOfRecord.Diagnosis,
+                    Notes = record.FollowUpOfRecord.Notes,
+                    VisitDate = record.FollowUpOfRecord.VisitDate,
+                    FollowUpDate = record.FollowUpOfRecord.FollowUpDate,
+                    Status = record.FollowUpOfRecord.Status,
+                    PetId = record.FollowUpOfRecord.PetId,
+                    VeterinarianId = record.FollowUpOfRecord.VeterinarianId,
+                    FollowUpOf = record.FollowUpOfRecord.FollowUpOf
+                };
+            }
+
+            return dto;
         }
     }
 }
