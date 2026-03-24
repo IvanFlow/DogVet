@@ -15,6 +15,7 @@ namespace DogVetAPI.Application
         public int? VeterinarianId { get; set; }
         public int? FollowUpOf { get; set; }
         public MedicalHistoryDto? FollowUpOfRecord { get; set; }
+        public PetDto? Pet { get; set; }
     }
 
     /// <summary>

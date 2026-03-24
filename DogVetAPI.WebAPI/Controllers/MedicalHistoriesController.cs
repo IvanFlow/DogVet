@@ -188,6 +188,25 @@ namespace DogVetAPI.WebAPI.Controllers
                 FollowUpOf = record.FollowUpOf
             };
 
+            if (record.Pet != null)
+            {
+                dto.Pet = new PetDto
+                {
+                    Id = record.Pet.Id,
+                    Name = record.Pet.Name,
+                    Breed = record.Pet.Breed,
+                    Age = record.Pet.Age,
+                    Weight = record.Pet.Weight,
+                    Color = record.Pet.Color,
+                    Gender = record.Pet.Gender,
+                    DateOfBirth = record.Pet.DateOfBirth,
+                    IsActive = record.Pet.IsActive,
+                    OwnerId = record.Pet.OwnerId,
+                    CreatedAt = record.Pet.CreatedAt,
+                    UpdatedAt = record.Pet.UpdatedAt
+                };
+            }
+
             if (includeFollowUpOfRecord && record.FollowUpOfRecord != null)
             {
                 dto.FollowUpOfRecord = new MedicalHistoryDto

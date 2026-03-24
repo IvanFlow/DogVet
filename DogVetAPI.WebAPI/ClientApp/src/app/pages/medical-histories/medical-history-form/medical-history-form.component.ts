@@ -100,6 +100,17 @@ export class MedicalHistoryFormComponent implements OnInit, OnDestroy {
             followUpDate: record.followUpDate?.substring(0, 10) ?? '',
             followUpOf: record.followUpOf ?? ''
           });
+          
+          // Use the included Pet data to preselect owner
+          if (record.pet) {
+            this.selectedOwner = String(record.pet.ownerId);
+            this.lockedPetName = `${record.pet.name} (${record.pet.breed})`;
+            const owner = this.owners.find(o => o.id === record.pet!.ownerId);
+            if (owner) this.lockedOwnerName = `${owner.firstName} ${owner.lastName}`;
+            // Load follow-up records for this pet
+            this.loadRecordsForPet(record.pet.id);
+          }
+          
           this.error = null;
         },
         error: (err) => {

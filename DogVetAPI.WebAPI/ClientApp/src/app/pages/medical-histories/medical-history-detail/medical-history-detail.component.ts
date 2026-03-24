@@ -38,9 +38,11 @@ export class MedicalHistoryDetailComponent implements OnInit {
         console.log('[MedicalHistoryDetail] Success:', data);
         this.record = data;
         this.followUpOfRecord = data.followUpOfRecord ?? undefined;
+        if (data.pet) {
+          this.pet = data.pet;
+        }
         this.loading = false;
         this.error = null;
-        this.petService.getById(data.petId).subscribe(p => { this.pet = p; });
       },
       error: (err) => {
         console.error('[MedicalHistoryDetail] Error:', err);

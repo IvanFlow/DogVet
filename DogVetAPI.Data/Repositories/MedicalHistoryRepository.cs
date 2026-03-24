@@ -13,6 +13,7 @@ namespace DogVetAPI.Data.Repositories
         public override async Task<MedicalHistory?> GetByIdAsync(int id)
         {
             return await _dbSet
+                .Include(m => m.Pet)
                 .Include(m => m.FollowUpOfRecord)
                 .FirstOrDefaultAsync(m => m.Id == id);
         }
