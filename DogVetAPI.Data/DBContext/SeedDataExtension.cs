@@ -39,6 +39,7 @@ namespace DogVetAPI.Data.DBContext
             var appointments = SeedAppointments(context, owners, pets, seedDate);
             
             await context.SaveChangesAsync();
+            SeedMedicalHistoryFollowUps(context);
         }
 
         /// <summary>
@@ -157,6 +158,7 @@ namespace DogVetAPI.Data.DBContext
                 new MedicalHistory { Diagnosis = "Revisión general anual con vacunación", Notes = "Signos vitales normales, vacunas DHPP y antirrábica al día. Peso adecuado.", VisitDate = new DateTime(2026, 1, 5, 0, 0, 0, DateTimeKind.Utc), FollowUpDate = null, Status = "Completed", Pet = pets[0], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new MedicalHistory { Diagnosis = "Limpieza dental preventiva", Notes = "Acumulación leve de sarro, detartraje realizado sin complicaciones", VisitDate = new DateTime(2025, 11, 10, 0, 0, 0, DateTimeKind.Utc), FollowUpDate = new DateTime(2026, 5, 10, 0, 0, 0, DateTimeKind.Utc), Status = "Completed", Pet = pets[0], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new MedicalHistory { Diagnosis = "Otitis externa bilateral", Notes = "Infecciones de oído relacionadas con alergias. Gotas y medicamento oral prescritos.", VisitDate = new DateTime(2025, 12, 20, 0, 0, 0, DateTimeKind.Utc), FollowUpDate = new DateTime(2026, 1, 17, 0, 0, 0, DateTimeKind.Utc), Status = "Follow-up", Pet = pets[0], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistory { Diagnosis = "Revisión de seguimiento - otitis", Notes = "Infección mejorando con tratamiento. Continuar gotas por una semana más.", VisitDate = new DateTime(2026, 1, 17, 0, 0, 0, DateTimeKind.Utc), FollowUpDate = null, Status = "Completed", Pet = pets[0], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Bella (pets[1]) - Labrador
                 new MedicalHistory { Diagnosis = "Vacunación de rutina para cachorra", Notes = "Primera dosis de DHPP aplicada. Revisar en 3-4 semanas para refuerzo.", VisitDate = new DateTime(2024, 8, 10, 0, 0, 0, DateTimeKind.Utc), FollowUpDate = new DateTime(2024, 9, 5, 0, 0, 0, DateTimeKind.Utc), Status = "Completed", Pet = pets[1], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
@@ -171,6 +173,7 @@ namespace DogVetAPI.Data.DBContext
                 
                 // Negra (pets[3]) - Poodle Negro
                 new MedicalHistory { Diagnosis = "Otitis externa con infección bacteriana", Notes = "Cultivo realizado. Gotas antibacterianas prescritas. Control en 2 semanas.", VisitDate = new DateTime(2026, 1, 8, 0, 0, 0, DateTimeKind.Utc), FollowUpDate = new DateTime(2026, 1, 22, 0, 0, 0, DateTimeKind.Utc), Status = "Pending", Pet = pets[3], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistory { Diagnosis = "Revisión de seguimiento - otitis control", Notes = "Infección controlada con gotas. Continuar tratamiento 7 días más.", VisitDate = new DateTime(2026, 1, 22, 0, 0, 0, DateTimeKind.Utc), FollowUpDate = null, Status = "Completed", Pet = pets[3], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new MedicalHistory { Diagnosis = "Limpieza de oidos y revisión dental", Notes = "Higiene correcta. Se recomienda limpieza semanal de oídos.", VisitDate = new DateTime(2025, 12, 10, 0, 0, 0, DateTimeKind.Utc), FollowUpDate = null, Status = "Completed", Pet = pets[3], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new MedicalHistory { Diagnosis = "Revisión pre-grooming y vacunación", Notes = "Estado general excelente. Vacuna antirrábica aplicada.", VisitDate = new DateTime(2025, 10, 20, 0, 0, 0, DateTimeKind.Utc), FollowUpDate = null, Status = "Completed", Pet = pets[3], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
@@ -235,6 +238,7 @@ namespace DogVetAPI.Data.DBContext
                 
                 // Fido (pets[17]) - Rottweiler
                 new MedicalHistory { Diagnosis = "Gastroenteritis aguda - vómitos y diarrea", Notes = "Probable intoxicación alimentaria. Fluidoterapia y medicamentos antiemético prescritos.", VisitDate = new DateTime(2026, 1, 12, 0, 0, 0, DateTimeKind.Utc), FollowUpDate = new DateTime(2026, 1, 19, 0, 0, 0, DateTimeKind.Utc), Status = "Pending", Pet = pets[17], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistory { Diagnosis = "Revisión post-gastroenteritis", Notes = "Recuperación completa. Digestión normalizada. Dieta blanda continuada 3 días más.", VisitDate = new DateTime(2026, 1, 19, 0, 0, 0, DateTimeKind.Utc), FollowUpDate = null, Status = "Completed", Pet = pets[17], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new MedicalHistory { Diagnosis = "Revisión anual de rutina", Notes = "Signos vitales normales. Vacunaciones al día. Peso adecuado.", VisitDate = new DateTime(2025, 12, 5, 0, 0, 0, DateTimeKind.Utc), FollowUpDate = null, Status = "Completed", Pet = pets[17], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Daisy (pets[18]) - Miniature Pinscher
@@ -257,6 +261,145 @@ namespace DogVetAPI.Data.DBContext
             };
             context.MedicalHistories.AddRange(histories);
             return histories;
+        }
+
+        /// <summary>
+        /// Establish follow-up relationships between medical records after they are created and have IDs assigned
+        /// </summary>
+        private static void SeedMedicalHistoryFollowUps(DogVetContext context)
+        {
+            // Canelo: Otitis revision is a follow-up of the original otitis
+            var caneloOtitis = context.MedicalHistories.FirstOrDefault(m => m.Diagnosis == "Otitis externa bilateral");
+            var caneloOtitisFollowUp = context.MedicalHistories.FirstOrDefault(m => m.Diagnosis == "Revisión de seguimiento - otitis");
+            if (caneloOtitis != null && caneloOtitisFollowUp != null)
+            {
+                caneloOtitisFollowUp.FollowUpOf = caneloOtitis.Id;
+                caneloOtitis.Status = "Completed"; // Mark original otitis as completed since it has a follow-up
+            }
+
+            // Bella: Vaccation refuerzo is follow-up of initial vaccination
+            var bellaVaccinationInitial = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Vacunación de rutina para cachorra" && 
+                m.VisitDate == new DateTime(2024, 8, 10, 0, 0, 0, DateTimeKind.Utc));
+            var bellaVaccinationRefuerzo = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Refuerzo de vacuna DHPP");
+            if (bellaVaccinationInitial != null && bellaVaccinationRefuerzo != null)
+            {
+                bellaVaccinationRefuerzo.FollowUpOf = bellaVaccinationInitial.Id;
+                bellaVaccinationInitial.Status = "Completed"; // Mark initial vaccination as completed since it has a follow-up
+            }
+
+            // Bella: Nutrición follow-up is follow-up of alergia alimentaria
+            var bellaAllergy = context.MedicalHistories.FirstOrDefault(m => m.Diagnosis == "Alergia alimentaria con dermatitis");
+            var bellaNutrition = context.MedicalHistories.FirstOrDefault(m => m.Diagnosis == "Revisión de seguimiento nutrición");
+            if (bellaAllergy != null && bellaNutrition != null)
+            {
+                bellaNutrition.FollowUpOf = bellaAllergy.Id;
+                bellaAllergy.Status = "Completed"; // Mark allergy consultation as completed since it has a follow-up
+
+            }
+
+            // Negra: Otitis control is follow-up of original otitis
+            var negraOtitis = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Otitis externa con infección bacteriana");
+            var negraOtitisControl = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Revisión de seguimiento - otitis control");
+            if (negraOtitis != null && negraOtitisControl != null)
+            {
+                negraOtitisControl.FollowUpOf = negraOtitis.Id;
+                negraOtitis.Status = "Completed"; // Mark original otitis as completed since it has a follow-up
+            }
+
+            // Max: Articular control is follow-up of hip dysplasia diagnosis
+            var maxDysplasia = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Displasia de cadera leve");
+            var maxArticularControl = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Control articular y evaluación de dolor");
+            if (maxDysplasia != null && maxArticularControl != null)
+            {
+                maxArticularControl.FollowUpOf = maxDysplasia.Id;
+                maxDysplasia.Status = "Completed"; // Mark hip dysplasia diagnosis as completed since it has a follow-up
+            }
+
+            // Charlie: Deworming refuerzo is follow-up of initial deworming
+            var charlieDeworming = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Desparasitación cachorro - interna y externa");
+            var charlieDeformingRefuerzo = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Refuerzo de desparasitación");
+            if (charlieDeworming != null && charlieDeformingRefuerzo != null)
+            {
+                charlieDeformingRefuerzo.FollowUpOf = charlieDeworming.Id;
+                charlieDeworming.Status = "Completed"; // Mark initial deworming as completed since it has a follow-up
+            }
+
+            // Luna: Oftalmology post-treatment is follow-up of keratitis
+            var lunaKeratitis = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Queratitis ulcerativa en ojo derecho");
+            var lunaOftalmologyPostTreatment = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Revisión oftalmológica post-tratamiento");
+            if (lunaKeratitis != null && lunaOftalmologyPostTreatment != null)
+            {
+                lunaOftalmologyPostTreatment.FollowUpOf = lunaKeratitis.Id;
+                lunaKeratitis.Status = "Completed"; // Mark keratitis consultation as completed since it has a follow-up
+            }
+
+            // Nala: Post-shedding review is follow-up of alopecia consultation
+            var nalaAlopecia = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Alopecia estacional seasonal");
+            var nalaPostShedding = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Revisión post-muda");
+            if (nalaAlopecia != null && nalaPostShedding != null)
+            {
+                nalaPostShedding.FollowUpOf = nalaAlopecia.Id;
+                nalaAlopecia.Status = "Completed"; // Mark alopecia consultation as completed since it has a follow-up
+            }
+
+            // Rex: Cardiac control is follow-up of cardiomyopathy diagnosis
+            var rexCardiomyopathy = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Cardiomiopatía dilatada - evaluación ecocardiográfica");
+            var rexCardiacControl = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Control cardíaco - evaluación de medicamentos");
+            if (rexCardiomyopathy != null && rexCardiacControl != null)
+            {
+                rexCardiacControl.FollowUpOf = rexCardiomyopathy.Id;
+                rexCardiomyopathy.Status = "Completed"; // Mark cardiomyopathy diagnosis as completed since it has a follow-up
+            }
+
+            // Laila: Recovery evaluation is follow-up of lumbar paralysis
+            var lailaParalysis = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Parálisis lumbar - disco intervertebral herniad");
+            var lailaRecovery = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Evaluación de recuperación neuromuscular");
+            if (lailaParalysis != null && lailaRecovery != null)
+            {
+                lailaRecovery.FollowUpOf = lailaParalysis.Id;
+                lailaParalysis.Status = "Completed"; // Mark lumbar paralysis diagnosis as completed since it has a follow-up
+            }
+
+            // Fido: Post-gastroenteritis review is follow-up of acute gastroenteritis
+            var fidoGastroenteritis = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Gastroenteritis aguda - vómitos y diarrea");
+            var fidoPostGastroenteritis = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Revisión post-gastroenteritis");
+            if (fidoGastroenteritis != null && fidoPostGastroenteritis != null)
+            {
+                fidoPostGastroenteritis.FollowUpOf = fidoGastroenteritis.Id;
+                fidoGastroenteritis.Status = "Completed"; // Mark acute gastroenteritis diagnosis as completed since it has a follow-up
+            }
+
+            // Daisy: Vaccination refuerzo is follow-up of initial vaccination series
+            var daisyVaccinationInitial = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Vacunación de cachorra - serie primaria");
+            var daisyVaccinationRefuerzo = context.MedicalHistories.FirstOrDefault(m => 
+                m.Diagnosis == "Refuerzo de vacunación" && 
+                m.Pet != null && m.Pet.Name == "Daisy");
+            if (daisyVaccinationInitial != null && daisyVaccinationRefuerzo != null)
+            {
+                daisyVaccinationRefuerzo.FollowUpOf = daisyVaccinationInitial.Id;
+                daisyVaccinationInitial.Status = "Completed"; // Mark initial vaccination as completed since it has a follow-up
+            }
+
+            context.SaveChanges();
         }
 
         /// <summary>
