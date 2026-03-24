@@ -55,7 +55,7 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Gets an owner with their pets
         /// </summary>
-        [HttpGet("{id}/with-pets")]
+        [HttpGet("with-pets/{id}")]
         public async Task<ActionResult<OwnerDto>> GetOwnerWithPets(int id)
         {
             try

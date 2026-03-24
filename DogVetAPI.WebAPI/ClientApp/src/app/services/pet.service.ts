@@ -18,7 +18,7 @@ export class PetService {
   }
 
   getWithHistory(id: number): Observable<Pet> {
-    return this.http.get<Pet>(`${this.baseUrl}/${id}/with-history`);
+    return this.http.get<Pet>(`${this.baseUrl}/with-history/${id}`);
   }
 
   create(pet: CreatePet): Observable<Pet> {

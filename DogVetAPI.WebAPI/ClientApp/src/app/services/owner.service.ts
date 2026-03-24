@@ -18,7 +18,7 @@ export class OwnerService {
   }
 
   getWithPets(id: number): Observable<Owner> {
-    return this.http.get<Owner>(`${this.baseUrl}/${id}/with-pets`);
+    return this.http.get<Owner>(`${this.baseUrl}/with-pets/${id}`);
   }
 
   create(owner: CreateOwner): Observable<Owner> {
