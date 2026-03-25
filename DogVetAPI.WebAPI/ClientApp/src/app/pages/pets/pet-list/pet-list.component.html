@@ -37,7 +37,7 @@
           <tr *ngFor="let pet of filtered" (click)="navigateTo(pet.id)" style="cursor:pointer;">
             <td><a [routerLink]="['/pets', pet.id]" style="font-weight:500;" (click)="$event.stopPropagation()">{{ pet.name }}</a></td>
             <td>{{ pet.breed }}</td>
-            <td class="hide-mobile">{{ pet.age }}a</td>
+            <td class="hide-mobile">{{ pet.dateOfBirth | age }}</td>
             <td class="hide-mobile">{{ pet.weight }}kg</td>
             <td class="hide-mobile">{{ pet.gender | gender }}</td>
           </tr>

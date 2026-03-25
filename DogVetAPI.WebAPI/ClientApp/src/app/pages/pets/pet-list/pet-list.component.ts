@@ -7,12 +7,13 @@ import { OwnerService } from '../../../services/owner.service';
 import { Pet } from '../../../models/pet.model';
 import { Owner } from '../../../models/owner.model';
 import { GenderPipe } from '../../../pipes/gender.pipe';
+import { AgePipe } from '../../../pipes/age.pipe';
 import { ListStateService } from '../../../services/list-state.service';
 
 @Component({
   selector: 'app-pet-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, GenderPipe],
+  imports: [CommonModule, RouterLink, FormsModule, GenderPipe, AgePipe],
   templateUrl: './pet-list.component.html'
 })
 export class PetListComponent implements OnInit, OnDestroy {

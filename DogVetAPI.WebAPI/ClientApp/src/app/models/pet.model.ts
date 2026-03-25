@@ -4,7 +4,6 @@ export interface Pet {
   id: number;
   name: string;
   breed: string;
-  age: number;
   weight: number;
   color: string;
   gender: string;
@@ -20,7 +19,6 @@ export interface Pet {
 export interface CreatePet {
   name: string;
   breed: string;
-  age: number;
   weight: number;
   color: string;
   gender: string;

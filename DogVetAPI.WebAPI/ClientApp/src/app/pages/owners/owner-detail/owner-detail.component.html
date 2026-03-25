@@ -33,7 +33,7 @@
       <div class="pets-grid">
         <a *ngFor="let pet of owner.pets" [routerLink]="['/pets', pet.id]" class="pet-card">
           <div class="pet-name">{{ pet.name }}</div>
-          <div class="pet-meta">{{ pet.breed }} · {{ pet.age }}a · {{ pet.gender }}</div>
+          <div class="pet-meta">{{ pet.breed }} · {{ pet.dateOfBirth | age }} · {{ pet.gender }}</div>
           <span class="badge" [class.badge-success]="pet.isActive" [class.badge-muted]="!pet.isActive">
             {{ pet.isActive ? 'Activa' : 'Inactiva' }}
           </span>

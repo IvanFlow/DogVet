@@ -85,7 +85,6 @@ namespace DogVetAPI.WebAPI.Controllers
                 {
                     Name = createPetDto.Name,
                     Breed = createPetDto.Breed,
-                    Age = createPetDto.Age,
                     Weight = createPetDto.Weight,
                     Color = createPetDto.Color,
                     Gender = createPetDto.Gender,
@@ -117,7 +116,6 @@ namespace DogVetAPI.WebAPI.Controllers
 
                 existingPet.Name = updatePetDto.Name;
                 existingPet.Breed = updatePetDto.Breed;
-                existingPet.Age = updatePetDto.Age;
                 existingPet.Weight = updatePetDto.Weight;
                 existingPet.Color = updatePetDto.Color;
                 existingPet.Gender = updatePetDto.Gender;
@@ -185,7 +183,6 @@ namespace DogVetAPI.WebAPI.Controllers
                 Id = pet.Id,
                 Name = pet.Name,
                 Breed = pet.Breed,
-                Age = pet.Age,
                 Weight = pet.Weight,
                 Color = pet.Color,
                 Gender = pet.Gender,

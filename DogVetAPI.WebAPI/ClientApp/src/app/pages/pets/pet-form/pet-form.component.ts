@@ -36,7 +36,6 @@ export class PetFormComponent implements OnInit {
       breed:       ['', Validators.required],
       gender:      ['', Validators.required],
       color:       [''],
-      age:         [0, [Validators.required, Validators.min(0)]],
       weight:      [0, [Validators.required, Validators.min(0)]],
       dateOfBirth: [''],
       ownerId:     ['', Validators.required],

@@ -18,7 +18,7 @@
         <div class="info-item"><span class="info-label">Raza</span><span class="info-value">{{ pet.breed }}</span></div>
         <div class="info-item"><span class="info-label">Género</span><span class="info-value">{{ pet.gender | gender }}</span></div>
         <div class="info-item"><span class="info-label">Color</span><span class="info-value">{{ pet.color || '—' }}</span></div>
-        <div class="info-item"><span class="info-label">Edad</span><span class="info-value">{{ pet.age }} años</span></div>
+        <div class="info-item"><span class="info-label">Edad</span><span class="info-value">{{ pet.dateOfBirth | age }}</span></div>
         <div class="info-item"><span class="info-label">Peso</span><span class="info-value">{{ pet.weight }} kg</span></div>
         <div class="info-item"><span class="info-label">Fecha de Nacimiento</span><span class="info-value">{{ pet.dateOfBirth | date:'mediumDate' }}</span></div>
         <div class="info-item"><span class="info-label">Estado</span><span class="info-value"><span class="badge" [class.badge-success]="pet.isActive" [class.badge-muted]="!pet.isActive">{{ pet.isActive ? 'Activa' : 'Inactiva' }}</span></span></div>

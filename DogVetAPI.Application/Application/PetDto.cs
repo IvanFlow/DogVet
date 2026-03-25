@@ -8,7 +8,6 @@ namespace DogVetAPI.Application
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Breed { get; set; } = string.Empty;
-        public int Age { get; set; }
         public double Weight { get; set; }
         public string Color { get; set; } = string.Empty;
         public string Gender { get; set; } = string.Empty;
@@ -27,7 +26,6 @@ namespace DogVetAPI.Application
     {
         public string Name { get; set; } = string.Empty;
         public string Breed { get; set; } = string.Empty;
-        public int Age { get; set; }
         public double Weight { get; set; }
         public string Color { get; set; } = string.Empty;
         public string Gender { get; set; } = string.Empty;
@@ -43,7 +41,6 @@ namespace DogVetAPI.Application
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Breed { get; set; } = string.Empty;
-        public int Age { get; set; }
         public double Weight { get; set; }
         public string Color { get; set; } = string.Empty;
         public string Gender { get; set; } = string.Empty;

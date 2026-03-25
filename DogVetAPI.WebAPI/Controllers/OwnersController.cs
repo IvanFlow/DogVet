@@ -192,7 +192,6 @@ namespace DogVetAPI.WebAPI.Controllers
                         Id = p.Id,
                         Name = p.Name,
                         Breed = p.Breed,
-                        Age = p.Age,
                         Weight = p.Weight,
                         Color = p.Color,
                         Gender = p.Gender,

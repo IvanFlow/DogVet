@@ -4,12 +4,13 @@ import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { PetService } from '../../../services/pet.service';
 import { Pet } from '../../../models/pet.model';
 import { GenderPipe } from '../../../pipes/gender.pipe';
+import { AgePipe } from '../../../pipes/age.pipe';
 import { StatusPipe } from '../../../pipes/status.pipe';
 
 @Component({
   selector: 'app-pet-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, GenderPipe, StatusPipe],
+  imports: [CommonModule, RouterLink, GenderPipe, StatusPipe, AgePipe],
   templateUrl: './pet-detail.component.html'
 })
 export class PetDetailComponent implements OnInit {
