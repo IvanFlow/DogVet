@@ -59,7 +59,7 @@ export class OwnerFormComponent implements OnInit {
     }
     this.saving = true;
     const value = this.form.value;
-    // Remove only dashes from phone number for storage
+
     if (value.phoneNumber) {
       value.phoneNumber = value.phoneNumber.replace(/\D/g, '');
     }

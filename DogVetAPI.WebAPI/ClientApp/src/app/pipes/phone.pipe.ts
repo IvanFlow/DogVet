@@ -20,7 +20,6 @@ export class PhonePipe implements PipeTransform {
              digits.slice(8, 10);
     }
     
-    // If not 10 digits, return original value
     return value;
   }
 }

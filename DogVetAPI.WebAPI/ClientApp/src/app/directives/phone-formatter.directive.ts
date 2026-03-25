@@ -11,14 +11,14 @@ export class PhoneFormatterDirective {
   @HostListener('input', ['$event'])
   onInput(event: any) {
     const input = event.target;
-    let value = input.value.replace(/\D/g, ''); // Remove all non-digits
+    let value = input.value.replace(/\D/g, ''); 
 
     // Limit to 10 digits
     if (value.length > 10) {
       value = value.slice(0, 10);
     }
 
-    // Apply format: XX-XX-XX-XX-XX (2-2-2-2-2)
+    // Apply format: XX-XX-XX-XX-XX (23-24-25-26-27)
     if (value.length > 0) {
       if (value.length <= 2) {
         value = value;
@@ -33,7 +33,6 @@ export class PhoneFormatterDirective {
       }
     }
 
-    // Update the form control value
     if (this.ngControl.control) {
       this.ngControl.control.setValue(value, { emitEvent: false });
     }

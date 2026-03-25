@@ -37,10 +37,8 @@ export class MedicalHistoryDetailComponent implements OnInit {
       this.record = undefined;
       this.pet = undefined;
       this.followUpOfRecord = undefined;
-      console.log('[MedicalHistoryDetail] Loading id:', id);
       this.medicalHistoryService.getById(id).subscribe({
         next: (data) => {
-          console.log('[MedicalHistoryDetail] Success:', data);
           this.record = data;
           this.followUpOfRecord = data.followUpOfRecord ?? undefined;
           if (data.pet) {

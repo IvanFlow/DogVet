@@ -23,10 +23,8 @@ export class OwnerDetailComponent implements OnInit {
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    console.log('[OwnerDetail] Loading owner id:', id);
     this.ownerService.getWithPets(id).subscribe({
       next: (data) => {
-        console.log('[OwnerDetail] Success:', data);
         this.owner = data;
         this.loading = false;
         this.error = null;
@@ -45,7 +43,6 @@ export class OwnerDetailComponent implements OnInit {
     
     this.ownerService.delete(this.owner.id).subscribe({
       next: () => {
-        console.log('[OwnerDetail] Deleted successfully');
         this.router.navigate(['/owners']);
       },
       error: (err) => {

@@ -24,10 +24,8 @@ export class PetDetailComponent implements OnInit {
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    console.log('[PetDetail] Loading pet id:', id);
     this.petService.getWithHistory(id).subscribe({
       next: (data) => {
-        console.log('[PetDetail] Success:', data);
         this.pet = data;
         this.loading = false;
         this.error = null;
@@ -46,7 +44,6 @@ export class PetDetailComponent implements OnInit {
     
     this.petService.delete(this.pet.id).subscribe({
       next: () => {
-        console.log('[PetDetail] Deleted successfully');
         this.router.navigate(['/pets']);
       },
       error: (err) => {

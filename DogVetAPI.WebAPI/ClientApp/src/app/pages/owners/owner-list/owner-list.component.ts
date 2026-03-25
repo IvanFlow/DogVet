@@ -48,23 +48,18 @@ constructor(private ownerService: OwnerService, private router: Router, private 
       this.search = this.listState.ownerList.search;
     }
     
-    console.log('[OwnerList] Initializing, about to call getAll()');
     this.ownerService.getAll().subscribe({
       next: (data) => {
-        console.log('[OwnerList] Success! Data:', data);
         this.owners = data;
         this.loading = false;
         this.error = null;
-        console.log('[OwnerList] loading set to false');
       },
       error: (err) => {
         console.error('[OwnerList] Error callback triggered:', err);
         this.error = `Failed to load owners: ${err?.message || 'Unknown error'}`;
         this.loading = false;
-        console.log('[OwnerList] loading set to false due to error');
       },
       complete: () => {
-        console.log('[OwnerList] Complete callback triggered');
       }
     });
   }

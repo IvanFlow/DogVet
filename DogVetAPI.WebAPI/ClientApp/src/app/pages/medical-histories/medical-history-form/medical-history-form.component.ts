@@ -110,7 +110,6 @@ export class MedicalHistoryFormComponent implements OnInit, OnDestroy {
             this.lockedPetName = `${record.pet.name} (${record.pet.breed})`;
             const owner = this.owners.find(o => o.id === record.pet!.ownerId);
             if (owner) this.lockedOwnerName = `${owner.firstName} ${owner.lastName}`;
-            // Load follow-up records for this pet
             this.loadRecordsForPet(record.pet.id);
           }
           
