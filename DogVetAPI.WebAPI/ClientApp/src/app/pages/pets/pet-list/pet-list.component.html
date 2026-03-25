@@ -28,22 +28,18 @@
           <tr>
             <th>Nombre</th>
             <th>Raza</th>
-            <th class="hide-mobile">Edad / Peso</th>
+            <th class="hide-mobile">Edad</th>
+            <th class="hide-mobile">Peso</th>
             <th class="hide-mobile">Género</th>
-            <th>Estado</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let pet of filtered" (click)="navigateTo(pet.id)" style="cursor:pointer;">
             <td><a [routerLink]="['/pets', pet.id]" style="font-weight:500;" (click)="$event.stopPropagation()">{{ pet.name }}</a></td>
             <td>{{ pet.breed }}</td>
-            <td class="hide-mobile">{{ pet.age }}a · {{ pet.weight }}kg</td>
+            <td class="hide-mobile">{{ pet.age }}a</td>
+            <td class="hide-mobile">{{ pet.weight }}kg</td>
             <td class="hide-mobile">{{ pet.gender | gender }}</td>
-            <td>
-              <span class="badge" [class.badge-success]="pet.isActive" [class.badge-muted]="!pet.isActive">
-                {{ pet.isActive ? 'Activa' : 'Inactiva' }}
-              </span>
-            </td>
           </tr>
         </tbody>
       </table>
