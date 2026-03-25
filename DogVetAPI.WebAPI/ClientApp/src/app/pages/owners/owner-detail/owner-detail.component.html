@@ -30,10 +30,10 @@
         <h2 style="color: var(--color-primary-dark);">🐕 Mascotas ({{ owner.pets.length }})</h2>
         <a [routerLink]="['/pets/new']" [queryParams]="{ownerId: owner.id}" class="btn btn-primary btn-sm">+ Añadir Mascota</a>
       </div>
-      <div class="pets-grid">
-        <a *ngFor="let pet of owner.pets" [routerLink]="['/pets', pet.id]" class="pet-card">
-          <div class="pet-name">{{ pet.name }}</div>
-          <div class="pet-meta">{{ pet.breed }} · {{ pet.dateOfBirth | age }} · {{ pet.gender }}</div>
+      <div class="entity-grid">
+        <a *ngFor="let pet of owner.pets" [routerLink]="['/pets', pet.id]" class="entity-card">
+          <div class="entity-name">{{ pet.name }}</div>
+          <div class="entity-meta">{{ pet.breed }} · {{ pet.dateOfBirth | age }} · {{ pet.gender }}</div>
           <span class="badge" [class.badge-success]="pet.isActive" [class.badge-muted]="!pet.isActive">
             {{ pet.isActive ? 'Activa' : 'Inactiva' }}
           </span>

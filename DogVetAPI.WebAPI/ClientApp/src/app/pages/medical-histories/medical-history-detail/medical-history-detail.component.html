@@ -46,10 +46,10 @@
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md);">
         <h2 style="color: var(--color-primary-dark);">📋 Registro al que se da seguimiento</h2>
       </div>
-      <div class="pets-grid">
-        <a [routerLink]="['/medical-histories', followUpOfRecord.id]" class="pet-card">
-          <div class="pet-name">{{ followUpOfRecord.diagnosis }}</div>
-          <div class="pet-meta">Visita: {{ followUpOfRecord.visitDate | date:'mediumDate' }}</div>
+      <div class="entity-grid">
+        <a [routerLink]="['/medical-histories', followUpOfRecord.id]" class="entity-card">
+          <div class="entity-name">{{ followUpOfRecord.diagnosis }}</div>
+          <div class="entity-meta">Visita: {{ followUpOfRecord.visitDate | date:'mediumDate' }}</div>
           <span class="badge badge-info">{{ followUpOfRecord.status | status }}</span>
         </a>
       </div>
