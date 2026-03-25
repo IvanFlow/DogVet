@@ -11,7 +11,22 @@ import { StatusPipe } from '../../../pipes/status.pipe';
   selector: 'app-medical-history-detail',
   standalone: true,
   imports: [CommonModule, RouterLink, StatusPipe],
-  templateUrl: './medical-history-detail.component.html'
+  templateUrl: './medical-history-detail.component.html',
+  styles: [`
+    .pets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--space-md); }
+    .pet-card {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .pet-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); text-decoration: none; }
+    .pet-name { font-weight: 600; color: var(--color-primary-dark); }
+    .pet-meta { font-size: var(--font-size-sm); color: var(--color-text-muted); }
+  `]
 })
 export class MedicalHistoryDetailComponent implements OnInit {
   record?: MedicalHistory;
@@ -31,24 +46,30 @@ export class MedicalHistoryDetailComponent implements OnInit {
   goBack() { this.location.back(); }
 
   ngOnInit() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    console.log('[MedicalHistoryDetail] Loading id:', id);
-    this.medicalHistoryService.getById(id).subscribe({
-      next: (data) => {
-        console.log('[MedicalHistoryDetail] Success:', data);
-        this.record = data;
-        this.followUpOfRecord = data.followUpOfRecord ?? undefined;
-        if (data.pet) {
-          this.pet = data.pet;
+    this.route.paramMap.subscribe(params => {
+      const id = Number(params.get('id'));
+      this.loading = true;
+      this.record = undefined;
+      this.pet = undefined;
+      this.followUpOfRecord = undefined;
+      console.log('[MedicalHistoryDetail] Loading id:', id);
+      this.medicalHistoryService.getById(id).subscribe({
+        next: (data) => {
+          console.log('[MedicalHistoryDetail] Success:', data);
+          this.record = data;
+          this.followUpOfRecord = data.followUpOfRecord ?? undefined;
+          if (data.pet) {
+            this.pet = data.pet;
+          }
+          this.loading = false;
+          this.error = null;
+        },
+        error: (err) => {
+          console.error('[MedicalHistoryDetail] Error:', err);
+          this.error = 'Record not found.';
+          this.loading = false;
         }
-        this.loading = false;
-        this.error = null;
-      },
-      error: (err) => {
-        console.error('[MedicalHistoryDetail] Error:', err);
-        this.error = 'Record not found.';
-        this.loading = false;
-      }
+      });
     });
   }
 

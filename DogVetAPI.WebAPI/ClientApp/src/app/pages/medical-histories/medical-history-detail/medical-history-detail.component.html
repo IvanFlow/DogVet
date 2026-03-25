@@ -33,16 +33,25 @@
           <span class="info-label">Paciente</span>
           <a [routerLink]="['/pets', pet.id]" class="info-value">{{ pet.name }} ({{ pet.breed }})</a>
         </div>
-        <div class="info-item" *ngIf="followUpOfRecord" style="grid-column: 1 / -1;">
-          <span class="info-label">Seguimiento de</span>
-          <a [routerLink]="['/medical-histories', followUpOfRecord.id]" class="info-value">
-            Registro #{{ followUpOfRecord.id }} - {{ followUpOfRecord.diagnosis }}
-          </a>
-        </div>
+
       </div>
       <div style="display:flex; gap: var(--space-sm); margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--color-border);">
         <a [routerLink]="['/medical-histories', record.id, 'edit']" class="btn btn-ghost btn-sm">✏️ Editar</a>
         <button class="btn btn-ghost btn-sm" style="color: var(--color-danger);" (click)="delete()">🗑️ Eliminar</button>
+      </div>
+    </div>
+
+    <!-- FollowUpOf Record Card -->
+    <div *ngIf="followUpOfRecord" class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md);">
+        <h2 style="color: var(--color-primary-dark);">📋 Registro al que se da seguimiento</h2>
+      </div>
+      <div class="pets-grid">
+        <a [routerLink]="['/medical-histories', followUpOfRecord.id]" class="pet-card">
+          <div class="pet-name">{{ followUpOfRecord.diagnosis }}</div>
+          <div class="pet-meta">Visita: {{ followUpOfRecord.visitDate | date:'mediumDate' }}</div>
+          <span class="badge badge-info">{{ followUpOfRecord.status | status }}</span>
+        </a>
       </div>
     </div>
   </ng-container>
