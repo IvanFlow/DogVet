@@ -39,7 +39,15 @@ constructor(private ownerService: OwnerService, private router: Router, private 
   }
 
   ngOnInit() {
-    this.search = this.listState.ownerList.search;
+    const shouldClearFilters = history.state?.clearFilters === true;
+    
+    if (shouldClearFilters) {
+      this.search = '';
+      history.replaceState({ ...history.state, clearFilters: false }, '');
+    } else {
+      this.search = this.listState.ownerList.search;
+    }
+    
     console.log('[OwnerList] Initializing, about to call getAll()');
     this.ownerService.getAll().subscribe({
       next: (data) => {

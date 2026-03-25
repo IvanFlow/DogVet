@@ -6,9 +6,9 @@
   <button class="nav-toggle" (click)="menuOpen = !menuOpen" aria-label="Alternar menú">☰</button>
   <nav class="nav-links" [class.open]="menuOpen" (click)="menuOpen = false">
     <a routerLink="/dashboard" routerLinkActive="active">🏠 Panel</a>
-    <a routerLink="/medical-histories" routerLinkActive="active">📋 Registros Médicos</a>
-    <a routerLink="/owners" routerLinkActive="active">👤 Propietarios</a>
-    <a routerLink="/pets" routerLinkActive="active">🐕 Mascotas</a>
+    <a routerLink="/medical-histories" [state]="{clearFilters: true}" routerLinkActive="active">📋 Registros Médicos</a>
+    <a routerLink="/owners" [state]="{clearFilters: true}" routerLinkActive="active">👤 Propietarios</a>
+    <a routerLink="/pets" [state]="{clearFilters: true}" routerLinkActive="active">🐕 Mascotas</a>
   </nav>
 </header>
 

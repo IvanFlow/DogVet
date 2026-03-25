@@ -49,13 +49,20 @@ export class PetListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const s = this.listState.petList;
-    this.search = s.search;
-    this.filterOwner = s.filterOwner;
-    console.log('[PetList] Loading...');
+    const shouldClearFilters = history.state?.clearFilters === true;
+    
+    if (shouldClearFilters) {
+      this.search = '';
+      this.filterOwner = '';
+      history.replaceState({ ...history.state, clearFilters: false }, '');
+    } else {
+      const s = this.listState.petList;
+      this.search = s.search;
+      this.filterOwner = s.filterOwner;
+    }
+    
     this.petService.getAll().subscribe({
       next: (data) => {
-        console.log('[PetList] Success:', data);
         this.pets = data;
         this.loading = false;
         this.error = null;
@@ -68,7 +75,6 @@ export class PetListComponent implements OnInit, OnDestroy {
     });
     this.ownerService.getAll().subscribe({
       next: (data) => {
-        console.log('[PetList] Owners:', data);
         this.owners = data;
       },
       error: (err) => console.error('[PetList] Owner error:', err)

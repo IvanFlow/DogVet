@@ -60,14 +60,23 @@ export class MedicalHistoryListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const s = this.listState.medicalHistoryList;
-    this.search = s.search;
-    this.filterOwner = s.filterOwner;
-    this.filterPet = s.filterPet;
-    console.log('[MedicalHistoryList] Loading...');
+    const shouldClearFilters = history.state?.clearFilters === true;
+
+    
+    if (shouldClearFilters) {
+      this.search = '';
+      this.filterOwner = '';
+      this.filterPet = '';
+      history.replaceState({ ...history.state, clearFilters: false }, '');
+    } else {
+      const s = this.listState.medicalHistoryList;
+      this.search = s.search;
+      this.filterOwner = s.filterOwner;
+      this.filterPet = s.filterPet;
+    }
+    
     this.medicalHistoryService.getAll().subscribe({
       next: (data) => {
-        console.log('[MedicalHistoryList] Success:', data);
         this.records = data;
         this.loading = false;
         this.error = null;
