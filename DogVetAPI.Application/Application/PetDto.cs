@@ -12,6 +12,7 @@ namespace DogVetAPI.Application
         public string Color { get; set; } = string.Empty;
         public string Gender { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
+        public string? Species { get; set; }
         public bool IsActive { get; set; }
         public int OwnerId { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -30,6 +31,7 @@ namespace DogVetAPI.Application
         public string Color { get; set; } = string.Empty;
         public string Gender { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
+        public string? Species { get; set; }
         public int OwnerId { get; set; }
     }
 
@@ -45,6 +47,7 @@ namespace DogVetAPI.Application
         public string Color { get; set; } = string.Empty;
         public string Gender { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
+        public string? Species { get; set; }
         public bool IsActive { get; set; }
         public int OwnerId { get; set; }
     }

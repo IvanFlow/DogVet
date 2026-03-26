@@ -199,6 +199,7 @@ namespace DogVetAPI.WebAPI.Controllers
                     Color = record.Pet.Color,
                     Gender = record.Pet.Gender,
                     DateOfBirth = record.Pet.DateOfBirth,
+                    Species = record.Pet.Species,
                     IsActive = record.Pet.IsActive,
                     OwnerId = record.Pet.OwnerId,
                     CreatedAt = record.Pet.CreatedAt,

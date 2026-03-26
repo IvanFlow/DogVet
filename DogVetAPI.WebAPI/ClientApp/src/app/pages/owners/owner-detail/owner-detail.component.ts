@@ -5,11 +5,12 @@ import { OwnerService } from '../../../services/owner.service';
 import { Owner } from '../../../models/owner.model';
 import { PhonePipe } from '../../../pipes/phone.pipe';
 import { AgePipe } from '../../../pipes/age.pipe';
+import { SpeciesPipe } from '../../../pipes/species.pipe';
 
 @Component({
   selector: 'app-owner-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, PhonePipe, AgePipe],
+  imports: [CommonModule, RouterLink, PhonePipe, AgePipe, SpeciesPipe],
   templateUrl: './owner-detail.component.html'
 })
 export class OwnerDetailComponent implements OnInit {

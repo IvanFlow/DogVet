@@ -20,9 +20,17 @@
           </ng-template>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style="grid-column: 1 / -1;">
           <label>Nombre *</label>
           <input class="form-control" formControlName="name" placeholder="Nombre de la mascota…" />
+        </div>
+
+        <div class="form-group">
+          <label>Especie</label>
+          <select class="form-control" formControlName="species">
+            <option value="">— Seleccionar Especie —</option>
+            <option *ngFor="let s of species" [value]="s.value">{{ s.value | species }}</option>
+          </select>
         </div>
 
         <div class="form-group">

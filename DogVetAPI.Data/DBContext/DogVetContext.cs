@@ -58,6 +58,7 @@ namespace DogVetAPI.Data.DBContext
                 entity.Property(e => e.Breed).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.Color).HasMaxLength(100);
                 entity.Property(e => e.Gender).HasMaxLength(20);
+                entity.Property(e => e.Species).HasMaxLength(20);
                 entity.Property(e => e.IsActive).HasDefaultValue(true);
                 
                 // One-to-many relationship with MedicalHistory

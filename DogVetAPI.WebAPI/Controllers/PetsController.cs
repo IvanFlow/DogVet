@@ -1,6 +1,7 @@
 using DogVetAPI.Application;
 using DogVetAPI.Application.Services.Interfaces;
 using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogVetAPI.WebAPI.Controllers
@@ -53,6 +54,29 @@ namespace DogVetAPI.WebAPI.Controllers
         }
 
         /// <summary>
+        /// Gets all available species values
+        /// </summary>
+        [HttpGet("species")]
+        public ActionResult<IEnumerable<object>> GetPetSpecies()
+        {
+            try
+            {
+                var species = Enum.GetValues(typeof(Species))
+                    .Cast<Species>()
+                    .Select(s => new { value = s.ToString(), id = (int)s })
+                    .OrderBy(x => x.id)
+                    .ToList();
+
+                return Ok(species);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving species");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        /// <summary>
         /// Gets a pet with its medical history
         /// </summary>
         [HttpGet("with-history/{id}")]
@@ -81,6 +105,12 @@ namespace DogVetAPI.WebAPI.Controllers
         {
             try
             {
+                // Validate species if provided
+                if (!string.IsNullOrEmpty(createPetDto.Species) && !SpeciesExtensions.IsValidSpecies(createPetDto.Species))
+                {
+                    return BadRequest($"Invalid species: {createPetDto.Species}");
+                }
+
                 var pet = new Pet
                 {
                     Name = createPetDto.Name,
@@ -89,6 +119,7 @@ namespace DogVetAPI.WebAPI.Controllers
                     Color = createPetDto.Color,
                     Gender = createPetDto.Gender,
                     DateOfBirth = createPetDto.DateOfBirth,
+                    Species = createPetDto.Species,
                     OwnerId = createPetDto.OwnerId
                 };
 
@@ -110,6 +141,12 @@ namespace DogVetAPI.WebAPI.Controllers
         {
             try
             {
+                // Validate species if provided
+                if (!string.IsNullOrEmpty(updatePetDto.Species) && !SpeciesExtensions.IsValidSpecies(updatePetDto.Species))
+                {
+                    return BadRequest($"Invalid species: {updatePetDto.Species}");
+                }
+
                 var existingPet = await _petService.GetPetByIdAsync(id);
                 if (existingPet == null)
                     return NotFound($"Pet with ID {id} not found");
@@ -120,6 +157,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 existingPet.Color = updatePetDto.Color;
                 existingPet.Gender = updatePetDto.Gender;
                 existingPet.DateOfBirth = updatePetDto.DateOfBirth;
+                existingPet.Species = updatePetDto.Species;
                 existingPet.IsActive = updatePetDto.IsActive;
                 existingPet.OwnerId = updatePetDto.OwnerId;
 
@@ -187,6 +225,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 Color = pet.Color,
                 Gender = pet.Gender,
                 DateOfBirth = pet.DateOfBirth,
+                Species = pet.Species,
                 IsActive = pet.IsActive,
                 OwnerId = pet.OwnerId,
                 CreatedAt = pet.CreatedAt,

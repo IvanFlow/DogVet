@@ -1,6 +1,7 @@
 using DogVetAPI.Application;
 using DogVetAPI.Application.Services.Interfaces;
 using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogVetAPI.WebAPI.Controllers
@@ -196,6 +197,7 @@ namespace DogVetAPI.WebAPI.Controllers
                         Color = p.Color,
                         Gender = p.Gender,
                         DateOfBirth = p.DateOfBirth,
+                        Species = p.Species,
                         IsActive = p.IsActive,
                         OwnerId = p.OwnerId,
                         CreatedAt = p.CreatedAt,

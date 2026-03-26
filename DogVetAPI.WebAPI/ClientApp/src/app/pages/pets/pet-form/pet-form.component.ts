@@ -5,11 +5,12 @@ import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { PetService } from '../../../services/pet.service';
 import { OwnerService } from '../../../services/owner.service';
 import { Owner } from '../../../models/owner.model';
+import { SpeciesPipe } from '../../../pipes/species.pipe';
 
 @Component({
   selector: 'app-pet-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, SpeciesPipe],
   templateUrl: './pet-form.component.html'
 })
 export class PetFormComponent implements OnInit {
@@ -17,6 +18,7 @@ export class PetFormComponent implements OnInit {
   isEdit = false;
   petId?: number;
   owners: Owner[] = [];
+  species: { value: string; id: number }[] = [];
   saving = false;
   error: string | null = null;
   lockedOwnerId: number | null = null;
@@ -38,8 +40,15 @@ export class PetFormComponent implements OnInit {
       color:       [''],
       weight:      [0, [Validators.required, Validators.min(0)]],
       dateOfBirth: [''],
+      species:     [''],
       ownerId:     ['', Validators.required],
       isActive:    [true]
+    });
+
+    // Load species
+    this.petService.getSpecies().subscribe({
+      next: (data) => this.species = data,
+      error: (err) => console.error('[PetForm] Error loading species:', err)
     });
 
     const preselectedOwnerId = Number(this.route.snapshot.queryParamMap.get('ownerId')) || null;

@@ -33,7 +33,7 @@
       <div class="entity-grid">
         <a *ngFor="let pet of owner.pets" [routerLink]="['/pets', pet.id]" class="entity-card">
           <div class="entity-name">{{ pet.name }}</div>
-          <div class="entity-meta">{{ pet.breed }} · {{ pet.dateOfBirth | age }} · {{ pet.gender }}</div>
+          <div class="entity-meta">{{ pet.species ?  (pet.species | species) + ' · ' : '' }}{{ pet.breed }} · {{ pet.dateOfBirth | age }} · {{ pet.gender }}</div>
           <span class="badge" [class.badge-success]="pet.isActive" [class.badge-muted]="!pet.isActive">
             {{ pet.isActive ? 'Activa' : 'Inactiva' }}
           </span>

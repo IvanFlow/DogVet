@@ -8,6 +8,7 @@ export interface Pet {
   color: string;
   gender: string;
   dateOfBirth: string;
+  species?: string;
   isActive: boolean;
   ownerId: number;
   ownerName?: string;
@@ -23,6 +24,7 @@ export interface CreatePet {
   color: string;
   gender: string;
   dateOfBirth: string;
+  species?: string;
   ownerId: number;
 }
 

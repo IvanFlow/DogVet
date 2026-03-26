@@ -6,11 +6,12 @@ import { Pet } from '../../../models/pet.model';
 import { GenderPipe } from '../../../pipes/gender.pipe';
 import { AgePipe } from '../../../pipes/age.pipe';
 import { StatusPipe } from '../../../pipes/status.pipe';
+import { SpeciesPipe } from '../../../pipes/species.pipe';
 
 @Component({
   selector: 'app-pet-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, GenderPipe, StatusPipe, AgePipe],
+  imports: [CommonModule, RouterLink, GenderPipe, StatusPipe, AgePipe, SpeciesPipe],
   templateUrl: './pet-detail.component.html'
 })
 export class PetDetailComponent implements OnInit {

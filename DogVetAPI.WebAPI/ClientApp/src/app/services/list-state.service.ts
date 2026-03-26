@@ -7,6 +7,7 @@ export interface OwnerListState {
 export interface PetListState {
   search: string;
   filterOwner: string;
+  filterSpecies: string;
 }
 
 export interface MedicalHistoryListState {
@@ -18,6 +19,6 @@ export interface MedicalHistoryListState {
 @Injectable({ providedIn: 'root' })
 export class ListStateService {
   ownerList: OwnerListState = { search: '' };
-  petList: PetListState = { search: '', filterOwner: '' };
+  petList: PetListState = { search: '', filterOwner: '', filterSpecies: '' };
   medicalHistoryList: MedicalHistoryListState = { search: '', filterOwner: '', filterPet: '' };
 }

@@ -32,4 +32,8 @@ export class PetService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/soft-delete/${id}`);
   }
+
+  getSpecies(): Observable<{ value: string; id: number }[]> {
+    return this.http.get<{ value: string; id: number }[]>(`${this.baseUrl}/species`);
+  }
 }

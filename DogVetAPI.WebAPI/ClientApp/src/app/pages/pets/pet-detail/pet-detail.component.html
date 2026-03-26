@@ -16,6 +16,7 @@
       <h2 style="margin-bottom: var(--space-md); color: var(--color-primary-dark);">Información de Mascota</h2>
       <div class="info-grid">
         <div class="info-item"><span class="info-label">Raza</span><span class="info-value">{{ pet.breed }}</span></div>
+        <div class="info-item"><span class="info-label">Especie</span><span class="info-value">{{ pet.species | species }}</span></div>
         <div class="info-item"><span class="info-label">Género</span><span class="info-value">{{ pet.gender | gender }}</span></div>
         <div class="info-item"><span class="info-label">Color</span><span class="info-value">{{ pet.color || '—' }}</span></div>
         <div class="info-item"><span class="info-label">Edad</span><span class="info-value">{{ pet.dateOfBirth | age }}</span></div>
