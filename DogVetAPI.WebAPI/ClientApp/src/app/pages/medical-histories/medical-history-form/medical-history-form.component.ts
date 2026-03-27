@@ -129,7 +129,8 @@ export class MedicalHistoryFormComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (records) => {
           this.availableFollowUpRecords = records.filter(r => 
-            r.status === 'Completed' || r.status === 'Follow-up'
+            (r.status === 'Completed' || r.status === 'Follow-up') &&
+            r.id !== this.recordId
           );
         },
         error: (err) => {
