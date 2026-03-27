@@ -16,6 +16,9 @@ export class DashboardComponent implements OnInit {
   ownerCount = 0;
   petCount = 0;
   recordCount = 0;
+  upcomingFollowUps = 0;
+  missedFollowUps = 0;
+  recentRecords = 0;
 
   constructor(
     private ownerService: OwnerService,
@@ -37,8 +40,23 @@ export class DashboardComponent implements OnInit {
       error: err => console.error('Error loading pet count:', err)
     });
     this.medicalHistoryService.getAll().subscribe({
-      next: r => { 
+      next: r => {
+        const now = new Date();
+        const in30 = new Date(); in30.setDate(now.getDate() + 30);
+        const ago30 = new Date(); ago30.setDate(now.getDate() - 30);
+
         this.recordCount = r.length;
+        this.recentRecords = r.filter(rec => new Date(rec.visitDate) >= ago30).length;
+        this.upcomingFollowUps = r.filter(rec =>
+          rec.followUpDate &&
+          new Date(rec.followUpDate) >= now &&
+          new Date(rec.followUpDate) <= in30
+        ).length;
+        this.missedFollowUps = r.filter(rec =>
+          rec.followUpDate &&
+          new Date(rec.followUpDate) < now &&
+          rec.status !== 'Completed'
+        ).length;
       },
       error: err => console.error('Error loading record count:', err)
     });
