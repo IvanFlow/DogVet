@@ -45,7 +45,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let record of pet.medicalHistories" [routerLink]="['/medical-histories', record.id]" style="cursor:pointer;">
+            <tr *ngFor="let record of sortedMedicalHistories" [routerLink]="['/medical-histories', record.id]" style="cursor:pointer;">
               <td>{{ record.visitDate | date:'mediumDate' }}</td>
               <td><a [routerLink]="['/medical-histories', record.id]" (click)="$event.stopPropagation()">{{ record.diagnosis }}</a></td>
               <td><span class="badge badge-info">{{ record.status | status }}</span></td>

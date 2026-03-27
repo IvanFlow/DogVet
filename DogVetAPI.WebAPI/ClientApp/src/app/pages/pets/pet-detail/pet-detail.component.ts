@@ -19,6 +19,13 @@ export class PetDetailComponent implements OnInit {
   loading = true;
   error: string | null = null;
 
+  get sortedMedicalHistories() {
+    if (!this.pet?.medicalHistories) return [];
+    return [...this.pet.medicalHistories].sort((a, b) => 
+      new Date(b.visitDate).getTime() - new Date(a.visitDate).getTime()
+    );
+  }
+
   constructor(private petService: PetService, private route: ActivatedRoute, private router: Router, private location: Location) {}
 
   goBack() { this.location.back(); }
