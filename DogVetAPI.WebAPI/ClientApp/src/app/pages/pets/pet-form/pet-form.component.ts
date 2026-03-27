@@ -92,7 +92,7 @@ export class PetFormComponent implements OnInit {
     value.ownerId = Number(value.ownerId);
 
     const req = this.isEdit && this.petId
-      ? this.petService.update(this.petId, { ...value, id: this.petId })
+      ? this.petService.update({ ...value, id: this.petId })
       : this.petService.create(value);
 
     req.subscribe({

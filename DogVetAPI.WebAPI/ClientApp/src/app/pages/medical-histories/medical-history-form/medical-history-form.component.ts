@@ -160,7 +160,7 @@ export class MedicalHistoryFormComponent implements OnInit, OnDestroy {
     else value.followUpOf = null;
 
     const req = this.isEdit && this.recordId
-      ? this.medicalHistoryService.update(this.recordId, { ...value, id: this.recordId })
+      ? this.medicalHistoryService.update({ ...value, id: this.recordId })
       : this.medicalHistoryService.create(value);
 
     req.subscribe({

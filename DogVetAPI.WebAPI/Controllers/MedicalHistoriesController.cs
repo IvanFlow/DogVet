@@ -16,7 +16,7 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Gets all medical history records
         /// </summary>
-        [HttpGet]
+        [HttpGet("GetAllRecords")]
         public async Task<ActionResult<IEnumerable<MedicalHistoryDto>>> GetAllRecords()
         {
             try
@@ -35,8 +35,8 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Gets a medical history record by ID
         /// </summary>
-        [HttpGet("{id}")]
-        public async Task<ActionResult<MedicalHistoryDto>> GetRecordById(int id)
+        [HttpGet("GetRecordById")]
+        public async Task<ActionResult<MedicalHistoryDto>> GetRecordById([FromQuery]int id)
         {
             try
             {
@@ -56,8 +56,8 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Gets medical history records by Pet ID
         /// </summary>
-        [HttpGet("pet/{petId}")]
-        public async Task<ActionResult<IEnumerable<MedicalHistoryDto>>> GetRecordsByPetId(int petId)
+        [HttpGet("GetRecordsByPetId")]
+        public async Task<ActionResult<IEnumerable<MedicalHistoryDto>>> GetRecordsByPetId([FromQuery]int petId)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Creates a new medical history record
         /// </summary>
-        [HttpPost]
+        [HttpPost("CreateRecord")]
         public async Task<ActionResult<MedicalHistoryDto>> CreateRecord([FromBody] CreateMedicalHistoryDto createRecordDto)
         {
             try
@@ -103,14 +103,14 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Updates an existing medical history record
         /// </summary>
-        [HttpPut("{id}")]
-        public async Task<ActionResult<MedicalHistoryDto>> UpdateRecord(int id, [FromBody] UpdateMedicalHistoryDto updateRecordDto)
+        [HttpPut("UpdateRecord")]
+        public async Task<ActionResult<MedicalHistoryDto>> UpdateRecord([FromBody] UpdateMedicalHistoryDto updateRecordDto)
         {
             try
             {
-                var existingRecord = await _medicalHistoryService.GetRecordByIdAsync(id);
+                var existingRecord = await _medicalHistoryService.GetRecordByIdAsync(updateRecordDto.Id);
                 if (existingRecord == null)
-                    return NotFound($"Medical record with ID {id} not found");
+                    return NotFound($"Medical record with ID {updateRecordDto.Id} not found");
 
                 existingRecord.Diagnosis = updateRecordDto.Diagnosis;
                 existingRecord.Notes = updateRecordDto.Notes;
@@ -134,8 +134,8 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Deletes a medical history record
         /// </summary>
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRecord(int id)
+        [HttpDelete("DeleteRecord")]
+        public async Task<IActionResult> DeleteRecord([FromQuery]int id)
         {
             try
             {
@@ -155,8 +155,8 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Soft deletes a medical history record (sets IsActive to false)
         /// </summary>
-        [HttpDelete("soft-delete/{id}")]
-        public async Task<IActionResult> SoftDeleteRecord(int id)
+        [HttpDelete("SoftDeleteRecord")]
+        public async Task<IActionResult> SoftDeleteRecord([FromQuery]int id)
         {
             try
             {

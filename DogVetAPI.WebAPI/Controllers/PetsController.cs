@@ -16,7 +16,7 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Gets all pets
         /// </summary>
-        [HttpGet]
+        [HttpGet("GetAllPets")]
         public async Task<ActionResult<IEnumerable<PetDto>>> GetAllPets()
         {
             try
@@ -35,8 +35,8 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Gets a pet by ID
         /// </summary>
-        [HttpGet("{id}")]
-        public async Task<ActionResult<PetDto>> GetPetById(int id)
+        [HttpGet("GetPetById")]
+        public async Task<ActionResult<PetDto>> GetPetById([FromQuery]int id)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Gets all available species values
         /// </summary>
-        [HttpGet("species")]
+        [HttpGet("GetPetSpecies")]
         public ActionResult<IEnumerable<object>> GetPetSpecies()
         {
             try
@@ -79,8 +79,8 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Gets a pet with its medical history
         /// </summary>
-        [HttpGet("with-history/{id}")]
-        public async Task<ActionResult<PetDto>> GetPetWithHistory(int id)
+        [HttpGet("GetPetWithHistory")]
+        public async Task<ActionResult<PetDto>> GetPetWithHistory([FromQuery]int id)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Creates a new pet
         /// </summary>
-        [HttpPost]
+        [HttpPost("CreatePet")]
         public async Task<ActionResult<PetDto>> CreatePet([FromBody] CreatePetDto createPetDto)
         {
             try
@@ -136,8 +136,8 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Updates an existing pet
         /// </summary>
-        [HttpPut("{id}")]
-        public async Task<ActionResult<PetDto>> UpdatePet(int id, [FromBody] UpdatePetDto updatePetDto)
+        [HttpPut("UpdatePet")]
+        public async Task<ActionResult<PetDto>> UpdatePet([FromBody] UpdatePetDto updatePetDto)
         {
             try
             {
@@ -147,9 +147,9 @@ namespace DogVetAPI.WebAPI.Controllers
                     return BadRequest($"Invalid species: {updatePetDto.Species}");
                 }
 
-                var existingPet = await _petService.GetPetByIdAsync(id);
+                var existingPet = await _petService.GetPetByIdAsync(updatePetDto.Id);
                 if (existingPet == null)
-                    return NotFound($"Pet with ID {id} not found");
+                    return NotFound($"Pet with ID {updatePetDto.Id} not found");
 
                 existingPet.Name = updatePetDto.Name;
                 existingPet.Breed = updatePetDto.Breed;
@@ -174,8 +174,8 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Deletes a pet
         /// </summary>
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePet(int id)
+        [HttpDelete("DeletePet")]
+        public async Task<IActionResult> DeletePet([FromQuery]int id)
         {
             try
             {
@@ -196,8 +196,8 @@ namespace DogVetAPI.WebAPI.Controllers
         /// Soft deletes a pet (sets IsActive to false)
         /// Also soft deletes all their medical histories
         /// </summary>
-        [HttpDelete("soft-delete/{id}")]
-        public async Task<IActionResult> SoftDeletePet(int id)
+        [HttpDelete("SoftDeletePet")]
+        public async Task<IActionResult> SoftDeletePet([FromQuery]int id)
         {
             try
             {

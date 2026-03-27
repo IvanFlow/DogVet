@@ -10,26 +10,26 @@ export class OwnerService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Owner[]> {
-    return this.http.get<Owner[]>(this.baseUrl);
+    return this.http.get<Owner[]>(`${this.baseUrl}/GetAllOwners`);
   }
 
   getById(id: number): Observable<Owner> {
-    return this.http.get<Owner>(`${this.baseUrl}/${id}`);
+    return this.http.get<Owner>(`${this.baseUrl}/GetOwnerById`, { params: { id } });
   }
 
   getWithPets(id: number): Observable<Owner> {
-    return this.http.get<Owner>(`${this.baseUrl}/with-pets/${id}`);
+    return this.http.get<Owner>(`${this.baseUrl}/GetOwnerWithPets`, { params: { id } });
   }
 
   create(owner: CreateOwner): Observable<Owner> {
-    return this.http.post<Owner>(this.baseUrl, owner);
+    return this.http.post<Owner>(`${this.baseUrl}/CreateOwner`, owner);
   }
 
-  update(id: number, owner: UpdateOwner): Observable<Owner> {
-    return this.http.put<Owner>(`${this.baseUrl}/${id}`, owner);
+  update(owner: UpdateOwner): Observable<Owner> {
+    return this.http.put<Owner>(`${this.baseUrl}/UpdateOwner`, owner);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/soft-delete/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/SoftDeleteOwner`, { params: { id } });
   }
 }

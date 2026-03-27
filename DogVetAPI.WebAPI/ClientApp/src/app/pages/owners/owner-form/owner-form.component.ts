@@ -65,7 +65,7 @@ export class OwnerFormComponent implements OnInit {
     }
 
     const req = this.isEdit && this.ownerId
-      ? this.ownerService.update(this.ownerId, { ...value, id: this.ownerId })
+      ? this.ownerService.update({ ...value, id: this.ownerId })
       : this.ownerService.create(value);
 
     req.subscribe({

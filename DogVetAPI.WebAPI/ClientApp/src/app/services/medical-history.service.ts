@@ -10,26 +10,26 @@ export class MedicalHistoryService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<MedicalHistory[]> {
-    return this.http.get<MedicalHistory[]>(this.baseUrl);
+    return this.http.get<MedicalHistory[]>(`${this.baseUrl}/GetAllRecords`);
   }
 
   getById(id: number): Observable<MedicalHistory> {
-    return this.http.get<MedicalHistory>(`${this.baseUrl}/${id}`);
+    return this.http.get<MedicalHistory>(`${this.baseUrl}/GetRecordById`, { params: { id } });
   }
 
   getByPetId(petId: number): Observable<MedicalHistory[]> {
-    return this.http.get<MedicalHistory[]>(`${this.baseUrl}/pet/${petId}`);
+    return this.http.get<MedicalHistory[]>(`${this.baseUrl}/GetRecordsByPetId`, { params: { petId } });
   }
 
   create(record: CreateMedicalHistory): Observable<MedicalHistory> {
-    return this.http.post<MedicalHistory>(this.baseUrl, record);
+    return this.http.post<MedicalHistory>(`${this.baseUrl}/CreateRecord`, record);
   }
 
-  update(id: number, record: UpdateMedicalHistory): Observable<MedicalHistory> {
-    return this.http.put<MedicalHistory>(`${this.baseUrl}/${id}`, record);
+  update(record: UpdateMedicalHistory): Observable<MedicalHistory> {
+    return this.http.put<MedicalHistory>(`${this.baseUrl}/UpdateRecord`, record);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/soft-delete/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/SoftDeleteRecord`, { params: { id } });
   }
 }

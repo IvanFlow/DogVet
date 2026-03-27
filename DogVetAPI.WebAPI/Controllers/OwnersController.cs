@@ -16,7 +16,7 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Gets all owners
         /// </summary>
-        [HttpGet]
+        [HttpGet("GetAllOwners")]
         public async Task<ActionResult<IEnumerable<OwnerDto>>> GetAllOwners()
         {
             try
@@ -35,8 +35,8 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Gets an owner by ID
         /// </summary>
-        [HttpGet("{id}")]
-        public async Task<ActionResult<OwnerDto>> GetOwnerById(int id)
+        [HttpGet("GetOwnerById")]
+        public async Task<ActionResult<OwnerDto>> GetOwnerById([FromQuery]int id)
         {
             try
             {
@@ -56,8 +56,8 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Gets an owner with their pets
         /// </summary>
-        [HttpGet("with-pets/{id}")]
-        public async Task<ActionResult<OwnerDto>> GetOwnerWithPets(int id)
+        [HttpGet("GetOwnerWithPets")]
+        public async Task<ActionResult<OwnerDto>> GetOwnerWithPets([FromQuery]int id)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Creates a new owner
         /// </summary>
-        [HttpPost]
+        [HttpPost("CreateOwner")]
         public async Task<ActionResult<OwnerDto>> CreateOwner([FromBody] CreateOwnerDto createOwnerDto)
         {
             try
@@ -105,14 +105,14 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Updates an existing owner
         /// </summary>
-        [HttpPut("{id}")]
-        public async Task<ActionResult<OwnerDto>> UpdateOwner(int id, [FromBody] UpdateOwnerDto updateOwnerDto)
+        [HttpPut("UpdateOwner")]
+        public async Task<ActionResult<OwnerDto>> UpdateOwner([FromBody] UpdateOwnerDto updateOwnerDto)
         {
             try
             {
-                var existingOwner = await _ownerService.GetOwnerByIdAsync(id);
+                var existingOwner = await _ownerService.GetOwnerByIdAsync(updateOwnerDto.Id);
                 if (existingOwner == null)
-                    return NotFound($"Owner with ID {id} not found");
+                    return NotFound($"Owner with ID {updateOwnerDto.Id} not found");
 
                 existingOwner.FirstName = updateOwnerDto.FirstName;
                 existingOwner.LastName = updateOwnerDto.LastName;
@@ -134,8 +134,8 @@ namespace DogVetAPI.WebAPI.Controllers
         /// <summary>
         /// Deletes an owner
         /// </summary>
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOwner(int id)
+        [HttpDelete("DeleteOwner")]
+        public async Task<IActionResult> DeleteOwner([FromQuery]int id)
         {
             try
             {
@@ -156,8 +156,8 @@ namespace DogVetAPI.WebAPI.Controllers
         /// Soft deletes an owner (sets IsActive to false)
         /// Also soft deletes all their pets
         /// </summary>
-        [HttpDelete("soft-delete/{id}")]
-        public async Task<IActionResult> SoftDeleteOwner(int id)
+        [HttpDelete("SoftDeleteOwner")]
+        public async Task<IActionResult> SoftDeleteOwner([FromQuery]int id)
         {
             try
             {
