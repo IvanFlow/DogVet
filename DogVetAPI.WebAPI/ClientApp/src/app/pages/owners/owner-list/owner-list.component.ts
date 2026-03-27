@@ -21,11 +21,13 @@ export class OwnerListComponent implements OnInit, OnDestroy {
 
   get filtered() {
     const s = this.search.toLowerCase();
-    return this.owners.filter(o =>
-      `${o.firstName} ${o.lastName}`.toLowerCase().includes(s) ||
-      o.email.toLowerCase().includes(s) ||
-      o.city.toLowerCase().includes(s)
-    );
+    return this.owners
+      .filter(o =>
+        `${o.firstName} ${o.lastName}`.toLowerCase().includes(s) ||
+        o.email.toLowerCase().includes(s) ||
+        o.city.toLowerCase().includes(s)
+      )
+      .sort((a, b) => `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`));
   }
 
 constructor(private ownerService: OwnerService, private router: Router, private listState: ListStateService) {}

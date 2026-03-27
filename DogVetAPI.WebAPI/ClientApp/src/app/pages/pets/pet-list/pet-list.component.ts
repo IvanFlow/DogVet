@@ -28,13 +28,15 @@ export class PetListComponent implements OnInit, OnDestroy {
   error: string | null = null;
 
   get filtered() {
-    return this.pets.filter(p => {
-      const s = this.search.toLowerCase();
-      const matchSearch = !s || p.name.toLowerCase().includes(s) || p.breed.toLowerCase().includes(s);
-      const matchOwner = !this.filterOwner || p.ownerId === Number(this.filterOwner);
-      const matchSpecies = !this.filterSpecies || p.species === this.filterSpecies;
-      return matchSearch && matchOwner && matchSpecies;
-    });
+    return this.pets
+      .filter(p => {
+        const s = this.search.toLowerCase();
+        const matchSearch = !s || p.name.toLowerCase().includes(s) || p.breed.toLowerCase().includes(s);
+        const matchOwner = !this.filterOwner || p.ownerId === Number(this.filterOwner);
+        const matchSpecies = !this.filterSpecies || p.species === this.filterSpecies;
+        return matchSearch && matchOwner && matchSpecies;
+      })
+      .sort((a, b) => a.name.localeCompare(b.name));
   }
 
   constructor(

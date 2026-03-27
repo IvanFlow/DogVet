@@ -34,13 +34,15 @@ export class MedicalHistoryListComponent implements OnInit, OnDestroy {
 
   get filtered() {
     const s = this.search.toLowerCase();
-    return this.records.filter(r => {
-      const matchSearch = !s || r.diagnosis.toLowerCase().includes(s);
-      const matchPet = !this.filterPet || r.petId === Number(this.filterPet);
-      const ownerPetIds = this.filterOwner ? this.filteredPets.map(p => p.id) : null;
-      const matchOwner = !ownerPetIds || ownerPetIds.includes(r.petId);
-      return matchSearch && matchPet && matchOwner;
-    });
+    return this.records
+      .filter(r => {
+        const matchSearch = !s || r.diagnosis.toLowerCase().includes(s);
+        const matchPet = !this.filterPet || r.petId === Number(this.filterPet);
+        const ownerPetIds = this.filterOwner ? this.filteredPets.map(p => p.id) : null;
+        const matchOwner = !ownerPetIds || ownerPetIds.includes(r.petId);
+        return matchSearch && matchPet && matchOwner;
+      })
+      .sort((a, b) => new Date(b.visitDate).getTime() - new Date(a.visitDate).getTime());
   }
 
   constructor(
