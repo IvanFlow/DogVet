@@ -14,11 +14,13 @@ export interface MedicalHistoryListState {
   search: string;
   filterOwner: string;
   filterPet: string;
+  filterByFollowUp?: boolean;
+  followUpDateRange?: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class ListStateService {
   ownerList: OwnerListState = { search: '' };
   petList: PetListState = { search: '', filterOwner: '', filterSpecies: '' };
-  medicalHistoryList: MedicalHistoryListState = { search: '', filterOwner: '', filterPet: '' };
+  medicalHistoryList: MedicalHistoryListState = { search: '', filterOwner: '', filterPet: '', filterByFollowUp: false, followUpDateRange: '' };
 }

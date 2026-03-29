@@ -13,7 +13,7 @@
         <div class="stat-number">{{ upcomingFollowUps }}</div>
         <div class="stat-label">Seguimientos Próximos 30 días</div>
       </div>
-      <a routerLink="/medical-histories" class="btn btn-outline btn-sm">Ver Todos</a>
+      <a routerLink="/medical-histories" [state]="{clearFilters: true, filterByFollowUp: true, followUpDateRange: '30'}" class="btn btn-outline btn-sm">Ver Todos</a>
     </div>
     <div class="stat-card">
       <div class="stat-icon">📅</div>
@@ -21,7 +21,7 @@
         <div class="stat-number">{{ missedFollowUps }}</div>
         <div class="stat-label">Seguimientos Faltantes</div>
       </div>
-      <a routerLink="/medical-histories" class="btn btn-outline btn-sm">Ver Todos</a>
+      <a routerLink="/medical-histories" [state]="{clearFilters: true, filterByFollowUp: true, followUpDateRange: ''}" class="btn btn-outline btn-sm">Ver Todos</a>
     </div>
     <div class="stat-card">
       <div class="stat-icon">✨</div>
@@ -29,7 +29,7 @@
         <div class="stat-number">{{ recentRecords }}</div>
         <div class="stat-label">Registros Últimos 30 días</div>
       </div>
-      <a routerLink="/medical-histories" class="btn btn-outline btn-sm">Ver Todos</a>
+      <a routerLink="/medical-histories" [state]="{clearFilters: true}" class="btn btn-outline btn-sm">Ver Todos</a>
     </div>
   </div>
 

@@ -24,6 +24,8 @@ export class MedicalHistoryListComponent implements OnInit, OnDestroy {
   search = '';
   filterOwner = '';
   filterPet = '';
+  filterByFollowUp = false;
+  followUpDateRange = '';
   loading = true;
   error: string | null = null;
 
@@ -34,15 +36,33 @@ export class MedicalHistoryListComponent implements OnInit, OnDestroy {
 
   get filtered() {
     const s = this.search.toLowerCase();
+    const now = new Date();
     return this.records
       .filter(r => {
         const matchSearch = !s || r.diagnosis.toLowerCase().includes(s);
         const matchPet = !this.filterPet || r.petId === Number(this.filterPet);
         const ownerPetIds = this.filterOwner ? this.filteredPets.map(p => p.id) : null;
         const matchOwner = !ownerPetIds || ownerPetIds.includes(r.petId);
-        return matchSearch && matchPet && matchOwner;
+        
+        let matchFollowUp = true;
+        if (this.filterByFollowUp) {
+          matchFollowUp = r.followUpDate != null;
+          if (matchFollowUp && this.followUpDateRange) {
+            const followUpDate = new Date(r.followUpDate!);
+            const days = Number(this.followUpDateRange);
+            const futureDate = new Date(); futureDate.setDate(now.getDate() + days);
+            matchFollowUp = followUpDate >= now && followUpDate <= futureDate;
+          }
+        }
+        
+        return matchSearch && matchPet && matchOwner && matchFollowUp;
       })
-      .sort((a, b) => new Date(b.visitDate).getTime() - new Date(a.visitDate).getTime());
+      .sort((a, b) => {
+        if (this.filterByFollowUp) {
+          return new Date(b.followUpDate || '').getTime()- new Date(a.followUpDate || '').getTime();
+        }
+        return new Date(b.visitDate).getTime() - new Date(a.visitDate).getTime();
+      });
   }
 
   constructor(
@@ -58,23 +78,26 @@ export class MedicalHistoryListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.listState.medicalHistoryList = { search: this.search, filterOwner: this.filterOwner, filterPet: this.filterPet };
+    this.listState.medicalHistoryList = { search: this.search, filterOwner: this.filterOwner, filterPet: this.filterPet, filterByFollowUp: this.filterByFollowUp, followUpDateRange: this.followUpDateRange };
   }
 
   ngOnInit() {
     const shouldClearFilters = history.state?.clearFilters === true;
 
-    
     if (shouldClearFilters) {
       this.search = '';
       this.filterOwner = '';
       this.filterPet = '';
+      this.filterByFollowUp = history.state?.filterByFollowUp === true;
+      this.followUpDateRange = history.state?.followUpDateRange || '';
       history.replaceState({ ...history.state, clearFilters: false }, '');
     } else {
       const s = this.listState.medicalHistoryList;
-      this.search = s.search;
-      this.filterOwner = s.filterOwner;
-      this.filterPet = s.filterPet;
+      this.search = s.search || '';
+      this.filterOwner = s.filterOwner || '';
+      this.filterPet = s.filterPet || '';
+      this.filterByFollowUp = s.filterByFollowUp || false;
+      this.followUpDateRange = s.followUpDateRange || '';
     }
     
     this.medicalHistoryService.getAll().subscribe({
