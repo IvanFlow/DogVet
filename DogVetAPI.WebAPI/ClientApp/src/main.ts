@@ -4,13 +4,18 @@ import { provideRouter } from '@angular/router';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { loggingInterceptor } from './app/interceptors/error.interceptor';
-import { provideZoneChangeDetection } from '@angular/core';
+import { provideZoneChangeDetection, LOCALE_ID } from '@angular/core';
+import localeEs from '@angular/common/locales/es';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localeEs);
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(withInterceptors([loggingInterceptor])),
     provideRouter(routes),
-    provideZoneChangeDetection({ eventCoalescing: true })
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    { provide: LOCALE_ID, useValue: 'es-ES' }
   ]
 }).catch(err => console.error('Bootstrap error:', err));
 

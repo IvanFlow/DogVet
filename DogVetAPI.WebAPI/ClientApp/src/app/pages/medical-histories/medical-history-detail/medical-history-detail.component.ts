@@ -6,11 +6,12 @@ import { PetService } from '../../../services/pet.service';
 import { MedicalHistory } from '../../../models/medical-history.model';
 import { Pet } from '../../../models/pet.model';
 import { StatusPipe } from '../../../pipes/status.pipe';
+import { SpanishDatePipe } from '../../../pipes/spanish-date.pipe';
 
 @Component({
   selector: 'app-medical-history-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, StatusPipe],
+  imports: [CommonModule, RouterLink, StatusPipe, SpanishDatePipe],
   templateUrl: './medical-history-detail.component.html'
 })
 export class MedicalHistoryDetailComponent implements OnInit {

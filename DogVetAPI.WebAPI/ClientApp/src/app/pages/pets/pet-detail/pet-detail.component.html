@@ -21,7 +21,7 @@
         <div class="info-item"><span class="info-label">Color</span><span class="info-value">{{ pet.color || '—' }}</span></div>
         <div class="info-item"><span class="info-label">Edad</span><span class="info-value">{{ pet.dateOfBirth | age }}</span></div>
         <div class="info-item"><span class="info-label">Peso</span><span class="info-value">{{ pet.weight }} kg</span></div>
-        <div class="info-item"><span class="info-label">Fecha de Nacimiento</span><span class="info-value">{{ pet.dateOfBirth | date:'mediumDate' }}</span></div>
+        <div class="info-item"><span class="info-label">Fecha de Nacimiento</span><span class="info-value">{{ pet.dateOfBirth | spanishDate:'mediumDate' }}</span></div>
         <div class="info-item"><span class="info-label">Estado</span><span class="info-value"><span class="badge" [class.badge-success]="pet.isActive" [class.badge-muted]="!pet.isActive">{{ pet.isActive ? 'Activa' : 'Inactiva' }}</span></span></div>
       </div>
       <div style="display:flex; gap: var(--space-sm); margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--color-border);">
@@ -46,7 +46,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let record of sortedMedicalHistories" [routerLink]="['/medical-histories', record.id]" style="cursor:pointer;">
-              <td>{{ record.visitDate | date:'mediumDate' }}</td>
+              <td>{{ record.visitDate | spanishDate:'mediumDate' }}</td>
               <td><a [routerLink]="['/medical-histories', record.id]" (click)="$event.stopPropagation()">{{ record.diagnosis }}</a></td>
               <td><span class="badge badge-info">{{ record.status | status }}</span></td>
             </tr>

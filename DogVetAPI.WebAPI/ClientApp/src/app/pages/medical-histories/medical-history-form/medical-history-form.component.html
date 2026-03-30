@@ -59,7 +59,7 @@
           <select class="form-control" formControlName="followUpOf">
             <option value="">— No es un seguimiento —</option>
             <option *ngFor="let r of availableFollowUpRecords" [value]="r.id">
-              #{{ r.id }} - {{ r.diagnosis }} ({{ r.visitDate | date:'mediumDate' }})
+              #{{ r.id }} - {{ r.diagnosis }} ({{ r.visitDate | spanishDate:'mediumDate' }})
             </option>
           </select>
           <small style="color: var(--color-text-muted); display: block; margin-top: 4px;">

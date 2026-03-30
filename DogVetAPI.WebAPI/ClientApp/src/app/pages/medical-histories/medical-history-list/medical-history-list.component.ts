@@ -9,12 +9,13 @@ import { MedicalHistory } from '../../../models/medical-history.model';
 import { Pet } from '../../../models/pet.model';
 import { Owner } from '../../../models/owner.model';
 import { StatusPipe } from '../../../pipes/status.pipe';
+import { SpanishDatePipe } from '../../../pipes/spanish-date.pipe';
 import { ListStateService } from '../../../services/list-state.service';
 
 @Component({
   selector: 'app-medical-history-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, StatusPipe],
+  imports: [CommonModule, RouterLink, FormsModule, StatusPipe, SpanishDatePipe],
   templateUrl: './medical-history-list.component.html'
 })
 export class MedicalHistoryListComponent implements OnInit, OnDestroy {

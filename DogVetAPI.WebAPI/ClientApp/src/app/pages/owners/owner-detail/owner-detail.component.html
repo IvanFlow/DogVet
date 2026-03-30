@@ -17,7 +17,7 @@
         <div class="info-item"><span class="info-label">Teléfono</span><span class="info-value">{{ owner.phoneNumber | phone }}</span></div>
         <div class="info-item"><span class="info-label">Dirección</span><span class="info-value">{{ owner.address }}</span></div>
         <div class="info-item"><span class="info-label">Ciudad</span><span class="info-value">{{ owner.city }}</span></div>
-        <div class="info-item"><span class="info-label">Registrado</span><span class="info-value">{{ owner.createdAt | date:'mediumDate' }}</span></div>
+        <div class="info-item"><span class="info-label">Registrado</span><span class="info-value">{{ owner.createdAt | spanishDate:'mediumDate' }}</span></div>
       </div>
       <div style="display:flex; gap: var(--space-sm); margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--color-border);">
         <a [routerLink]="['/owners', owner.id, 'edit']" class="btn btn-ghost btn-sm">✏️ Editar</a>

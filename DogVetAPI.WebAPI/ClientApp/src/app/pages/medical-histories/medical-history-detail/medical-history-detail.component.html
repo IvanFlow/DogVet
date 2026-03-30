@@ -14,7 +14,7 @@
     <div class="card" style="margin-bottom: var(--space-lg);">
       <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-md);">
         <span class="badge badge-info" style="font-size: var(--font-size-base); padding: 6px 16px;">{{ record.status | status }}</span>
-        <span style="color: var(--color-text-muted); font-size: var(--font-size-sm);">Visita: {{ record.visitDate | date:'fullDate' }}</span>
+        <span style="color: var(--color-text-muted); font-size: var(--font-size-sm);">Visita: {{ record.visitDate | spanishDate:'fullDate' }}</span>
       </div>
       <div class="info-grid">
         <div class="info-item" style="grid-column: 1 / -1;">
@@ -27,7 +27,7 @@
         </div>
         <div class="info-item">
           <span class="info-label">Fecha de Seguimiento</span>
-          <span class="info-value">{{ record.followUpDate ? (record.followUpDate | date:'mediumDate') : 'No programado' }}</span>
+          <span class="info-value">{{ record.followUpDate ? (record.followUpDate | spanishDate:'mediumDate') : 'No programado' }}</span>
         </div>
         <div class="info-item" *ngIf="pet">
           <span class="info-label">Paciente</span>
@@ -49,7 +49,7 @@
       <div class="entity-grid">
         <a [routerLink]="['/medical-histories', followUpOfRecord.id]" class="entity-card">
           <div class="entity-name">{{ followUpOfRecord.diagnosis }}</div>
-          <div class="entity-meta">Visita: {{ followUpOfRecord.visitDate | date:'mediumDate' }}</div>
+          <div class="entity-meta">Visita: {{ followUpOfRecord.visitDate | spanishDate:'mediumDate' }}</div>
           <span class="badge badge-info">{{ followUpOfRecord.status | status }}</span>
         </a>
       </div>

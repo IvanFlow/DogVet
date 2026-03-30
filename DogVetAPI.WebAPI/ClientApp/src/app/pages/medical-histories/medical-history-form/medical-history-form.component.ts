@@ -9,11 +9,12 @@ import { OwnerService } from '../../../services/owner.service';
 import { Pet } from '../../../models/pet.model';
 import { Owner } from '../../../models/owner.model';
 import { MedicalHistory } from '../../../models/medical-history.model';
+import { SpanishDatePipe } from '../../../pipes/spanish-date.pipe';
 
 @Component({
   selector: 'app-medical-history-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink, SpanishDatePipe],
   templateUrl: './medical-history-form.component.html'
 })
 export class MedicalHistoryFormComponent implements OnInit, OnDestroy {

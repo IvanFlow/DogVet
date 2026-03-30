@@ -65,7 +65,7 @@
         <tbody>
           <ng-container *ngFor="let record of filtered">
             <tr *ngIf="getPetName(record.petId)" (click)="navigateTo(record.id)" style="cursor:pointer;">
-              <td>{{ record.visitDate | date:'mediumDate' }}</td>
+              <td>{{ record.visitDate | spanishDate:'mediumDate' }}</td>
               <td>
                 <a [routerLink]="['/pets', record.petId]" (click)="$event.stopPropagation()">
                   {{ getPetName(record.petId) }}
@@ -73,7 +73,7 @@
               </td>
               <td>{{ record.diagnosis }}</td>
               <td class="hide-mobile"><span class="badge badge-info">{{ record.status | status }}</span></td>
-              <td class="hide-mobile">{{ record.followUpDate ? (record.followUpDate | date:'mediumDate') : '—' }}</td>
+              <td class="hide-mobile">{{ record.followUpDate ? (record.followUpDate | spanishDate:'mediumDate') : '—' }}</td>
             </tr>
           </ng-container>
         </tbody>
