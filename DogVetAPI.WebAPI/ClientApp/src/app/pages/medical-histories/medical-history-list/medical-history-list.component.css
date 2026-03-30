@@ -9,3 +9,35 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Mostrar/Ocultar según viewport */
+.show-desktop {
+  display: none;
+}
+
+.show-mobile {
+  display: none;
+}
+
+/* Desktop - mostrar filas desktop, ocultar móvil */
+@media (min-width: 769px) {
+  .show-desktop {
+    display: table-row;
+  }
+  
+  .show-mobile {
+    display: none;
+  }
+}
+
+/* Mobile - mostrar filas móvil, ocultar desktop */
+@media (max-width: 768px) {
+  .show-desktop {
+    display: none;
+  }
+  
+  .show-mobile {
+    display: table-row;
+  }
+}
+

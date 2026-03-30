@@ -52,7 +52,8 @@
     </div>
 
     <div *ngIf="filtered.length > 0" class="card table-wrapper">
-      <table>
+      <!-- Tabla normal cuando NO hay filtro de seguimiento -->
+      <table *ngIf="!filterByFollowUp">
         <thead>
           <tr>
             <th>Fecha</th>
@@ -74,6 +75,51 @@
               <td>{{ record.diagnosis }}</td>
               <td class="hide-mobile"><span class="badge badge-info">{{ record.status | status }}</span></td>
               <td class="hide-mobile">{{ record.followUpDate ? (record.followUpDate | spanishDate:'mediumDate') : '—' }}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+
+      <!-- Tabla con intercambio cuando HAY filtro de seguimiento -->
+      <table *ngIf="filterByFollowUp">
+        <thead>
+          <tr class="show-desktop">
+            <th>Fecha</th>
+            <th>Mascota</th>
+            <th>Diagnóstico</th>
+            <th class="hide-mobile">Estado</th>
+            <th class="hide-mobile">Seguimiento</th>
+          </tr>
+          <tr class="show-mobile">
+            <th>Seguimiento</th>
+            <th>Mascota</th>
+            <th>Diagnóstico</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let record of filtered">
+            <!-- Fila para Desktop -->
+            <tr *ngIf="getPetName(record.petId)" class="show-desktop" (click)="navigateTo(record.id)" style="cursor:pointer;">
+              <td>{{ record.visitDate | spanishDate:'mediumDate' }}</td>
+              <td>
+                <a [routerLink]="['/pets', record.petId]" (click)="$event.stopPropagation()">
+                  {{ getPetName(record.petId) }}
+                </a>
+              </td>
+              <td>{{ record.diagnosis }}</td>
+              <td class="hide-mobile"><span class="badge badge-info">{{ record.status | status }}</span></td>
+              <td class="hide-mobile">{{ record.followUpDate ? (record.followUpDate | spanishDate:'mediumDate') : '—' }}</td>
+            </tr>
+            
+            <!-- Fila para Mobile -->
+            <tr *ngIf="getPetName(record.petId)" class="show-mobile" (click)="navigateTo(record.id)" style="cursor:pointer;">
+              <td>{{ record.followUpDate ? (record.followUpDate | spanishDate:'mediumDate') : '—' }}</td>
+              <td>
+                <a [routerLink]="['/pets', record.petId]" (click)="$event.stopPropagation()">
+                  {{ getPetName(record.petId) }}
+                </a>
+              </td>
+              <td>{{ record.diagnosis }}</td>
             </tr>
           </ng-container>
         </tbody>
