@@ -52,7 +52,6 @@
     </div>
 
     <div *ngIf="filtered.length > 0" class="card table-wrapper">
-      <!-- Tabla normal cuando NO hay filtro de seguimiento -->
       <table *ngIf="!filterByFollowUp">
         <thead>
           <tr>
@@ -80,7 +79,6 @@
         </tbody>
       </table>
 
-      <!-- Tabla con intercambio cuando HAY filtro de seguimiento -->
       <table *ngIf="filterByFollowUp">
         <thead>
           <tr class="show-desktop">
@@ -98,7 +96,6 @@
         </thead>
         <tbody>
           <ng-container *ngFor="let record of filtered">
-            <!-- Fila para Desktop -->
             <tr *ngIf="getPetName(record.petId)" class="show-desktop" (click)="navigateTo(record.id)" style="cursor:pointer;">
               <td>{{ record.visitDate | spanishDate:'mediumDate' }}</td>
               <td>
@@ -111,7 +108,6 @@
               <td class="hide-mobile">{{ record.followUpDate ? (record.followUpDate | spanishDate:'mediumDate') : '—' }}</td>
             </tr>
             
-            <!-- Fila para Mobile -->
             <tr *ngIf="getPetName(record.petId)" class="show-mobile" (click)="navigateTo(record.id)" style="cursor:pointer;">
               <td>{{ record.followUpDate ? (record.followUpDate | spanishDate:'mediumDate') : '—' }}</td>
               <td>
