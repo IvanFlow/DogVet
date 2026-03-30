@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { OwnerService } from '../../../services/owner.service';
@@ -23,8 +23,11 @@ export class OwnerFormComponent implements OnInit {
     private fb: FormBuilder,
     private ownerService: OwnerService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private location: Location
   ) {}
+
+  goBack() { this.location.back(); }
 
   ngOnInit() {
     this.form = this.fb.group({
