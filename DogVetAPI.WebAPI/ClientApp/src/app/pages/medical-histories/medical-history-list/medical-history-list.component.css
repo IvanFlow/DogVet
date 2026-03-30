@@ -1,0 +1,11 @@
+.filter-grid {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 768px) {
+  .filter-grid {
+    grid-template-columns: 1fr;
+  }
+}

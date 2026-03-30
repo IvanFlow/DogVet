@@ -16,7 +16,8 @@ import { ListStateService } from '../../../services/list-state.service';
   selector: 'app-medical-history-list',
   standalone: true,
   imports: [CommonModule, RouterLink, FormsModule, StatusPipe, SpanishDatePipe],
-  templateUrl: './medical-history-list.component.html'
+  templateUrl: './medical-history-list.component.html',
+  styleUrls: ['./medical-history-list.component.css']
 })
 export class MedicalHistoryListComponent implements OnInit, OnDestroy {
   records: MedicalHistory[] = [];
