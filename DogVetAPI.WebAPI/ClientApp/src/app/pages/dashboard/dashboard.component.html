@@ -31,6 +31,8 @@
       </div>
       <a routerLink="/medical-histories" [state]="{clearFilters: true, filterByFollowUp: true, followUpDateRange: 'overdue'}" class="btn btn-outline btn-sm">Ver Todos</a>
     </div>
+  </div>
+  <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-icon">✨</div>
       <div class="stat-body">
@@ -48,7 +50,7 @@
         <div class="stat-number">{{ recordCount }}</div>
         <div class="stat-label">Registros Médicos</div>
       </div>
-      <a routerLink="/medical-histories" class="btn btn-outline btn-sm">Ver Todos</a>
+      <a routerLink="/medical-histories" [state]="{clearFilters: true}" class="btn btn-outline btn-sm">Ver Todos</a>
     </div>
     <div class="stat-card">
       <div class="stat-icon">👤</div>
@@ -56,7 +58,7 @@
         <div class="stat-number">{{ ownerCount }}</div>
         <div class="stat-label">Propietarios Registrados</div>
       </div>
-      <a routerLink="/owners" class="btn btn-outline btn-sm">Ver Todos</a>
+      <a routerLink="/owners" [state]="{clearFilters: true}" class="btn btn-outline btn-sm">Ver Todos</a>
     </div>
     <div class="stat-card">
       <div class="stat-icon">🐕</div>
@@ -64,7 +66,7 @@
         <div class="stat-number">{{ petCount }}</div>
         <div class="stat-label">Mascotas Registradas</div>
       </div>
-      <a routerLink="/pets" class="btn btn-outline btn-sm">Ver Todos</a>
+      <a routerLink="/pets" [state]="{clearFilters: true}" class="btn btn-outline btn-sm">Ver Todos</a>
     </div>
   </div>
 
