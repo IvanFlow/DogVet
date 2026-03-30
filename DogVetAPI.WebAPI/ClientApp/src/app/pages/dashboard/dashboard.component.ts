@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
   recordCount = 0;
   upcomingFollowUps = 0;
   missedFollowUps = 0;
+  overdueFollowUps = 0;
   recentRecords = 0;
 
   constructor(
@@ -50,9 +51,15 @@ export class DashboardComponent implements OnInit {
         this.upcomingFollowUps = r.filter(rec =>
           rec.followUpDate &&
           new Date(rec.followUpDate) >= now &&
-          new Date(rec.followUpDate) <= in30
+          new Date(rec.followUpDate) <= in30 &&
+          rec.status !== 'Completed'
         ).length;
         this.missedFollowUps = r.filter(rec =>
+          rec.followUpDate &&
+          new Date(rec.followUpDate) > now &&
+          rec.status !== 'Completed'
+        ).length;
+        this.overdueFollowUps = r.filter(rec =>
           rec.followUpDate &&
           new Date(rec.followUpDate) < now &&
           rec.status !== 'Completed'

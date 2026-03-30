@@ -46,12 +46,18 @@ export class MedicalHistoryListComponent implements OnInit, OnDestroy {
         
         let matchFollowUp = true;
         if (this.filterByFollowUp) {
-          matchFollowUp = r.followUpDate != null;
+          matchFollowUp = r.followUpDate != null && r.status !== 'Completed';
           if (matchFollowUp && this.followUpDateRange) {
             const followUpDate = new Date(r.followUpDate!);
-            const days = Number(this.followUpDateRange);
-            const futureDate = new Date(); futureDate.setDate(now.getDate() + days);
-            matchFollowUp = followUpDate >= now && followUpDate <= futureDate;
+            if (this.followUpDateRange === 'pending') {
+              matchFollowUp = followUpDate > now && r.status !== 'Completed';
+            } else if (this.followUpDateRange === 'overdue') {
+              matchFollowUp = followUpDate < now && r.status !== 'Completed';
+            } else {
+              const days = Number(this.followUpDateRange);
+              const futureDate = new Date(); futureDate.setDate(now.getDate() + days);
+              matchFollowUp = followUpDate >= now && followUpDate <= futureDate && r.status !== 'Completed';
+            }
           }
         }
         
@@ -59,7 +65,7 @@ export class MedicalHistoryListComponent implements OnInit, OnDestroy {
       })
       .sort((a, b) => {
         if (this.filterByFollowUp) {
-          return new Date(b.followUpDate || '').getTime()- new Date(a.followUpDate || '').getTime();
+          return new Date(a.followUpDate || '').getTime()- new Date(b.followUpDate || '').getTime();
         }
         return new Date(b.visitDate).getTime() - new Date(a.visitDate).getTime();
       });

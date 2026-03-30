@@ -24,6 +24,14 @@
       <a routerLink="/medical-histories" [state]="{clearFilters: true, filterByFollowUp: true, followUpDateRange: ''}" class="btn btn-outline btn-sm">Ver Todos</a>
     </div>
     <div class="stat-card">
+      <div class="stat-icon">⚠️</div>
+      <div class="stat-body">
+        <div class="stat-number">{{ overdueFollowUps }}</div>
+        <div class="stat-label">Seguimientos Vencidos</div>
+      </div>
+      <a routerLink="/medical-histories" [state]="{clearFilters: true, filterByFollowUp: true, followUpDateRange: 'overdue'}" class="btn btn-outline btn-sm">Ver Todos</a>
+    </div>
+    <div class="stat-card">
       <div class="stat-icon">✨</div>
       <div class="stat-body">
         <div class="stat-number">{{ recentRecords }}</div>
