@@ -15,6 +15,7 @@ namespace DogVetAPI.Data.Repositories
             return await _dbSet
                 .Include(m => m.Pet)
                 .Include(m => m.FollowUpOfRecord)
+                .Include(m => m.Prescriptions)
                 .FirstOrDefaultAsync(m => m.Id == id);
         }
 

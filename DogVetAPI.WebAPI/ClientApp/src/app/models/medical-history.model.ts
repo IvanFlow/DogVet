@@ -1,4 +1,5 @@
 import { Pet } from './pet.model';
+import { Prescription } from './prescription.model';
 
 export interface MedicalHistory {
   id: number;
@@ -12,6 +13,7 @@ export interface MedicalHistory {
   followUpOf?: number | null;
   followUpOfRecord?: MedicalHistory | null;
   pet?: Pet;
+  prescriptions?: Prescription[];
 }
 
 export interface CreateMedicalHistory {

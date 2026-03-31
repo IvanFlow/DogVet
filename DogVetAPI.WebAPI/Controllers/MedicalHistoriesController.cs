@@ -207,6 +207,19 @@ namespace DogVetAPI.WebAPI.Controllers
                 };
             }
 
+            if (record.Prescriptions != null && record.Prescriptions.Any())
+            {
+                dto.Prescriptions = record.Prescriptions.Select(p => new PrescriptionDto
+                {
+                    Id = p.Id,
+                    MedName = p.MedName,
+                    Dose = p.Dose.ToString(),
+                    DurationInDays = p.DurationInDays,
+                    Status = p.Status.ToString(),
+                    MedicalHistoryId = p.MedicalHistoryId
+                }).ToList();
+            }
+
             if (includeFollowUpOfRecord && record.FollowUpOfRecord != null)
             {
                 dto.FollowUpOfRecord = new MedicalHistoryDto

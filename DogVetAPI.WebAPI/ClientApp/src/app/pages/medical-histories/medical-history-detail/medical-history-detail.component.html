@@ -41,7 +41,37 @@
       </div>
     </div>
 
-    <!-- FollowUpOf Record Card -->
+    <!-- Prescriptions Section -->
+    <div *ngIf="prescriptions && prescriptions.length > 0" class="card" style="margin-bottom: var(--space-lg);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md);">
+        <h2 style="color: var(--color-primary-dark);">💊 Prescripciones</h2>
+      </div>
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--color-border);">
+              <th style="padding: var(--space-sm); text-align: left; font-weight: 500;">Medicamento</th>
+              <th style="padding: var(--space-sm); text-align: left; font-weight: 500;">Dosis</th>
+              <th style="padding: var(--space-sm); text-align: left; font-weight: 500;">Duración</th>
+              <th style="padding: var(--space-sm); text-align: left; font-weight: 500;">Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let prescription of prescriptions" style="border-bottom: 1px solid var(--color-border);">
+              <td style="padding: var(--space-sm);">{{ prescription.medName }}</td>
+              <td style="padding: var(--space-sm);">{{ prescription.dose | doseFrequency }}</td>
+              <td style="padding: var(--space-sm);">{{ prescription.durationInDays }} días</td>
+              <td style="padding: var(--space-sm);"><span class="badge badge-info">{{ prescription.status | status }}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Empty State for Prescriptions -->
+    <div *ngIf="!prescriptions || prescriptions.length === 0" class="card" style="margin-bottom: var(--space-lg); padding: var(--space-lg); text-align: center; background-color: var(--color-bg-secondary);">
+      <div style="color: var(--color-text-muted); font-size: var(--font-size-sm);">💊 No hay prescripciones registradas para este diagnóstico</div>
+    </div>
     <div *ngIf="followUpOfRecord" class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md);">
         <h2 style="color: var(--color-primary-dark);">📋 Registro al que se da seguimiento</h2>

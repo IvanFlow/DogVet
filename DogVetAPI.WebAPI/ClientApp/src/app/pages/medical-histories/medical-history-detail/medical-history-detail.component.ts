@@ -2,28 +2,29 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { MedicalHistoryService } from '../../../services/medical-history.service';
-import { PetService } from '../../../services/pet.service';
 import { MedicalHistory } from '../../../models/medical-history.model';
+import { Prescription } from '../../../models/prescription.model';
 import { Pet } from '../../../models/pet.model';
 import { StatusPipe } from '../../../pipes/status.pipe';
+import { DoseFrequencyPipe } from '../../../pipes/dose-frequency.pipe';
 import { SpanishDatePipe } from '../../../pipes/spanish-date.pipe';
 
 @Component({
   selector: 'app-medical-history-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, StatusPipe, SpanishDatePipe],
+  imports: [CommonModule, RouterLink, StatusPipe, DoseFrequencyPipe, SpanishDatePipe],
   templateUrl: './medical-history-detail.component.html'
 })
 export class MedicalHistoryDetailComponent implements OnInit {
   record?: MedicalHistory;
   pet?: Pet;
   followUpOfRecord?: MedicalHistory;
+  prescriptions: Prescription[] = [];
   loading = true;
   error: string | null = null;
 
   constructor(
     private medicalHistoryService: MedicalHistoryService,
-    private petService: PetService,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location
@@ -38,6 +39,7 @@ export class MedicalHistoryDetailComponent implements OnInit {
       this.record = undefined;
       this.pet = undefined;
       this.followUpOfRecord = undefined;
+      this.prescriptions = [];
       this.medicalHistoryService.getById(id).subscribe({
         next: (data) => {
           this.record = data;
@@ -45,6 +47,10 @@ export class MedicalHistoryDetailComponent implements OnInit {
           if (data.pet) {
             this.pet = data.pet;
           }
+          if (data.prescriptions && data.prescriptions.length > 0) {
+            this.prescriptions = data.prescriptions;
+          } 
+          
           this.loading = false;
           this.error = null;
         },
