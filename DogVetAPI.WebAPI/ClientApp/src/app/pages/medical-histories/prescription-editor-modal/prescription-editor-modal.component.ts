@@ -99,6 +99,24 @@ export class PrescriptionEditorModalComponent {
   }
 
   save() {
+    if (this.prescriptionsArray.length === 0) {
+      // Si no hay prescripciones, eliminar todas las existentes
+      this.loading = true;
+      this.prescriptionService.deleteAllPrescriptions(this.medicalHistoryId).subscribe({
+        next: () => {
+          this.loading = false;
+          this.close();
+          window.location.reload();
+        },
+        error: (err) => {
+          this.loading = false;
+          this.error = 'Error al eliminar las prescripciones';
+          console.error('Error deleting prescriptions:', err);
+        }
+      });
+      return;
+    }
+
     if (!this.form.valid) {
       this.error = 'Por favor, completa todos los campos requeridos';
       return;

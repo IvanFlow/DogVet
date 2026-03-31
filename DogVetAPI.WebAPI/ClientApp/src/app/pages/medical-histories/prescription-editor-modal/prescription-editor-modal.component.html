@@ -13,7 +13,7 @@
         <div *ngFor="let prescription of prescriptionsArray.controls; let i = index" class="prescription-item" [formGroupName]="i">
           <div class="prescription-header">
             <h3>Prescripción {{ i + 1 }}</h3>
-            <button *ngIf="prescriptionsArray.length > 1" type="button" class="btn-remove" (click)="removePrescription(i)">Remove</button>
+            <button type="button" class="btn-remove" (click)="removePrescription(i)">Remove</button>
           </div>
 
           <div class="form-group">
@@ -74,7 +74,7 @@
     <button type="button" class="btn btn-primary" (click)="addPrescription()">
       + Agregar otra
     </button>
-    <button type="button" class="btn btn-success" (click)="save()" [disabled]="loading || !form.valid">
+    <button type="button" class="btn btn-success" (click)="save()" [disabled]="loading">
       {{ loading ? 'Guardando...' : 'Guardar' }}
     </button>
   </div>

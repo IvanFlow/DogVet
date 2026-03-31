@@ -45,8 +45,6 @@ namespace DogVetAPI.WebAPI.Controllers
                 if (request.Prescriptions == null || !request.Prescriptions.Any())
                     return BadRequest("At least one prescription is required");
 
-                
-
                 var result = await _prescriptionService.CreateOrUpdatePrescriptionsAsync(request);
                 return Ok(result);
             }
@@ -104,6 +102,30 @@ namespace DogVetAPI.WebAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving prescription status options");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        /// <summary>
+        /// Deletes all prescriptions for a medical history record
+        /// </summary>
+        [HttpDelete("DeleteAllPrescriptionsByMedicalHistoryId")]
+        public async Task<IActionResult> DeleteAllPrescriptionsByMedicalHistoryId([FromQuery] int medicalHistoryId)
+        {
+            try
+            {
+                if (medicalHistoryId <= 0)
+                    return BadRequest("Invalid medical history ID");
+
+                var success = await _prescriptionService.DeleteAllPrescriptionsByMedicalHistoryIdAsync(medicalHistoryId);
+                if (!success)
+                    return StatusCode(500, "Error deleting prescriptions");
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting prescriptions");
                 return StatusCode(500, "Internal server error");
             }
         }

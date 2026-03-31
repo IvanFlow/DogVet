@@ -30,4 +30,8 @@ export class PrescriptionService {
   getPrescriptionStatusOptions(): Observable<{ value: string; id: number }[]> {
     return this.http.get<{ value: string; id: number }[]>(`${this.apiUrl}/GetPrescriptionStatusOptions`);
   }
+
+  deleteAllPrescriptions(medicalHistoryId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/DeleteAllPrescriptionsByMedicalHistoryId?medicalHistoryId=${medicalHistoryId}`);
+  }
 }

@@ -31,6 +31,13 @@ namespace DogVetAPI.Application.Services
             // Delete existing prescriptions
             await _prescriptionRepository.DeleteByMedicalHistoryIdAsync(request.MedicalHistoryId);
 
+            // If no prescriptions provided, return empty list
+            if (request.Prescriptions == null || request.Prescriptions.Count == 0)
+            {
+                await _prescriptionRepository.SaveChangesAsync();
+                return new List<PrescriptionDto>();
+            }
+
             // Convert request items to Prescription entities
             var prescriptions = request.Prescriptions.Select(p => new PrescriptionEntity
             {
@@ -43,15 +50,25 @@ namespace DogVetAPI.Application.Services
                 UpdatedAt = DateTime.UtcNow
             }).ToList();
 
-
-            var createdPrescription = await _prescriptionRepository.AddRangeAsync(prescriptions);
-
-
+            await _prescriptionRepository.AddRangeAsync(prescriptions);
             await _prescriptionRepository.SaveChangesAsync();
             
-            return prescriptions.Select(s => s.ToDto()).ToList();
+            return prescriptions.ToDto() ?? new List<PrescriptionDto>();
         }
 
+        public async Task<bool> DeleteAllPrescriptionsByMedicalHistoryIdAsync(int medicalHistoryId)
+        {
+            try
+            {
+                await _prescriptionRepository.DeleteByMedicalHistoryIdAsync(medicalHistoryId);
+                await _prescriptionRepository.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
 

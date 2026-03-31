@@ -24,7 +24,7 @@ namespace DogVetAPI.Data.Repositories
                 .ToListAsync();
 
             if (!prescriptions.Any())
-                return true; // No prescriptions to delete
+                return true;
 
             _dbSet.RemoveRange(prescriptions);
             await SaveChangesAsync();
