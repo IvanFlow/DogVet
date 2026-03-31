@@ -28,6 +28,12 @@ namespace DogVetAPI.Data.Repositories
             return entity;
         }
 
+        public virtual async Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities)
+        {
+            await _dbSet.AddRangeAsync(entities);
+            return entities;
+        }
+
         public virtual T Update(T entity)
         {
             _dbSet.Update(entity);

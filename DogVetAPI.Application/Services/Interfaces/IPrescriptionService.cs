@@ -9,7 +9,7 @@ namespace DogVetAPI.Application.Services.Interfaces
     public interface IPrescriptionService
     {
         Task<IEnumerable<PrescriptionDto>> GetByMedicalHistoryIdAsync(int medicalHistoryId);
-        Task<IEnumerable<PrescriptionDto>> CreateOrUpdatePrescriptionsAsync(int medicalHistoryId, IEnumerable<PrescriptionEntity> prescriptions);
+        Task<IEnumerable<PrescriptionDto>> CreateOrUpdatePrescriptionsAsync(CreatePrescriptionsRequest request);
     }
 }
 

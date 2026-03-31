@@ -81,17 +81,7 @@ namespace DogVetAPI.WebAPI.Controllers
         {
             try
             {
-                var owner = new OwnerEntity
-                {
-                    FirstName = createOwnerDto.FirstName,
-                    LastName = createOwnerDto.LastName,
-                    Email = createOwnerDto.Email,
-                    PhoneNumber = createOwnerDto.PhoneNumber,
-                    Address = createOwnerDto.Address,
-                    City = createOwnerDto.City
-                };
-
-                var createdOwner = await _ownerService.CreateOwnerAsync(owner);
+                var createdOwner = await _ownerService.CreateOwnerAsync(createOwnerDto);
                 return CreatedAtAction(nameof(GetOwnerById), new { id = createdOwner.Id }, createdOwner);
             }
             catch (Exception ex)

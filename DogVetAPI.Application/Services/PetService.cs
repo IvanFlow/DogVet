@@ -30,10 +30,21 @@ namespace DogVetAPI.Application.Services
             return pet?.ToDto(withHistory: true);
         }
 
-        public async Task<PetDto> CreatePetAsync(PetEntity pet)
+        public async Task<PetDto> CreatePetAsync(CreatePetDto createPetDto)
         {
-            pet.CreatedAt = DateTime.UtcNow;
-            pet.UpdatedAt = DateTime.UtcNow;
+               var pet = new PetEntity
+                {
+                    Name = createPetDto.Name,
+                    Breed = createPetDto.Breed,
+                    Weight = createPetDto.Weight,
+                    Color = createPetDto.Color,
+                    Gender = createPetDto.Gender,
+                    DateOfBirth = createPetDto.DateOfBirth,
+                    Species = createPetDto.Species,
+                    OwnerId = createPetDto.OwnerId,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
             
             var createdPet = await _petRepository.AddAsync(pet);
             await _petRepository.SaveChangesAsync();

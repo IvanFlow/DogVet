@@ -24,10 +24,19 @@ namespace DogVetAPI.Application.Services
             return owner?.ToDto();
         }
 
-        public async Task<OwnerDto> CreateOwnerAsync(OwnerEntity owner)
+        public async Task<OwnerDto> CreateOwnerAsync(CreateOwnerDto createOwnerDto)
         {
-            owner.CreatedAt = DateTime.UtcNow;
-            owner.UpdatedAt = DateTime.UtcNow;
+            var owner = new OwnerEntity
+                {
+                    FirstName = createOwnerDto.FirstName,
+                    LastName = createOwnerDto.LastName,
+                    Email = createOwnerDto.Email,
+                    PhoneNumber = createOwnerDto.PhoneNumber,
+                    Address = createOwnerDto.Address,
+                    City = createOwnerDto.City,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
             
             var createdOwner = await _ownerRepository.AddAsync(owner);
             await _ownerRepository.SaveChangesAsync();

@@ -1,6 +1,9 @@
 using DogVetAPI.Application.Services.Interfaces;
+using DogVetAPI.Application.Mappers;
 using DogVetAPI.Data.Entities;
+using DogVetAPI.Data.Entities.Enums;
 using DogVetAPI.Data.Repositories.Interfaces;
+using DogVetAPI.Application;
 
 namespace DogVetAPI.Application.Services
 {
@@ -15,48 +18,40 @@ namespace DogVetAPI.Application.Services
         public async Task<IEnumerable<PrescriptionDto>> GetByMedicalHistoryIdAsync(int medicalHistoryId)
         {
             var prescriptions = await _prescriptionRepository.GetByMedicalHistoryIdAsync(medicalHistoryId);
-            return prescriptions.Select(p => MapToDto(p));
+            return prescriptions.ToDto();
         }
 
-        public async Task<IEnumerable<PrescriptionDto>> CreateOrUpdatePrescriptionsAsync(int medicalHistoryId, IEnumerable<PrescriptionEntity> prescriptions)
+        public async Task<IEnumerable<PrescriptionDto>> CreateOrUpdatePrescriptionsAsync(CreatePrescriptionsRequest request)
         {
             // Verify that the medical history record exists
-            var medicalHistory = await _medicalHistoryRepository.GetByIdAsync(medicalHistoryId);
+            var medicalHistory = await _medicalHistoryRepository.GetByIdAsync(request.MedicalHistoryId);
             if (medicalHistory == null)
-                throw new InvalidOperationException($"Medical history record with ID {medicalHistoryId} not found");
+                throw new InvalidOperationException($"Medical history record with ID {request.MedicalHistoryId} not found");
 
             // Delete existing prescriptions
-            await _prescriptionRepository.DeleteByMedicalHistoryIdAsync(medicalHistoryId);
+            await _prescriptionRepository.DeleteByMedicalHistoryIdAsync(request.MedicalHistoryId);
 
-            // Create new prescriptions
-            var newPrescriptions = new List<PrescriptionEntity>();
-            foreach (var prescription in prescriptions)
+            // Convert request items to Prescription entities
+            var prescriptions = request.Prescriptions.Select(p => new PrescriptionEntity
             {
-                prescription.MedicalHistoryId = medicalHistoryId;
-                prescription.CreatedAt = DateTime.UtcNow;
-                prescription.UpdatedAt = DateTime.UtcNow;
+                MedName = p.MedName,
+                Dose = Enum.Parse<DoseFrequency>(p.Dose),
+                DurationInDays = p.DurationInDays,
+                Status = Enum.Parse<PrescriptionStatus>(p.Status),
+                MedicalHistoryId = request.MedicalHistoryId,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            }).ToList();
 
-                var createdPrescription = await _prescriptionRepository.AddAsync(prescription);
-                newPrescriptions.Add(createdPrescription);
-            }
+
+            var createdPrescription = await _prescriptionRepository.AddRangeAsync(prescriptions);
+
 
             await _prescriptionRepository.SaveChangesAsync();
             
-            return newPrescriptions.Select(p => MapToDto(p));
+            return prescriptions.Select(s => s.ToDto()).ToList();
         }
 
-        private PrescriptionDto MapToDto(PrescriptionEntity prescription)
-        {
-            return new PrescriptionDto
-            {
-                Id = prescription.Id,
-                MedName = prescription.MedName,
-                Dose = prescription.Dose.ToString(),
-                DurationInDays = prescription.DurationInDays,
-                Status = prescription.Status.ToString(),
-                MedicalHistoryId = prescription.MedicalHistoryId
-            };
-        }
     }
 }
 

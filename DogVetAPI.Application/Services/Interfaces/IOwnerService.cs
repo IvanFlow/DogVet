@@ -10,7 +10,7 @@ namespace DogVetAPI.Application.Services.Interfaces
     {
         Task<IEnumerable<OwnerDto>> GetAllOwnersAsync();
         Task<OwnerDto?> GetOwnerByIdAsync(int id);
-        Task<OwnerDto> CreateOwnerAsync(OwnerEntity owner);
+        Task<OwnerDto> CreateOwnerAsync(CreateOwnerDto createOwnerDto);
         Task<OwnerDto?> UpdateOwnerAsync(UpdateOwnerDto updateOwnerDto);
         Task<bool> DeleteOwnerAsync(int id);
         Task<bool> SoftDeleteOwnerAsync(int id);

@@ -109,20 +109,8 @@ namespace DogVetAPI.WebAPI.Controllers
                 {
                     return BadRequest($"Invalid species: {createPetDto.Species}");
                 }
-
-                var pet = new PetEntity
-                {
-                    Name = createPetDto.Name,
-                    Breed = createPetDto.Breed,
-                    Weight = createPetDto.Weight,
-                    Color = createPetDto.Color,
-                    Gender = createPetDto.Gender,
-                    DateOfBirth = createPetDto.DateOfBirth,
-                    Species = createPetDto.Species,
-                    OwnerId = createPetDto.OwnerId
-                };
-
-                var createdPet = await _petService.CreatePetAsync(pet);
+             
+                var createdPet = await _petService.CreatePetAsync(createPetDto);
                 return CreatedAtAction(nameof(GetPetById), new { id = createdPet.Id }, createdPet);
             }
             catch (Exception ex)

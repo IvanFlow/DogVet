@@ -11,7 +11,7 @@ namespace DogVetAPI.Application.Services.Interfaces
         Task<IEnumerable<MedicalHistoryDto>> GetAllRecordsAsync();
         Task<MedicalHistoryDto?> GetRecordByIdAsync(int id);
         Task<IEnumerable<MedicalHistoryDto>> GetRecordsByPetIdAsync(int petId);
-        Task<MedicalHistoryDto> CreateRecordAsync(MedicalHistoryEntity record);
+        Task<MedicalHistoryDto> CreateRecordAsync(CreateMedicalHistoryDto createRecordDto);
         Task<MedicalHistoryDto> UpdateRecordAsync(UpdateMedicalHistoryDto updateRecordDto);
         Task<bool> DeleteRecordAsync(int id);
         Task<bool> SoftDeleteRecordAsync(int id);

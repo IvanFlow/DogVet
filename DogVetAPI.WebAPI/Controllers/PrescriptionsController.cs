@@ -45,16 +45,9 @@ namespace DogVetAPI.WebAPI.Controllers
                 if (request.Prescriptions == null || !request.Prescriptions.Any())
                     return BadRequest("At least one prescription is required");
 
-                // Convert request items to Prescription entities
-                var prescriptions = request.Prescriptions.Select(p => new PrescriptionEntity
-                {
-                    MedName = p.MedName,
-                    Dose = Enum.Parse<DoseFrequency>(p.Dose),
-                    DurationInDays = p.DurationInDays,
-                    Status = Enum.Parse<PrescriptionStatus>(p.Status)
-                }).ToList();
+                
 
-                var result = await _prescriptionService.CreateOrUpdatePrescriptionsAsync(request.MedicalHistoryId, prescriptions);
+                var result = await _prescriptionService.CreateOrUpdatePrescriptionsAsync(request);
                 return Ok(result);
             }
             catch (InvalidOperationException ex)
@@ -114,26 +107,6 @@ namespace DogVetAPI.WebAPI.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-    }
-
-    /// <summary>
-    /// Request model for creating prescriptions
-    /// </summary>
-    public class CreatePrescriptionsRequest
-    {
-        public int MedicalHistoryId { get; set; }
-        public List<CreatePrescriptionItemRequest>? Prescriptions { get; set; }
-    }
-
-    /// <summary>
-    /// Individual prescription item for creation
-    /// </summary>
-    public class CreatePrescriptionItemRequest
-    {
-        public string MedName { get; set; } = string.Empty;
-        public string Dose { get; set; } = string.Empty;
-        public int DurationInDays { get; set; }
-        public string Status { get; set; } = "Prescribed";
     }
 }
 

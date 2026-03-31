@@ -78,17 +78,7 @@ namespace DogVetAPI.WebAPI.Controllers
         {
             try
             {
-                var record = new MedicalHistoryEntity
-                {
-                    Diagnosis = createRecordDto.Diagnosis,
-                    Notes = createRecordDto.Notes,
-                    VisitDate = createRecordDto.VisitDate,
-                    FollowUpDate = createRecordDto.FollowUpDate,
-                    PetId = createRecordDto.PetId,
-                    FollowUpOf = createRecordDto.FollowUpOf
-                };
-
-                var createdRecordDto = await _medicalHistoryService.CreateRecordAsync(record);
+                var createdRecordDto = await _medicalHistoryService.CreateRecordAsync(createRecordDto);
                 return CreatedAtAction(nameof(GetRecordById), new { id = createdRecordDto.Id }, createdRecordDto);
             }
             catch (Exception ex)

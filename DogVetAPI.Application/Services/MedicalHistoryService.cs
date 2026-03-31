@@ -31,16 +31,26 @@ namespace DogVetAPI.Application.Services
             return records.ToDto();
         }
 
-        public async Task<MedicalHistoryDto> CreateRecordAsync(MedicalHistoryEntity record)
+        public async Task<MedicalHistoryDto> CreateRecordAsync(CreateMedicalHistoryDto createRecordDto)
         {
-            record.Status = record.FollowUpDate.HasValue
-                ? MedicalHistoryStatusStrings.FollowUp
-                : MedicalHistoryStatusStrings.Completed;
+            var recordEntity = new MedicalHistoryEntity
+                {
+                    Diagnosis = createRecordDto.Diagnosis,
+                    Notes = createRecordDto.Notes,
+                    VisitDate = createRecordDto.VisitDate,
+                    FollowUpDate = createRecordDto.FollowUpDate,
+                    PetId = createRecordDto.PetId,
+                    FollowUpOf = createRecordDto.FollowUpOf,
+                    Status = createRecordDto.FollowUpDate.HasValue ? MedicalHistoryStatusStrings.FollowUp
+                                                                    : MedicalHistoryStatusStrings.Completed,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
             
             // If this is a follow-up record, mark the original record as Completed
-            if (record.FollowUpOf.HasValue)
+            if (recordEntity.FollowUpOf.HasValue)
             {
-                var previousRecord = await _medicalHistoryRepository.GetByIdAsync(record.FollowUpOf.Value);
+                var previousRecord = await _medicalHistoryRepository.GetByIdAsync(recordEntity.FollowUpOf.Value);
                 if (previousRecord != null)
                 {
                     previousRecord.Status = MedicalHistoryStatusStrings.Completed;
@@ -49,10 +59,9 @@ namespace DogVetAPI.Application.Services
                 }
             }
             
-            record.CreatedAt = DateTime.UtcNow;
-            record.UpdatedAt = DateTime.UtcNow;
             
-            var createdRecord = await _medicalHistoryRepository.AddAsync(record);
+            
+            var createdRecord = await _medicalHistoryRepository.AddAsync(recordEntity);
             await _medicalHistoryRepository.SaveChangesAsync();
             
             return createdRecord.ToDto();
