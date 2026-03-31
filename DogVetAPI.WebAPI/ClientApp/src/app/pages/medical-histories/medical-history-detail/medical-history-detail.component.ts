@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { MedicalHistoryService } from '../../../services/medical-history.service';
+import { PrescriptionService } from '../../../services/prescription.service';
 import { MedicalHistory } from '../../../models/medical-history.model';
 import { Prescription } from '../../../models/prescription.model';
 import { Pet } from '../../../models/pet.model';
 import { StatusPipe } from '../../../pipes/status.pipe';
 import { DoseFrequencyPipe } from '../../../pipes/dose-frequency.pipe';
 import { SpanishDatePipe } from '../../../pipes/spanish-date.pipe';
+import { PrescriptionEditorModalComponent } from '../prescription-editor-modal/prescription-editor-modal.component';
 
 @Component({
   selector: 'app-medical-history-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, StatusPipe, DoseFrequencyPipe, SpanishDatePipe],
+  imports: [CommonModule, RouterLink, StatusPipe, DoseFrequencyPipe, SpanishDatePipe, PrescriptionEditorModalComponent],
   templateUrl: './medical-history-detail.component.html'
 })
 export class MedicalHistoryDetailComponent implements OnInit {
@@ -23,8 +25,11 @@ export class MedicalHistoryDetailComponent implements OnInit {
   loading = true;
   error: string | null = null;
 
+  @ViewChild(PrescriptionEditorModalComponent) prescriptionModal!: PrescriptionEditorModalComponent;
+
   constructor(
     private medicalHistoryService: MedicalHistoryService,
+    private prescriptionService: PrescriptionService,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location
@@ -61,6 +66,12 @@ export class MedicalHistoryDetailComponent implements OnInit {
         }
       });
     });
+  }
+
+  openPrescriptionEditor() {
+    if (this.record) {
+      this.prescriptionModal.open(this.record.id, this.prescriptions);
+    }
   }
 
   delete() {

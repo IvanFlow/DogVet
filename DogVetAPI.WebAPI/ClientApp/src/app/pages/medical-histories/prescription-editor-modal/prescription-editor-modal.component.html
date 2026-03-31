@@ -1,0 +1,81 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="close()"></div>
+<div class="modal" *ngIf="isOpen">
+  <div class="modal-header">
+    <h2>💊 {{ prescriptionsArray.length > 0 ? 'Editar' : 'Agregar' }} Prescripciones</h2>
+    <button class="modal-close" (click)="close()">✕</button>
+  </div>
+
+  <div class="modal-body">
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+    <form [formGroup]="form">
+      <div formArrayName="prescriptions" class="prescriptions-list">
+        <div *ngFor="let prescription of prescriptionsArray.controls; let i = index" class="prescription-item" [formGroupName]="i">
+          <div class="prescription-header">
+            <h3>Prescripción {{ i + 1 }}</h3>
+            <button *ngIf="prescriptionsArray.length > 1" type="button" class="btn-remove" (click)="removePrescription(i)">Remove</button>
+          </div>
+
+          <div class="form-group">
+            <label for="medName-{{ i }}">Nombre del Medicamento</label>
+            <input
+              type="text"
+              id="medName-{{ i }}"
+              class="form-control"
+              formControlName="medName"
+              placeholder="Ej: Amoxicilina"
+            />
+            <div *ngIf="prescription.get('medName')?.invalid && prescription.get('medName')?.touched" class="error-text">
+              Este campo es requerido
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="dose-{{ i }}">Frecuencia de Dosis</label>
+            <select id="dose-{{ i }}" class="form-control" formControlName="dose">
+              <option *ngFor="let option of doseFrequencyOptions" [value]="option.value">
+                {{ option.value | doseFrequency }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="durationInDays-{{ i }}">Duración (días)</label>
+            <input
+              type="number"
+              id="durationInDays-{{ i }}"
+              class="form-control"
+              formControlName="durationInDays"
+              min="1"
+              placeholder="Ej: 7"
+            />
+            <div *ngIf="prescription.get('durationInDays')?.invalid && prescription.get('durationInDays')?.touched" class="error-text">
+              Debe ser mayor a 0
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="status-{{ i }}">Estado</label>
+            <select id="status-{{ i }}" class="form-control" formControlName="status">
+              <option *ngFor="let option of prescriptionStatusOptions" [value]="option.value">
+                {{ option.value | status }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-ghost" (click)="close()" [disabled]="loading">
+      Cancelar
+    </button>
+    <button type="button" class="btn btn-primary" (click)="addPrescription()">
+      + Agregar otra
+    </button>
+    <button type="button" class="btn btn-success" (click)="save()" [disabled]="loading || !form.valid">
+      {{ loading ? 'Guardando...' : 'Guardar' }}
+    </button>
+  </div>
+</div>

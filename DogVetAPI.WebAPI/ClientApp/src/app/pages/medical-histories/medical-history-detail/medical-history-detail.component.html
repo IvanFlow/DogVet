@@ -45,6 +45,7 @@
     <div *ngIf="prescriptions && prescriptions.length > 0" class="card" style="margin-bottom: var(--space-lg);">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md);">
         <h2 style="color: var(--color-primary-dark);">💊 Prescripciones</h2>
+        <button class="btn btn-ghost btn-sm" (click)="openPrescriptionEditor()">✏️ Editar</button>
       </div>
       <div style="overflow-x: auto;">
         <table style="width: 100%; border-collapse: collapse;">
@@ -70,7 +71,10 @@
 
     <!-- Empty State for Prescriptions -->
     <div *ngIf="!prescriptions || prescriptions.length === 0" class="card" style="margin-bottom: var(--space-lg); padding: var(--space-lg); text-align: center; background-color: var(--color-bg-secondary);">
-      <div style="color: var(--color-text-muted); font-size: var(--font-size-sm);">💊 No hay prescripciones registradas para este diagnóstico</div>
+      <div style="display: flex; flex-direction: column; gap: var(--space-md); align-items: center;">
+        <div style="color: var(--color-text-muted); font-size: var(--font-size-sm);">💊 No hay prescripciones registradas para este diagnóstico</div>
+        <button class="btn btn-primary btn-sm" (click)="openPrescriptionEditor()">+ Agregar Prescripciones</button>
+      </div>
     </div>
     <div *ngIf="followUpOfRecord" class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md);">
@@ -86,3 +90,5 @@
     </div>
   </ng-container>
 </div>
+
+<app-prescription-editor-modal></app-prescription-editor-modal>
