@@ -1,3 +1,4 @@
+using DogVetAPI.Application;
 using DogVetAPI.Data.Entities;
 
 namespace DogVetAPI.Application.Services.Interfaces
@@ -7,11 +8,11 @@ namespace DogVetAPI.Application.Services.Interfaces
     /// </summary>
     public interface IMedicalHistoryService
     {
-        Task<IEnumerable<MedicalHistoryEntity>> GetAllRecordsAsync();
-        Task<MedicalHistoryEntity?> GetRecordByIdAsync(int id);
-        Task<IEnumerable<MedicalHistoryEntity>> GetRecordsByPetIdAsync(int petId);
-        Task<MedicalHistoryEntity> CreateRecordAsync(MedicalHistoryEntity record);
-        Task<MedicalHistoryEntity> UpdateRecordAsync(MedicalHistoryEntity record);
+        Task<IEnumerable<MedicalHistoryDto>> GetAllRecordsAsync();
+        Task<MedicalHistoryDto?> GetRecordByIdAsync(int id);
+        Task<IEnumerable<MedicalHistoryDto>> GetRecordsByPetIdAsync(int petId);
+        Task<MedicalHistoryDto> CreateRecordAsync(MedicalHistoryEntity record);
+        Task<MedicalHistoryDto> UpdateRecordAsync(UpdateMedicalHistoryDto updateRecordDto);
         Task<bool> DeleteRecordAsync(int id);
         Task<bool> SoftDeleteRecordAsync(int id);
     }

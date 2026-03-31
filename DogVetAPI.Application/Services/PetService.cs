@@ -1,5 +1,6 @@
 using DogVetAPI.Data.Repositories.Interfaces;
 using DogVetAPI.Application.Services.Interfaces;
+using DogVetAPI.Application.Mappers;
 using DogVetAPI.Data.Entities;
 
 namespace DogVetAPI.Application.Services
@@ -11,22 +12,25 @@ namespace DogVetAPI.Application.Services
     {
         private readonly IPetRepository _petRepository = petRepository ?? throw new ArgumentNullException(nameof(petRepository));
 
-        public async Task<IEnumerable<PetEntity>> GetAllPetsAsync()
+        public async Task<IEnumerable<PetDto>> GetAllPetsAsync()
         {
-            return await _petRepository.GetAllActiveAsync();
+            var pets = await _petRepository.GetAllActiveAsync();
+            return pets.ToDto();
         }
 
-        public async Task<PetEntity?> GetPetByIdAsync(int id)
+        public async Task<PetDto?> GetPetByIdAsync(int id)
         {
-            return await _petRepository.GetByIdAsync(id);
+            var pet = await _petRepository.GetByIdAsync(id);
+            return pet?.ToDto();
         }
 
-        public async Task<PetEntity?> GetPetWithHistoryAsync(int id)
+        public async Task<PetDto?> GetPetWithHistoryAsync(int id)
         {
-            return await _petRepository.GetPetWithHistoryAsync(id);
+            var pet = await _petRepository.GetPetWithHistoryAsync(id);
+            return pet?.ToDto(withHistory: true);
         }
 
-        public async Task<PetEntity> CreatePetAsync(PetEntity pet)
+        public async Task<PetDto> CreatePetAsync(PetEntity pet)
         {
             pet.CreatedAt = DateTime.UtcNow;
             pet.UpdatedAt = DateTime.UtcNow;
@@ -34,17 +38,32 @@ namespace DogVetAPI.Application.Services
             var createdPet = await _petRepository.AddAsync(pet);
             await _petRepository.SaveChangesAsync();
             
-            return createdPet;
+            return createdPet.ToDto();
         }
 
-        public async Task<PetEntity> UpdatePetAsync(PetEntity pet)
+        public async Task<PetDto> UpdatePetAsync(UpdatePetDto updatePetDto)
         {
-            pet.UpdatedAt = DateTime.UtcNow;
+
+             var existingPet = await _petRepository.GetByIdAsync(updatePetDto.Id);
+
+            if (existingPet == null)
+            return null; 
+
+                existingPet.Name = updatePetDto.Name;
+                existingPet.Breed = updatePetDto.Breed;
+                existingPet.Weight = updatePetDto.Weight;
+                existingPet.Color = updatePetDto.Color;
+                existingPet.Gender = updatePetDto.Gender;
+                existingPet.DateOfBirth = updatePetDto.DateOfBirth;
+                existingPet.Species = updatePetDto.Species;
+                existingPet.IsActive = updatePetDto.IsActive;
+                existingPet.OwnerId = updatePetDto.OwnerId;
+                existingPet.UpdatedAt = DateTime.UtcNow;
             
-            var updatedPet = _petRepository.Update(pet);
+            var updatedPet = _petRepository.Update(existingPet);
             await _petRepository.SaveChangesAsync();
             
-            return updatedPet;
+            return updatedPet.ToDto();
         }
 
         public async Task<bool> DeletePetAsync(int id)

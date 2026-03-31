@@ -1,5 +1,6 @@
 using DogVetAPI.Data.Repositories.Interfaces;
 using DogVetAPI.Application.Services.Interfaces;
+using DogVetAPI.Application.Mappers;
 using DogVetAPI.Data.Entities;
 using DogVetAPI.Data.Entities.Enums;
 
@@ -12,22 +13,25 @@ namespace DogVetAPI.Application.Services
     {
         private readonly IMedicalHistoryRepository _medicalHistoryRepository = medicalHistoryRepository ?? throw new ArgumentNullException(nameof(medicalHistoryRepository));
 
-        public async Task<IEnumerable<MedicalHistoryEntity>> GetAllRecordsAsync()
+        public async Task<IEnumerable<MedicalHistoryDto>> GetAllRecordsAsync()
         {
-            return await _medicalHistoryRepository.GetAllActiveAsync();
+            var records = await _medicalHistoryRepository.GetAllActiveAsync();
+            return records.ToDto();
         }
 
-        public async Task<MedicalHistoryEntity?> GetRecordByIdAsync(int id)
+        public async Task<MedicalHistoryDto?> GetRecordByIdAsync(int id)
         {
-            return await _medicalHistoryRepository.GetByIdAsync(id);
+            var record = await _medicalHistoryRepository.GetByIdAsync(id);
+            return record?.ToDto();
         }
 
-        public async Task<IEnumerable<MedicalHistoryEntity>> GetRecordsByPetIdAsync(int petId)
+        public async Task<IEnumerable<MedicalHistoryDto>> GetRecordsByPetIdAsync(int petId)
         {
-            return await _medicalHistoryRepository.GetByPetIdAsync(petId);
+            var records = await _medicalHistoryRepository.GetByPetIdAsync(petId);
+            return records.ToDto();
         }
 
-        public async Task<MedicalHistoryEntity> CreateRecordAsync(MedicalHistoryEntity record)
+        public async Task<MedicalHistoryDto> CreateRecordAsync(MedicalHistoryEntity record)
         {
             record.Status = record.FollowUpDate.HasValue
                 ? MedicalHistoryStatusStrings.FollowUp
@@ -51,17 +55,31 @@ namespace DogVetAPI.Application.Services
             var createdRecord = await _medicalHistoryRepository.AddAsync(record);
             await _medicalHistoryRepository.SaveChangesAsync();
             
-            return createdRecord;
+            return createdRecord.ToDto();
         }
 
-        public async Task<MedicalHistoryEntity> UpdateRecordAsync(MedicalHistoryEntity record)
+        public async Task<MedicalHistoryDto> UpdateRecordAsync(UpdateMedicalHistoryDto updateRecordDto)
         {
-            record.UpdatedAt = DateTime.UtcNow;
+
+            var existingRecordDto = await _medicalHistoryRepository.GetByIdAsync(updateRecordDto.Id);
             
-            var updatedRecord = _medicalHistoryRepository.Update(record);
+            if (existingRecordDto == null)
+                    return null;
+
+            existingRecordDto.Diagnosis = updateRecordDto.Diagnosis;
+            existingRecordDto.Notes = updateRecordDto.Notes;
+            existingRecordDto.VisitDate = updateRecordDto.VisitDate;
+            existingRecordDto.FollowUpDate = updateRecordDto.FollowUpDate;
+            existingRecordDto.Status = updateRecordDto.Status;
+            existingRecordDto.PetId = updateRecordDto.PetId;
+            existingRecordDto.VeterinarianId = updateRecordDto.VeterinarianId;
+            existingRecordDto.FollowUpOf = updateRecordDto.FollowUpOf;
+            existingRecordDto.UpdatedAt = DateTime.UtcNow;
+            
+            var updatedRecord = _medicalHistoryRepository.Update(existingRecordDto);
             await _medicalHistoryRepository.SaveChangesAsync();
             
-            return updatedRecord;
+            return updatedRecord.ToDto();
         }
 
         public async Task<bool> DeleteRecordAsync(int id)

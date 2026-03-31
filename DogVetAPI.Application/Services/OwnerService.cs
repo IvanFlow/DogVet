@@ -1,5 +1,6 @@
 using DogVetAPI.Data.Repositories.Interfaces;
 using DogVetAPI.Application.Services.Interfaces;
+using DogVetAPI.Application.Mappers;
 using DogVetAPI.Data.Entities;
 
 namespace DogVetAPI.Application.Services
@@ -11,17 +12,19 @@ namespace DogVetAPI.Application.Services
     {
         private readonly IOwnerRepository _ownerRepository = ownerRepository ?? throw new ArgumentNullException(nameof(ownerRepository));
 
-        public async Task<IEnumerable<OwnerEntity>> GetAllOwnersAsync()
+        public async Task<IEnumerable<OwnerDto>> GetAllOwnersAsync()
         {
-            return await _ownerRepository.GetAllActiveAsync();
+            var owners = await _ownerRepository.GetAllActiveAsync();
+            return owners.ToDto();
         }
 
-        public async Task<OwnerEntity?> GetOwnerByIdAsync(int id)
+        public async Task<OwnerDto?> GetOwnerByIdAsync(int id)
         {
-            return await _ownerRepository.GetByIdAsync(id);
+            var owner = await _ownerRepository.GetByIdAsync(id);
+            return owner?.ToDto();
         }
 
-        public async Task<OwnerEntity> CreateOwnerAsync(OwnerEntity owner)
+        public async Task<OwnerDto> CreateOwnerAsync(OwnerEntity owner)
         {
             owner.CreatedAt = DateTime.UtcNow;
             owner.UpdatedAt = DateTime.UtcNow;
@@ -29,17 +32,28 @@ namespace DogVetAPI.Application.Services
             var createdOwner = await _ownerRepository.AddAsync(owner);
             await _ownerRepository.SaveChangesAsync();
             
-            return createdOwner;
+            return createdOwner.ToDto();
         }
 
-        public async Task<OwnerEntity> UpdateOwnerAsync(OwnerEntity owner)
+        public async Task<OwnerDto?> UpdateOwnerAsync(UpdateOwnerDto updateOwnerDto)
         {
-            owner.UpdatedAt = DateTime.UtcNow;
+            var existingOwner = await _ownerRepository.GetByIdAsync(updateOwnerDto.Id);
+
+            if (existingOwner == null)
+                return null;    
+
+            existingOwner.FirstName = updateOwnerDto.FirstName;
+            existingOwner.LastName = updateOwnerDto.LastName;
+            existingOwner.Email = updateOwnerDto.Email;
+            existingOwner.PhoneNumber = updateOwnerDto.PhoneNumber;
+            existingOwner.Address = updateOwnerDto.Address;
+            existingOwner.City = updateOwnerDto.City;
+            existingOwner.UpdatedAt = DateTime.UtcNow;
             
-            var updatedOwner = _ownerRepository.Update(owner);
+            var updatedOwner = _ownerRepository.Update(existingOwner);
             await _ownerRepository.SaveChangesAsync();
             
-            return updatedOwner;
+            return updatedOwner.ToDto();
         }
 
         public async Task<bool> DeleteOwnerAsync(int id)
@@ -51,9 +65,10 @@ namespace DogVetAPI.Application.Services
             return deleted;
         }
 
-        public async Task<OwnerEntity?> GetOwnerWithPetsAsync(int id)
+        public async Task<OwnerDto?> GetOwnerWithPetsAsync(int id)
         {
-            return await _ownerRepository.GetOwnerWithPetsAsync(id);
+            var ownerEntity = await _ownerRepository.GetOwnerWithPetsAsync(id);
+            return ownerEntity?.ToDto(withPets: true);
         }
 
         public async Task<bool> SoftDeleteOwnerAsync(int id)

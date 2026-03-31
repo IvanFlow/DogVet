@@ -1,6 +1,5 @@
 using DogVetAPI.Application;
 using DogVetAPI.Application.Services.Interfaces;
-using DogVetAPI.Application.Mappers;
 using DogVetAPI.Data.Entities;
 using DogVetAPI.Data.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -22,8 +21,7 @@ namespace DogVetAPI.WebAPI.Controllers
         {
             try
             {
-                var owners = await _ownerService.GetAllOwnersAsync();
-                var ownerDtos = owners.Select(o => o.ToDto()).ToList();
+                var ownerDtos = await _ownerService.GetAllOwnersAsync();
                 return Ok(ownerDtos);
             }
             catch (Exception ex)
@@ -45,7 +43,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 if (owner == null)
                     return NotFound($"Propietario con ID {id} no encontrado");
 
-                return Ok(owner.ToDto());
+                return Ok(owner);
             }
             catch (Exception ex)
             {
@@ -66,7 +64,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 if (owner == null)
                     return NotFound($"Owner with ID {id} not found");
 
-                return Ok(owner.ToDto(withPets: true));
+                return Ok(owner);
             }
             catch (Exception ex)
             {
@@ -94,7 +92,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 };
 
                 var createdOwner = await _ownerService.CreateOwnerAsync(owner);
-                return CreatedAtAction(nameof(GetOwnerById), new { id = createdOwner.Id }, createdOwner.ToDto());
+                return CreatedAtAction(nameof(GetOwnerById), new { id = createdOwner.Id }, createdOwner);
             }
             catch (Exception ex)
             {
@@ -111,19 +109,11 @@ namespace DogVetAPI.WebAPI.Controllers
         {
             try
             {
-                var existingOwner = await _ownerService.GetOwnerByIdAsync(updateOwnerDto.Id);
-                if (existingOwner == null)
+                var updatedOwner = await _ownerService.UpdateOwnerAsync(updateOwnerDto);
+
+                if (updatedOwner == null)
                     return NotFound($"Owner with ID {updateOwnerDto.Id} not found");
-
-                existingOwner.FirstName = updateOwnerDto.FirstName;
-                existingOwner.LastName = updateOwnerDto.LastName;
-                existingOwner.Email = updateOwnerDto.Email;
-                existingOwner.PhoneNumber = updateOwnerDto.PhoneNumber;
-                existingOwner.Address = updateOwnerDto.Address;
-                existingOwner.City = updateOwnerDto.City;
-
-                var updatedOwner = await _ownerService.UpdateOwnerAsync(existingOwner);
-                return Ok(updatedOwner.ToDto());
+                return Ok(updatedOwner);
             }
             catch (Exception ex)
             {

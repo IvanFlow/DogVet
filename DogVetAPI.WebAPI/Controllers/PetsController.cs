@@ -1,6 +1,5 @@
 using DogVetAPI.Application;
 using DogVetAPI.Application.Services.Interfaces;
-using DogVetAPI.Application.Mappers;
 using DogVetAPI.Data.Entities;
 using DogVetAPI.Data.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -22,8 +21,7 @@ namespace DogVetAPI.WebAPI.Controllers
         {
             try
             {
-                var pets = await _petService.GetAllPetsAsync();
-                var petDtos = pets.Select(p => p.ToDto()).ToList();
+                var petDtos = await _petService.GetAllPetsAsync();
                 return Ok(petDtos);
             }
             catch (Exception ex)
@@ -45,7 +43,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 if (pet == null)
                     return NotFound($"Mascota con ID {id} no encontrada");
 
-                return Ok(pet.ToDto());
+                return Ok(pet);
             }
             catch (Exception ex)
             {
@@ -89,7 +87,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 if (pet == null)
                     return NotFound($"Mascota con ID {id} no encontrada");
 
-                return Ok(pet.ToDto(withHistory: true));
+                return Ok(pet);
             }
             catch (Exception ex)
             {
@@ -125,7 +123,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 };
 
                 var createdPet = await _petService.CreatePetAsync(pet);
-                return CreatedAtAction(nameof(GetPetById), new { id = createdPet.Id }, createdPet.ToDto());
+                return CreatedAtAction(nameof(GetPetById), new { id = createdPet.Id }, createdPet);
             }
             catch (Exception ex)
             {
@@ -148,22 +146,12 @@ namespace DogVetAPI.WebAPI.Controllers
                     return BadRequest($"Invalid species: {updatePetDto.Species}");
                 }
 
-                var existingPet = await _petService.GetPetByIdAsync(updatePetDto.Id);
-                if (existingPet == null)
+                var updatedPet = await _petService.UpdatePetAsync(updatePetDto);
+                if (updatedPet == null) 
                     return NotFound($"Pet with ID {updatePetDto.Id} not found");
 
-                existingPet.Name = updatePetDto.Name;
-                existingPet.Breed = updatePetDto.Breed;
-                existingPet.Weight = updatePetDto.Weight;
-                existingPet.Color = updatePetDto.Color;
-                existingPet.Gender = updatePetDto.Gender;
-                existingPet.DateOfBirth = updatePetDto.DateOfBirth;
-                existingPet.Species = updatePetDto.Species;
-                existingPet.IsActive = updatePetDto.IsActive;
-                existingPet.OwnerId = updatePetDto.OwnerId;
-
-                var updatedPet = await _petService.UpdatePetAsync(existingPet);
-                return Ok(updatedPet.ToDto());
+               
+                return Ok(updatedPet);
             }
             catch (Exception ex)
             {

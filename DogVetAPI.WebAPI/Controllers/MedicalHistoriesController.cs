@@ -1,6 +1,5 @@
 using DogVetAPI.Application;
 using DogVetAPI.Application.Services.Interfaces;
-using DogVetAPI.Application.Mappers;
 using DogVetAPI.Data.Entities;
 using DogVetAPI.Data.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +18,10 @@ namespace DogVetAPI.WebAPI.Controllers
         /// </summary>
         [HttpGet("GetAllRecords")]
         public async Task<ActionResult<IEnumerable<MedicalHistoryDto>>> GetAllRecords()
-        {
+        {  
             try
             {
-                var records = await _medicalHistoryService.GetAllRecordsAsync();
-                var recordDtos = records.Select(r => r.ToDto()).ToList();
+                var recordDtos = await _medicalHistoryService.GetAllRecordsAsync();
                 return Ok(recordDtos);
             }
             catch (Exception ex)
@@ -45,7 +43,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 if (record == null)
                     return NotFound($"Medical record with ID {id} not found");
 
-                return Ok(record.ToDto(includeFollowUpOfRecord: true));
+                return Ok(record);
             }
             catch (Exception ex)
             {
@@ -62,8 +60,7 @@ namespace DogVetAPI.WebAPI.Controllers
         {
             try
             {
-                var records = await _medicalHistoryService.GetRecordsByPetIdAsync(petId);
-                var recordDtos = records.Select(r => r.ToDto()).ToList();
+                var recordDtos = await _medicalHistoryService.GetRecordsByPetIdAsync(petId);
                 return Ok(recordDtos);
             }
             catch (Exception ex)
@@ -91,8 +88,8 @@ namespace DogVetAPI.WebAPI.Controllers
                     FollowUpOf = createRecordDto.FollowUpOf
                 };
 
-                var createdRecord = await _medicalHistoryService.CreateRecordAsync(record);
-                return CreatedAtAction(nameof(GetRecordById), new { id = createdRecord.Id }, createdRecord.ToDto());
+                var createdRecordDto = await _medicalHistoryService.CreateRecordAsync(record);
+                return CreatedAtAction(nameof(GetRecordById), new { id = createdRecordDto.Id }, createdRecordDto);
             }
             catch (Exception ex)
             {
@@ -109,21 +106,11 @@ namespace DogVetAPI.WebAPI.Controllers
         {
             try
             {
-                var existingRecord = await _medicalHistoryService.GetRecordByIdAsync(updateRecordDto.Id);
-                if (existingRecord == null)
+                var updatedRecord = await _medicalHistoryService.UpdateRecordAsync(updateRecordDto);
+                if (updatedRecord == null) 
                     return NotFound($"Medical record with ID {updateRecordDto.Id} not found");
-
-                existingRecord.Diagnosis = updateRecordDto.Diagnosis;
-                existingRecord.Notes = updateRecordDto.Notes;
-                existingRecord.VisitDate = updateRecordDto.VisitDate;
-                existingRecord.FollowUpDate = updateRecordDto.FollowUpDate;
-                existingRecord.Status = updateRecordDto.Status;
-                existingRecord.PetId = updateRecordDto.PetId;
-                existingRecord.VeterinarianId = updateRecordDto.VeterinarianId;
-                existingRecord.FollowUpOf = updateRecordDto.FollowUpOf;
-
-                var updatedRecord = await _medicalHistoryService.UpdateRecordAsync(existingRecord);
-                return Ok(updatedRecord.ToDto());
+               
+                return Ok(updatedRecord);
             }
             catch (Exception ex)
             {
