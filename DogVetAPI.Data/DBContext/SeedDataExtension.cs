@@ -156,13 +156,30 @@ namespace DogVetAPI.Data.DBContext
             // Calculate dynamic dates relative to today
             // Past visit dates (simulating historical records)
             var visitPast120 = today.AddDays(-120);
+            var visitPast105 = today.AddDays(-105);
+            var visitPast100 = today.AddDays(-100);
+            var visitPast95 = today.AddDays(-95);
             var visitPast90 = today.AddDays(-90);
+            var visitPast85 = today.AddDays(-85);
+            var visitPast75 = today.AddDays(-75);
+            var visitPast70 = today.AddDays(-70);
+            var visitPast65 = today.AddDays(-65);
             var visitPast60 = today.AddDays(-60);
+            var visitPast55 = today.AddDays(-55);
+            var visitPast50 = today.AddDays(-50);
             var visitPast45 = today.AddDays(-45);
+            var visitPast42 = today.AddDays(-42);
+            var visitPast40 = today.AddDays(-40);
+            var visitPast35 = today.AddDays(-35);
             var visitPast30 = today.AddDays(-30);
+            var visitPast28 = today.AddDays(-28);
+            var visitPast25 = today.AddDays(-25);
             var visitPast20 = today.AddDays(-20);
+            var visitPast18 = today.AddDays(-18);
             var visitPast15 = today.AddDays(-15);
+            var visitPast12 = today.AddDays(-12);
             var visitPast10 = today.AddDays(-10);
+            var visitPast8 = today.AddDays(-8);
             var visitPast5 = today.AddDays(-5);
             
             // Overdue follow-ups (já pasaron)
@@ -174,7 +191,9 @@ namespace DogVetAPI.Data.DBContext
             // Follow-ups próximos 30 días
             var followUpNext5 = today.AddDays(5);
             var followUpNext10 = today.AddDays(10);
+            var followUpNext12 = today.AddDays(12);
             var followUpNext15 = today.AddDays(15);
+            var followUpNext18 = today.AddDays(18);
             var followUpNext20 = today.AddDays(20);
             var followUpNext25 = today.AddDays(25);
             
