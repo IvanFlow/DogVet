@@ -1,5 +1,6 @@
 using DogVetAPI.Application;
 using DogVetAPI.Application.Services.Interfaces;
+using DogVetAPI.Application.Mappers;
 using DogVetAPI.Data.Entities;
 using DogVetAPI.Data.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ namespace DogVetAPI.WebAPI.Controllers
             try
             {
                 var pets = await _petService.GetAllPetsAsync();
-                var petDtos = pets.Select(p => MapToDto(p)).ToList();
+                var petDtos = pets.Select(p => p.ToDto()).ToList();
                 return Ok(petDtos);
             }
             catch (Exception ex)
@@ -44,7 +45,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 if (pet == null)
                     return NotFound($"Mascota con ID {id} no encontrada");
 
-                return Ok(MapToDto(pet));
+                return Ok(pet.ToDto());
             }
             catch (Exception ex)
             {
@@ -88,7 +89,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 if (pet == null)
                     return NotFound($"Mascota con ID {id} no encontrada");
 
-                return Ok(MapToDto(pet, withHistory: true));
+                return Ok(pet.ToDto(withHistory: true));
             }
             catch (Exception ex)
             {
@@ -124,7 +125,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 };
 
                 var createdPet = await _petService.CreatePetAsync(pet);
-                return CreatedAtAction(nameof(GetPetById), new { id = createdPet.Id }, MapToDto(createdPet));
+                return CreatedAtAction(nameof(GetPetById), new { id = createdPet.Id }, createdPet.ToDto());
             }
             catch (Exception ex)
             {
@@ -162,7 +163,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 existingPet.OwnerId = updatePetDto.OwnerId;
 
                 var updatedPet = await _petService.UpdatePetAsync(existingPet);
-                return Ok(MapToDto(updatedPet));
+                return Ok(updatedPet.ToDto());
             }
             catch (Exception ex)
             {
@@ -214,37 +215,7 @@ namespace DogVetAPI.WebAPI.Controllers
             }
         }
 
-        private PetDto MapToDto(PetEntity pet, bool withHistory = false)
-        {
-            return new PetDto
-            {
-                Id = pet.Id,
-                Name = pet.Name,
-                Breed = pet.Breed,
-                Weight = pet.Weight,
-                Color = pet.Color,
-                Gender = pet.Gender,
-                DateOfBirth = pet.DateOfBirth,
-                Species = pet.Species,
-                IsActive = pet.IsActive,
-                OwnerId = pet.OwnerId,
-                CreatedAt = pet.CreatedAt,
-                UpdatedAt = pet.UpdatedAt,
-                MedicalHistories = withHistory && pet.MedicalHistories != null
-                    ? pet.MedicalHistories.Select(m => new MedicalHistoryDto
-                    {
-                        Id = m.Id,
-                        Diagnosis = m.Diagnosis,
-                        Notes = m.Notes,
-                        VisitDate = m.VisitDate,
-                        FollowUpDate = m.FollowUpDate,
-                        Status = m.Status,
-                        PetId = m.PetId,
-                        VeterinarianId = m.VeterinarianId
-                    }).ToList()
-                    : null
-            };
-        }
+
     }
 }
 

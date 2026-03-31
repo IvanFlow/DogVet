@@ -1,5 +1,6 @@
 using DogVetAPI.Application;
 using DogVetAPI.Application.Services.Interfaces;
+using DogVetAPI.Application.Mappers;
 using DogVetAPI.Data.Entities;
 using DogVetAPI.Data.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ namespace DogVetAPI.WebAPI.Controllers
             try
             {
                 var records = await _medicalHistoryService.GetAllRecordsAsync();
-                var recordDtos = records.Select(r => MapToDto(r)).ToList();
+                var recordDtos = records.Select(r => r.ToDto()).ToList();
                 return Ok(recordDtos);
             }
             catch (Exception ex)
@@ -44,7 +45,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 if (record == null)
                     return NotFound($"Medical record with ID {id} not found");
 
-                return Ok(MapToDto(record, includeFollowUpOfRecord: true));
+                return Ok(record.ToDto(includeFollowUpOfRecord: true));
             }
             catch (Exception ex)
             {
@@ -62,7 +63,7 @@ namespace DogVetAPI.WebAPI.Controllers
             try
             {
                 var records = await _medicalHistoryService.GetRecordsByPetIdAsync(petId);
-                var recordDtos = records.Select(r => MapToDto(r)).ToList();
+                var recordDtos = records.Select(r => r.ToDto()).ToList();
                 return Ok(recordDtos);
             }
             catch (Exception ex)
@@ -91,7 +92,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 };
 
                 var createdRecord = await _medicalHistoryService.CreateRecordAsync(record);
-                return CreatedAtAction(nameof(GetRecordById), new { id = createdRecord.Id }, MapToDto(createdRecord));
+                return CreatedAtAction(nameof(GetRecordById), new { id = createdRecord.Id }, createdRecord.ToDto());
             }
             catch (Exception ex)
             {
@@ -122,7 +123,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 existingRecord.FollowUpOf = updateRecordDto.FollowUpOf;
 
                 var updatedRecord = await _medicalHistoryService.UpdateRecordAsync(existingRecord);
-                return Ok(MapToDto(updatedRecord));
+                return Ok(updatedRecord.ToDto());
             }
             catch (Exception ex)
             {
@@ -171,72 +172,6 @@ namespace DogVetAPI.WebAPI.Controllers
                 _logger.LogError(ex, "Error soft deleting medical record");
                 return StatusCode(500, "Internal server error");
             }
-        }
-
-        private MedicalHistoryDto MapToDto(MedicalHistoryEntity record, bool includeFollowUpOfRecord = false)
-        {
-            var dto = new MedicalHistoryDto
-            {
-                Id = record.Id,
-                Diagnosis = record.Diagnosis,
-                Notes = record.Notes,
-                VisitDate = record.VisitDate,
-                FollowUpDate = record.FollowUpDate,
-                Status = record.Status,
-                PetId = record.PetId,
-                VeterinarianId = record.VeterinarianId,
-                FollowUpOf = record.FollowUpOf
-            };
-
-            if (record.Pet != null)
-            {
-                dto.Pet = new PetDto
-                {
-                    Id = record.Pet.Id,
-                    Name = record.Pet.Name,
-                    Breed = record.Pet.Breed,
-                    Weight = record.Pet.Weight,
-                    Color = record.Pet.Color,
-                    Gender = record.Pet.Gender,
-                    DateOfBirth = record.Pet.DateOfBirth,
-                    Species = record.Pet.Species,
-                    IsActive = record.Pet.IsActive,
-                    OwnerId = record.Pet.OwnerId,
-                    CreatedAt = record.Pet.CreatedAt,
-                    UpdatedAt = record.Pet.UpdatedAt
-                };
-            }
-
-            if (record.Prescriptions != null && record.Prescriptions.Any())
-            {
-                dto.Prescriptions = record.Prescriptions.Select(p => new PrescriptionDto
-                {
-                    Id = p.Id,
-                    MedName = p.MedName,
-                    Dose = p.Dose.ToString(),
-                    DurationInDays = p.DurationInDays,
-                    Status = p.Status.ToString(),
-                    MedicalHistoryId = p.MedicalHistoryId
-                }).ToList();
-            }
-
-            if (includeFollowUpOfRecord && record.FollowUpOfRecord != null)
-            {
-                dto.FollowUpOfRecord = new MedicalHistoryDto
-                {
-                    Id = record.FollowUpOfRecord.Id,
-                    Diagnosis = record.FollowUpOfRecord.Diagnosis,
-                    Notes = record.FollowUpOfRecord.Notes,
-                    VisitDate = record.FollowUpOfRecord.VisitDate,
-                    FollowUpDate = record.FollowUpOfRecord.FollowUpDate,
-                    Status = record.FollowUpOfRecord.Status,
-                    PetId = record.FollowUpOfRecord.PetId,
-                    VeterinarianId = record.FollowUpOfRecord.VeterinarianId,
-                    FollowUpOf = record.FollowUpOfRecord.FollowUpOf
-                };
-            }
-
-            return dto;
         }
     }
 }

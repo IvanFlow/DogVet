@@ -1,5 +1,6 @@
 using DogVetAPI.Application;
 using DogVetAPI.Application.Services.Interfaces;
+using DogVetAPI.Application.Mappers;
 using DogVetAPI.Data.Entities;
 using DogVetAPI.Data.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ namespace DogVetAPI.WebAPI.Controllers
             try
             {
                 var owners = await _ownerService.GetAllOwnersAsync();
-                var ownerDtos = owners.Select(o => MapToDto(o)).ToList();
+                var ownerDtos = owners.Select(o => o.ToDto()).ToList();
                 return Ok(ownerDtos);
             }
             catch (Exception ex)
@@ -44,7 +45,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 if (owner == null)
                     return NotFound($"Propietario con ID {id} no encontrado");
 
-                return Ok(MapToDto(owner));
+                return Ok(owner.ToDto());
             }
             catch (Exception ex)
             {
@@ -65,7 +66,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 if (owner == null)
                     return NotFound($"Owner with ID {id} not found");
 
-                return Ok(MapToDto(owner, withPets: true));
+                return Ok(owner.ToDto(withPets: true));
             }
             catch (Exception ex)
             {
@@ -93,7 +94,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 };
 
                 var createdOwner = await _ownerService.CreateOwnerAsync(owner);
-                return CreatedAtAction(nameof(GetOwnerById), new { id = createdOwner.Id }, MapToDto(createdOwner));
+                return CreatedAtAction(nameof(GetOwnerById), new { id = createdOwner.Id }, createdOwner.ToDto());
             }
             catch (Exception ex)
             {
@@ -122,7 +123,7 @@ namespace DogVetAPI.WebAPI.Controllers
                 existingOwner.City = updateOwnerDto.City;
 
                 var updatedOwner = await _ownerService.UpdateOwnerAsync(existingOwner);
-                return Ok(MapToDto(updatedOwner));
+                return Ok(updatedOwner.ToDto());
             }
             catch (Exception ex)
             {
@@ -174,38 +175,7 @@ namespace DogVetAPI.WebAPI.Controllers
             }
         }
 
-        private OwnerDto MapToDto(OwnerEntity owner, bool withPets = false)
-        {
-            return new OwnerDto
-            {
-                Id = owner.Id,
-                FirstName = owner.FirstName,
-                LastName = owner.LastName,
-                Email = owner.Email,
-                PhoneNumber = owner.PhoneNumber,
-                Address = owner.Address,
-                City = owner.City,
-                CreatedAt = owner.CreatedAt,
-                UpdatedAt = owner.UpdatedAt,
-                Pets = withPets && owner.Pets != null
-                    ? owner.Pets.Select(p => new PetDto
-                    {
-                        Id = p.Id,
-                        Name = p.Name,
-                        Breed = p.Breed,
-                        Weight = p.Weight,
-                        Color = p.Color,
-                        Gender = p.Gender,
-                        DateOfBirth = p.DateOfBirth,
-                        Species = p.Species,
-                        IsActive = p.IsActive,
-                        OwnerId = p.OwnerId,
-                        CreatedAt = p.CreatedAt,
-                        UpdatedAt = p.UpdatedAt
-                    }).ToList()
-                    : null
-            };
-        }
+
     }
 }
 
