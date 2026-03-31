@@ -1,5 +1,5 @@
 using DogVetAPI.Data.DBContext;
-using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Entities;
 using DogVetAPI.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,9 +8,9 @@ namespace DogVetAPI.Data.Repositories
     /// <summary>
     /// Repository for prescription entities
     /// </summary>
-    public class PrescriptionRepository(DogVetContext context) : Repository<Prescription>(context), IPrescriptionRepository
+    public class PrescriptionRepository(DogVetContext context) : Repository<PrescriptionEntity>(context), IPrescriptionRepository
     {
-        public async Task<IEnumerable<Prescription>> GetByMedicalHistoryIdAsync(int medicalHistoryId)
+        public async Task<IEnumerable<PrescriptionEntity>> GetByMedicalHistoryIdAsync(int medicalHistoryId)
         {
             return await _dbSet
                 .Where(p => p.MedicalHistoryId == medicalHistoryId)
@@ -32,3 +32,4 @@ namespace DogVetAPI.Data.Repositories
         }
     }
 }
+

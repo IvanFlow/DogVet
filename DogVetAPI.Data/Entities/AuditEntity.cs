@@ -1,4 +1,4 @@
-namespace DogVetAPI.Data.Models
+namespace DogVetAPI.Data.Entities
 {
     /// <summary>
     /// Base audit entity containing creation and update timestamp information
@@ -10,3 +10,4 @@ namespace DogVetAPI.Data.Models
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     }
 }
+

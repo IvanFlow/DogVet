@@ -1,4 +1,4 @@
-namespace DogVetAPI.Data.Models.Enums
+namespace DogVetAPI.Data.Entities.Enums
 {
     public enum Species
     {
@@ -35,3 +35,4 @@ namespace DogVetAPI.Data.Models.Enums
         }
     }
 }
+

@@ -1,13 +1,14 @@
-using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Entities;
 
 namespace DogVetAPI.Data.Repositories.Interfaces
 {
     /// <summary>
     /// Repository interface for pets
     /// </summary>
-    public interface IPetRepository : IRepository<Pet>
+    public interface IPetRepository : IRepository<PetEntity>
     {
-        Task<Pet?> GetPetWithHistoryAsync(int id);
-        Task<IEnumerable<Pet>> GetAllActiveAsync();
+        Task<PetEntity?> GetPetWithHistoryAsync(int id);
+        Task<IEnumerable<PetEntity>> GetAllActiveAsync();
     }
 }
+

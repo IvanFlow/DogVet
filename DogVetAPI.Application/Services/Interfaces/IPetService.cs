@@ -1,4 +1,4 @@
-using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Entities;
 
 namespace DogVetAPI.Application.Services.Interfaces
 {
@@ -7,12 +7,13 @@ namespace DogVetAPI.Application.Services.Interfaces
     /// </summary>
     public interface IPetService
     {
-        Task<IEnumerable<Pet>> GetAllPetsAsync();
-        Task<Pet?> GetPetByIdAsync(int id);
-        Task<Pet?> GetPetWithHistoryAsync(int id);
-        Task<Pet> CreatePetAsync(Pet pet);
-        Task<Pet> UpdatePetAsync(Pet pet);
+        Task<IEnumerable<PetEntity>> GetAllPetsAsync();
+        Task<PetEntity?> GetPetByIdAsync(int id);
+        Task<PetEntity?> GetPetWithHistoryAsync(int id);
+        Task<PetEntity> CreatePetAsync(PetEntity pet);
+        Task<PetEntity> UpdatePetAsync(PetEntity pet);
         Task<bool> DeletePetAsync(int id);
         Task<bool> SoftDeletePetAsync(int id);
     }
 }
+

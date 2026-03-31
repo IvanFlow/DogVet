@@ -1,7 +1,7 @@
 using DogVetAPI.Application;
 using DogVetAPI.Application.Services.Interfaces;
-using DogVetAPI.Data.Models;
-using DogVetAPI.Data.Models.Enums;
+using DogVetAPI.Data.Entities;
+using DogVetAPI.Data.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogVetAPI.WebAPI.Controllers
@@ -80,7 +80,7 @@ namespace DogVetAPI.WebAPI.Controllers
         {
             try
             {
-                var record = new MedicalHistory
+                var record = new MedicalHistoryEntity
                 {
                     Diagnosis = createRecordDto.Diagnosis,
                     Notes = createRecordDto.Notes,
@@ -173,7 +173,7 @@ namespace DogVetAPI.WebAPI.Controllers
             }
         }
 
-        private MedicalHistoryDto MapToDto(MedicalHistory record, bool includeFollowUpOfRecord = false)
+        private MedicalHistoryDto MapToDto(MedicalHistoryEntity record, bool includeFollowUpOfRecord = false)
         {
             var dto = new MedicalHistoryDto
             {
@@ -240,3 +240,4 @@ namespace DogVetAPI.WebAPI.Controllers
         }
     }
 }
+

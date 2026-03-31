@@ -1,9 +1,9 @@
-namespace DogVetAPI.Data.Models
+namespace DogVetAPI.Data.Entities
 {
     /// <summary>
     /// Entity representing a pet
     /// </summary>
-    public class Pet : AuditEntity
+    public class PetEntity : AuditEntity
     {
         public string Name { get; set; } = string.Empty;
         public string Breed { get; set; } = string.Empty;
@@ -18,8 +18,9 @@ namespace DogVetAPI.Data.Models
         public int OwnerId { get; set; }
 
         // Relationships
-        public Owner? Owner { get; set; }
-        public ICollection<MedicalHistory> MedicalHistories { get; set; } = new List<MedicalHistory>();
-        public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+        public OwnerEntity? Owner { get; set; }
+        public ICollection<MedicalHistoryEntity> MedicalHistories { get; set; } = new List<MedicalHistoryEntity>();
+        public ICollection<AppointmentEntity> Appointments { get; set; } = new List<AppointmentEntity>();
     }
 }
+

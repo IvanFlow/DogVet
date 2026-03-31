@@ -1,7 +1,7 @@
 using DogVetAPI.Application;
 using DogVetAPI.Application.Services.Interfaces;
-using DogVetAPI.Data.Models;
-using DogVetAPI.Data.Models.Enums;
+using DogVetAPI.Data.Entities;
+using DogVetAPI.Data.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogVetAPI.WebAPI.Controllers
@@ -46,7 +46,7 @@ namespace DogVetAPI.WebAPI.Controllers
                     return BadRequest("At least one prescription is required");
 
                 // Convert request items to Prescription entities
-                var prescriptions = request.Prescriptions.Select(p => new Prescription
+                var prescriptions = request.Prescriptions.Select(p => new PrescriptionEntity
                 {
                     MedName = p.MedName,
                     Dose = Enum.Parse<DoseFrequency>(p.Dose),
@@ -136,3 +136,4 @@ namespace DogVetAPI.WebAPI.Controllers
         public string Status { get; set; } = "Prescribed";
     }
 }
+

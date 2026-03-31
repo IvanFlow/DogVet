@@ -1,6 +1,6 @@
 using DogVetAPI.Data.DBContext;
 using DogVetAPI.Data.Repositories.Interfaces;
-using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DogVetAPI.Data.Repositories
@@ -8,9 +8,9 @@ namespace DogVetAPI.Data.Repositories
     /// <summary>
     /// Repository for the Pet entity
     /// </summary>
-    public class PetRepository(DogVetContext context) : Repository<Pet>(context), IPetRepository
+    public class PetRepository(DogVetContext context) : Repository<PetEntity>(context), IPetRepository
     {
-        public async Task<Pet?> GetPetWithHistoryAsync(int id)
+        public async Task<PetEntity?> GetPetWithHistoryAsync(int id)
         {
             return await _dbSet
                 .Include(p => p.MedicalHistories)
@@ -18,7 +18,7 @@ namespace DogVetAPI.Data.Repositories
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<IEnumerable<Pet>> GetAllActiveAsync()
+        public async Task<IEnumerable<PetEntity>> GetAllActiveAsync()
         {
             return await _dbSet.Where(p => p.IsActive).ToListAsync();
         }
@@ -39,3 +39,4 @@ namespace DogVetAPI.Data.Repositories
         }
     }
 }
+

@@ -1,4 +1,4 @@
-using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Entities;
 
 namespace DogVetAPI.Data.Repositories.Interfaces
 {
@@ -16,3 +16,4 @@ namespace DogVetAPI.Data.Repositories.Interfaces
         Task SaveChangesAsync();
     }
 }
+

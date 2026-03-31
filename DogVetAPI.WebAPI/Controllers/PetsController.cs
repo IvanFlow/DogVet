@@ -1,7 +1,7 @@
 using DogVetAPI.Application;
 using DogVetAPI.Application.Services.Interfaces;
-using DogVetAPI.Data.Models;
-using DogVetAPI.Data.Models.Enums;
+using DogVetAPI.Data.Entities;
+using DogVetAPI.Data.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogVetAPI.WebAPI.Controllers
@@ -111,7 +111,7 @@ namespace DogVetAPI.WebAPI.Controllers
                     return BadRequest($"Invalid species: {createPetDto.Species}");
                 }
 
-                var pet = new Pet
+                var pet = new PetEntity
                 {
                     Name = createPetDto.Name,
                     Breed = createPetDto.Breed,
@@ -214,7 +214,7 @@ namespace DogVetAPI.WebAPI.Controllers
             }
         }
 
-        private PetDto MapToDto(Pet pet, bool withHistory = false)
+        private PetDto MapToDto(PetEntity pet, bool withHistory = false)
         {
             return new PetDto
             {
@@ -247,3 +247,4 @@ namespace DogVetAPI.WebAPI.Controllers
         }
     }
 }
+

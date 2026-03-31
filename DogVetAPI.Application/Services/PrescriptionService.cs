@@ -1,5 +1,5 @@
 using DogVetAPI.Application.Services.Interfaces;
-using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Entities;
 using DogVetAPI.Data.Repositories.Interfaces;
 
 namespace DogVetAPI.Application.Services
@@ -7,10 +7,10 @@ namespace DogVetAPI.Application.Services
     /// <summary>
     /// Business logic service for prescriptions
     /// </summary>
-    public class PrescriptionService(IPrescriptionRepository prescriptionRepository, IRepository<MedicalHistory> medicalHistoryRepository) : IPrescriptionService
+    public class PrescriptionService(IPrescriptionRepository prescriptionRepository, IRepository<MedicalHistoryEntity> medicalHistoryRepository) : IPrescriptionService
     {
         private readonly IPrescriptionRepository _prescriptionRepository = prescriptionRepository ?? throw new ArgumentNullException(nameof(prescriptionRepository));
-        private readonly IRepository<MedicalHistory> _medicalHistoryRepository = medicalHistoryRepository ?? throw new ArgumentNullException(nameof(medicalHistoryRepository));
+        private readonly IRepository<MedicalHistoryEntity> _medicalHistoryRepository = medicalHistoryRepository ?? throw new ArgumentNullException(nameof(medicalHistoryRepository));
 
         public async Task<IEnumerable<PrescriptionDto>> GetByMedicalHistoryIdAsync(int medicalHistoryId)
         {
@@ -18,7 +18,7 @@ namespace DogVetAPI.Application.Services
             return prescriptions.Select(p => MapToDto(p));
         }
 
-        public async Task<IEnumerable<PrescriptionDto>> CreateOrUpdatePrescriptionsAsync(int medicalHistoryId, IEnumerable<Prescription> prescriptions)
+        public async Task<IEnumerable<PrescriptionDto>> CreateOrUpdatePrescriptionsAsync(int medicalHistoryId, IEnumerable<PrescriptionEntity> prescriptions)
         {
             // Verify that the medical history record exists
             var medicalHistory = await _medicalHistoryRepository.GetByIdAsync(medicalHistoryId);
@@ -29,7 +29,7 @@ namespace DogVetAPI.Application.Services
             await _prescriptionRepository.DeleteByMedicalHistoryIdAsync(medicalHistoryId);
 
             // Create new prescriptions
-            var newPrescriptions = new List<Prescription>();
+            var newPrescriptions = new List<PrescriptionEntity>();
             foreach (var prescription in prescriptions)
             {
                 prescription.MedicalHistoryId = medicalHistoryId;
@@ -45,7 +45,7 @@ namespace DogVetAPI.Application.Services
             return newPrescriptions.Select(p => MapToDto(p));
         }
 
-        private PrescriptionDto MapToDto(Prescription prescription)
+        private PrescriptionDto MapToDto(PrescriptionEntity prescription)
         {
             return new PrescriptionDto
             {
@@ -59,3 +59,4 @@ namespace DogVetAPI.Application.Services
         }
     }
 }
+

@@ -1,9 +1,9 @@
-namespace DogVetAPI.Data.Models
+namespace DogVetAPI.Data.Entities
 {
     /// <summary>
     /// Entity representing a veterinarian
     /// </summary>
-    public class Veterinarian : AuditEntity
+    public class VeterinarianEntity : AuditEntity
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
@@ -12,6 +12,7 @@ namespace DogVetAPI.Data.Models
         public bool IsActive { get; set; } = true;
 
         // One-to-many relationship
-        public ICollection<MedicalHistory> MedicalHistories { get; set; } = new List<MedicalHistory>();
+        public ICollection<MedicalHistoryEntity> MedicalHistories { get; set; } = new List<MedicalHistoryEntity>();
     }
 }
+

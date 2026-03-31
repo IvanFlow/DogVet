@@ -1,5 +1,5 @@
 using DogVetAPI.Application;
-using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Entities;
 
 namespace DogVetAPI.Application.Services.Interfaces
 {
@@ -9,6 +9,7 @@ namespace DogVetAPI.Application.Services.Interfaces
     public interface IPrescriptionService
     {
         Task<IEnumerable<PrescriptionDto>> GetByMedicalHistoryIdAsync(int medicalHistoryId);
-        Task<IEnumerable<PrescriptionDto>> CreateOrUpdatePrescriptionsAsync(int medicalHistoryId, IEnumerable<Prescription> prescriptions);
+        Task<IEnumerable<PrescriptionDto>> CreateOrUpdatePrescriptionsAsync(int medicalHistoryId, IEnumerable<PrescriptionEntity> prescriptions);
     }
 }
+

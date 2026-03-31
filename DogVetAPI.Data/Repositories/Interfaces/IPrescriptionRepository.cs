@@ -1,13 +1,14 @@
-using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Entities;
 
 namespace DogVetAPI.Data.Repositories.Interfaces
 {
     /// <summary>
     /// Repository interface for prescriptions
     /// </summary>
-    public interface IPrescriptionRepository : IRepository<Prescription>
+    public interface IPrescriptionRepository : IRepository<PrescriptionEntity>
     {
-        Task<IEnumerable<Prescription>> GetByMedicalHistoryIdAsync(int medicalHistoryId);
+        Task<IEnumerable<PrescriptionEntity>> GetByMedicalHistoryIdAsync(int medicalHistoryId);
         Task<bool> DeleteByMedicalHistoryIdAsync(int medicalHistoryId);
     }
 }
+

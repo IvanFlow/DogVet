@@ -1,5 +1,5 @@
-using DogVetAPI.Data.Models;
-using DogVetAPI.Data.Models.Enums;
+using DogVetAPI.Data.Entities;
+using DogVetAPI.Data.Entities.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace DogVetAPI.Data.DBContext
@@ -14,21 +14,21 @@ namespace DogVetAPI.Data.DBContext
         }
 
         // DbSets
-        public DbSet<Owner> Owners { get; set; }
-        public DbSet<Pet> Pets { get; set; }
-        public DbSet<Veterinarian> Veterinarians { get; set; }
-        public DbSet<MedicalHistory> MedicalHistories { get; set; }
-        public DbSet<Prescription> Prescriptions { get; set; }
-        public DbSet<SaleNote> SaleNotes { get; set; }
-        public DbSet<SaleNoteConcept> SaleNoteConcepts { get; set; }
-        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<OwnerEntity> Owners { get; set; }
+        public DbSet<PetEntity> Pets { get; set; }
+        public DbSet<VeterinarianEntity> Veterinarians { get; set; }
+        public DbSet<MedicalHistoryEntity> MedicalHistories { get; set; }
+        public DbSet<PrescriptionEntity> Prescriptions { get; set; }
+        public DbSet<SaleNoteEntity> SaleNotes { get; set; }
+        public DbSet<SaleNoteConceptEntity> SaleNoteConcepts { get; set; }
+        public DbSet<AppointmentEntity> Appointments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             // Owner entity configuration
-            modelBuilder.Entity<Owner>(entity =>
+            modelBuilder.Entity<OwnerEntity>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.FirstName).IsRequired().HasMaxLength(100);
@@ -51,7 +51,7 @@ namespace DogVetAPI.Data.DBContext
             });
 
             // Pet entity configuration
-            modelBuilder.Entity<Pet>(entity =>
+            modelBuilder.Entity<PetEntity>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
@@ -73,7 +73,7 @@ namespace DogVetAPI.Data.DBContext
             });
 
             // Veterinarian entity configuration
-            modelBuilder.Entity<Veterinarian>(entity =>
+            modelBuilder.Entity<VeterinarianEntity>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.FirstName).IsRequired().HasMaxLength(100);
@@ -93,7 +93,7 @@ namespace DogVetAPI.Data.DBContext
             });
 
             // MedicalHistory entity configuration
-            modelBuilder.Entity<MedicalHistory>(entity =>
+            modelBuilder.Entity<MedicalHistoryEntity>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Diagnosis).IsRequired().HasMaxLength(500);
@@ -108,7 +108,7 @@ namespace DogVetAPI.Data.DBContext
                 // Self-referential one-to-one relationship (MedicalHistory → Previous MedicalHistory)
                 entity.HasOne(e => e.FollowUpOfRecord)
                     .WithOne(m => m.FollowUpRecord)
-                    .HasForeignKey<MedicalHistory>(e => e.FollowUpOf)
+                    .HasForeignKey<MedicalHistoryEntity>(e => e.FollowUpOf)
                     .OnDelete(DeleteBehavior.NoAction);
                 
                 // One-to-many relationship with Prescription
@@ -132,7 +132,7 @@ namespace DogVetAPI.Data.DBContext
             });
 
             // Prescription entity configuration
-            modelBuilder.Entity<Prescription>(entity =>
+            modelBuilder.Entity<PrescriptionEntity>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.MedName).IsRequired().HasMaxLength(200);
@@ -144,7 +144,7 @@ namespace DogVetAPI.Data.DBContext
             });
 
             // SaleNote entity configuration
-            modelBuilder.Entity<SaleNote>(entity =>
+            modelBuilder.Entity<SaleNoteEntity>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.TotalAmount).HasColumnType("decimal(18,2)");
@@ -162,7 +162,7 @@ namespace DogVetAPI.Data.DBContext
             });
 
             // SaleNoteConcept entity configuration
-            modelBuilder.Entity<SaleNoteConcept>(entity =>
+            modelBuilder.Entity<SaleNoteConceptEntity>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Description).IsRequired().HasMaxLength(300);
@@ -174,7 +174,7 @@ namespace DogVetAPI.Data.DBContext
             });
 
             // Appointment entity configuration
-            modelBuilder.Entity<Appointment>(entity =>
+            modelBuilder.Entity<AppointmentEntity>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Date).IsRequired();
@@ -203,3 +203,4 @@ namespace DogVetAPI.Data.DBContext
         }
     }
 }
+

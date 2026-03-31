@@ -1,6 +1,6 @@
 using DogVetAPI.Data.DBContext;
 using DogVetAPI.Data.Repositories.Interfaces;
-using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DogVetAPI.Data.Repositories
@@ -8,24 +8,24 @@ namespace DogVetAPI.Data.Repositories
     /// <summary>
     /// Repository for the Owner entity
     /// </summary>
-    public class OwnerRepository(DogVetContext context) : Repository<Owner>(context), IOwnerRepository
+    public class OwnerRepository(DogVetContext context) : Repository<OwnerEntity>(context), IOwnerRepository
     {
-        public async Task<Owner?> GetByEmailAsync(string email)
+        public async Task<OwnerEntity?> GetByEmailAsync(string email)
         {
             return await _dbSet.FirstOrDefaultAsync(o => o.Email == email);
         }
 
-        public async Task<IEnumerable<Owner>> GetOwnersWithPetsAsync()
+        public async Task<IEnumerable<OwnerEntity>> GetOwnersWithPetsAsync()
         {
             return await _dbSet.Include(o => o.Pets).ToListAsync();
         }
 
-        public async Task<Owner?> GetOwnerWithPetsAsync(int id)
+        public async Task<OwnerEntity?> GetOwnerWithPetsAsync(int id)
         {
             return await _dbSet.Include(o => o.Pets).FirstOrDefaultAsync(o => o.Id == id);
         }
 
-        public async Task<Owner?> GetOwnerWithPetsWithMedicalHistoriesAsync(int id)
+        public async Task<OwnerEntity?> GetOwnerWithPetsWithMedicalHistoriesAsync(int id)
         {
             return await _dbSet
                 .Include(o => o.Pets)
@@ -33,7 +33,7 @@ namespace DogVetAPI.Data.Repositories
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
 
-        public async Task<IEnumerable<Owner>> GetAllActiveAsync()
+        public async Task<IEnumerable<OwnerEntity>> GetAllActiveAsync()
         {
             return await _dbSet.Where(o => o.IsActive).ToListAsync();
         }
@@ -56,3 +56,4 @@ namespace DogVetAPI.Data.Repositories
         }
     }
 }
+

@@ -1,16 +1,17 @@
-using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Entities;
 
 namespace DogVetAPI.Data.Repositories.Interfaces
 {
     /// <summary>
     /// Repository interface for owners
     /// </summary>
-    public interface IOwnerRepository : IRepository<Owner>
+    public interface IOwnerRepository : IRepository<OwnerEntity>
     {
-        Task<Owner?> GetByEmailAsync(string email);
-        Task<IEnumerable<Owner>> GetOwnersWithPetsAsync();
-        Task<Owner?> GetOwnerWithPetsAsync(int id);
-        Task<Owner?> GetOwnerWithPetsWithMedicalHistoriesAsync(int id);
-        Task<IEnumerable<Owner>> GetAllActiveAsync();
+        Task<OwnerEntity?> GetByEmailAsync(string email);
+        Task<IEnumerable<OwnerEntity>> GetOwnersWithPetsAsync();
+        Task<OwnerEntity?> GetOwnerWithPetsAsync(int id);
+        Task<OwnerEntity?> GetOwnerWithPetsWithMedicalHistoriesAsync(int id);
+        Task<IEnumerable<OwnerEntity>> GetAllActiveAsync();
     }
 }
+

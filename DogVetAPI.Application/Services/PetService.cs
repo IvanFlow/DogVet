@@ -1,6 +1,6 @@
 using DogVetAPI.Data.Repositories.Interfaces;
 using DogVetAPI.Application.Services.Interfaces;
-using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Entities;
 
 namespace DogVetAPI.Application.Services
 {
@@ -11,22 +11,22 @@ namespace DogVetAPI.Application.Services
     {
         private readonly IPetRepository _petRepository = petRepository ?? throw new ArgumentNullException(nameof(petRepository));
 
-        public async Task<IEnumerable<Pet>> GetAllPetsAsync()
+        public async Task<IEnumerable<PetEntity>> GetAllPetsAsync()
         {
             return await _petRepository.GetAllActiveAsync();
         }
 
-        public async Task<Pet?> GetPetByIdAsync(int id)
+        public async Task<PetEntity?> GetPetByIdAsync(int id)
         {
             return await _petRepository.GetByIdAsync(id);
         }
 
-        public async Task<Pet?> GetPetWithHistoryAsync(int id)
+        public async Task<PetEntity?> GetPetWithHistoryAsync(int id)
         {
             return await _petRepository.GetPetWithHistoryAsync(id);
         }
 
-        public async Task<Pet> CreatePetAsync(Pet pet)
+        public async Task<PetEntity> CreatePetAsync(PetEntity pet)
         {
             pet.CreatedAt = DateTime.UtcNow;
             pet.UpdatedAt = DateTime.UtcNow;
@@ -37,7 +37,7 @@ namespace DogVetAPI.Application.Services
             return createdPet;
         }
 
-        public async Task<Pet> UpdatePetAsync(Pet pet)
+        public async Task<PetEntity> UpdatePetAsync(PetEntity pet)
         {
             pet.UpdatedAt = DateTime.UtcNow;
             
@@ -81,3 +81,4 @@ namespace DogVetAPI.Application.Services
         }
     }
 }
+

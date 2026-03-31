@@ -1,4 +1,4 @@
-namespace DogVetAPI.Data.Models.Enums
+namespace DogVetAPI.Data.Entities.Enums
 {
     public enum PaymentStatus
     {
@@ -6,3 +6,4 @@ namespace DogVetAPI.Data.Models.Enums
         Paid
     }
 }
+

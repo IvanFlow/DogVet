@@ -1,4 +1,4 @@
-namespace DogVetAPI.Data.Models.Enums
+namespace DogVetAPI.Data.Entities.Enums
 {
     /// <summary>
     /// Enumeration for appointment statuses
@@ -21,3 +21,4 @@ namespace DogVetAPI.Data.Models.Enums
         Completed = 2
     }
 }
+

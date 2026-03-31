@@ -1,7 +1,7 @@
 using DogVetAPI.Application;
 using DogVetAPI.Application.Services.Interfaces;
-using DogVetAPI.Data.Models;
-using DogVetAPI.Data.Models.Enums;
+using DogVetAPI.Data.Entities;
+using DogVetAPI.Data.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogVetAPI.WebAPI.Controllers
@@ -82,7 +82,7 @@ namespace DogVetAPI.WebAPI.Controllers
         {
             try
             {
-                var owner = new Owner
+                var owner = new OwnerEntity
                 {
                     FirstName = createOwnerDto.FirstName,
                     LastName = createOwnerDto.LastName,
@@ -174,7 +174,7 @@ namespace DogVetAPI.WebAPI.Controllers
             }
         }
 
-        private OwnerDto MapToDto(Owner owner, bool withPets = false)
+        private OwnerDto MapToDto(OwnerEntity owner, bool withPets = false)
         {
             return new OwnerDto
             {
@@ -208,3 +208,4 @@ namespace DogVetAPI.WebAPI.Controllers
         }
     }
 }
+

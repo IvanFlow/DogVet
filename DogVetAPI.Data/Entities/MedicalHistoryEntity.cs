@@ -1,9 +1,9 @@
-namespace DogVetAPI.Data.Models
+namespace DogVetAPI.Data.Entities
 {
     /// <summary>
     /// Entity representing the clinical history of a pet
     /// </summary>
-    public class MedicalHistory : AuditEntity
+    public class MedicalHistoryEntity : AuditEntity
     {
         public string Diagnosis { get; set; } = string.Empty;
         public string Notes { get; set; } = string.Empty;
@@ -18,11 +18,12 @@ namespace DogVetAPI.Data.Models
         public int? FollowUpOf { get; set; }
 
         // Relationships
-        public Pet? Pet { get; set; }
-        public Veterinarian? Veterinarian { get; set; }
-        public MedicalHistory? FollowUpOfRecord { get; set; }
-        public MedicalHistory? FollowUpRecord { get; set; }
-        public ICollection<Prescription> Prescriptions { get; set; } = new List<Prescription>();
-        public ICollection<SaleNote> SaleNotes { get; set; } = new List<SaleNote>();
+        public PetEntity? Pet { get; set; }
+        public VeterinarianEntity? Veterinarian { get; set; }
+        public MedicalHistoryEntity? FollowUpOfRecord { get; set; }
+        public MedicalHistoryEntity? FollowUpRecord { get; set; }
+        public ICollection<PrescriptionEntity> Prescriptions { get; set; } = new List<PrescriptionEntity>();
+        public ICollection<SaleNoteEntity> SaleNotes { get; set; } = new List<SaleNoteEntity>();
     }
 }
+

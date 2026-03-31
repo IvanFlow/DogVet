@@ -1,14 +1,15 @@
-using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Entities;
 
 namespace DogVetAPI.Data.Repositories.Interfaces
 {
     /// <summary>
     /// Repository interface for medical history records
     /// </summary>
-    public interface IMedicalHistoryRepository : IRepository<MedicalHistory>
+    public interface IMedicalHistoryRepository : IRepository<MedicalHistoryEntity>
     {
-        Task<MedicalHistory?> GetHistoryWithDetailsAsync(int id);
-        Task<IEnumerable<MedicalHistory>> GetAllActiveAsync();
-        Task<IEnumerable<MedicalHistory>> GetByPetIdAsync(int petId);
+        Task<MedicalHistoryEntity?> GetHistoryWithDetailsAsync(int id);
+        Task<IEnumerable<MedicalHistoryEntity>> GetAllActiveAsync();
+        Task<IEnumerable<MedicalHistoryEntity>> GetByPetIdAsync(int petId);
     }
 }
+

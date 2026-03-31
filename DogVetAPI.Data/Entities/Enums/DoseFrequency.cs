@@ -1,4 +1,4 @@
-namespace DogVetAPI.Data.Models.Enums
+namespace DogVetAPI.Data.Entities.Enums
 {
     public enum DoseFrequency
     {
@@ -10,3 +10,4 @@ namespace DogVetAPI.Data.Models.Enums
         Weekly = 6
     }
 }
+

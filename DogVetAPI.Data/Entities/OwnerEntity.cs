@@ -1,9 +1,9 @@
-namespace DogVetAPI.Data.Models
+namespace DogVetAPI.Data.Entities
 {
     /// <summary>
     /// Entity representing a pet owner
     /// </summary>
-    public class Owner : AuditEntity
+    public class OwnerEntity : AuditEntity
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
@@ -14,7 +14,8 @@ namespace DogVetAPI.Data.Models
         public bool IsActive { get; set; } = true;
 
         // One-to-many relationships
-        public ICollection<Pet> Pets { get; set; } = new List<Pet>();
-        public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+        public ICollection<PetEntity> Pets { get; set; } = new List<PetEntity>();
+        public ICollection<AppointmentEntity> Appointments { get; set; } = new List<AppointmentEntity>();
     }
 }
+

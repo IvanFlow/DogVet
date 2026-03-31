@@ -1,11 +1,11 @@
-using DogVetAPI.Data.Models.Enums;
+using DogVetAPI.Data.Entities.Enums;
 
-namespace DogVetAPI.Data.Models
+namespace DogVetAPI.Data.Entities
 {
     /// <summary>
     /// Entity representing a medical prescription associated with a clinical history record
     /// </summary>
-    public class Prescription : AuditEntity
+    public class PrescriptionEntity : AuditEntity
     {
         public string MedName { get; set; } = string.Empty;
         public DoseFrequency Dose { get; set; }
@@ -16,6 +16,7 @@ namespace DogVetAPI.Data.Models
         public int MedicalHistoryId { get; set; }
 
         // Relationship
-        public MedicalHistory? MedicalHistory { get; set; }
+        public MedicalHistoryEntity? MedicalHistory { get; set; }
     }
 }
+

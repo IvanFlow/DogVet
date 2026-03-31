@@ -1,7 +1,7 @@
 using DogVetAPI.Data.Repositories.Interfaces;
 using DogVetAPI.Application.Services.Interfaces;
-using DogVetAPI.Data.Models;
-using DogVetAPI.Data.Models.Enums;
+using DogVetAPI.Data.Entities;
+using DogVetAPI.Data.Entities.Enums;
 
 namespace DogVetAPI.Application.Services
 {
@@ -12,22 +12,22 @@ namespace DogVetAPI.Application.Services
     {
         private readonly IMedicalHistoryRepository _medicalHistoryRepository = medicalHistoryRepository ?? throw new ArgumentNullException(nameof(medicalHistoryRepository));
 
-        public async Task<IEnumerable<MedicalHistory>> GetAllRecordsAsync()
+        public async Task<IEnumerable<MedicalHistoryEntity>> GetAllRecordsAsync()
         {
             return await _medicalHistoryRepository.GetAllActiveAsync();
         }
 
-        public async Task<MedicalHistory?> GetRecordByIdAsync(int id)
+        public async Task<MedicalHistoryEntity?> GetRecordByIdAsync(int id)
         {
             return await _medicalHistoryRepository.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<MedicalHistory>> GetRecordsByPetIdAsync(int petId)
+        public async Task<IEnumerable<MedicalHistoryEntity>> GetRecordsByPetIdAsync(int petId)
         {
             return await _medicalHistoryRepository.GetByPetIdAsync(petId);
         }
 
-        public async Task<MedicalHistory> CreateRecordAsync(MedicalHistory record)
+        public async Task<MedicalHistoryEntity> CreateRecordAsync(MedicalHistoryEntity record)
         {
             record.Status = record.FollowUpDate.HasValue
                 ? MedicalHistoryStatusStrings.FollowUp
@@ -54,7 +54,7 @@ namespace DogVetAPI.Application.Services
             return createdRecord;
         }
 
-        public async Task<MedicalHistory> UpdateRecordAsync(MedicalHistory record)
+        public async Task<MedicalHistoryEntity> UpdateRecordAsync(MedicalHistoryEntity record)
         {
             record.UpdatedAt = DateTime.UtcNow;
             
@@ -90,3 +90,4 @@ namespace DogVetAPI.Application.Services
         }
     }
 }
+

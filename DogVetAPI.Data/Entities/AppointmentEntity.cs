@@ -1,11 +1,11 @@
-using DogVetAPI.Data.Models.Enums;
+using DogVetAPI.Data.Entities.Enums;
 
-namespace DogVetAPI.Data.Models
+namespace DogVetAPI.Data.Entities
 {
     /// <summary>
     /// Represents a veterinary appointment
     /// </summary>
-    public class Appointment : AuditEntity
+    public class AppointmentEntity : AuditEntity
     {
         /// <summary>
         /// Date and time of the appointment
@@ -25,7 +25,7 @@ namespace DogVetAPI.Data.Models
         /// <summary>
         /// Navigation property for the owner
         /// </summary>
-        public Owner Owner { get; set; } = null!;
+        public OwnerEntity Owner { get; set; } = null!;
 
         /// <summary>
         /// Foreign key for the pet
@@ -35,6 +35,7 @@ namespace DogVetAPI.Data.Models
         /// <summary>
         /// Navigation property for the pet
         /// </summary>
-        public Pet Pet { get; set; } = null!;
+        public PetEntity Pet { get; set; } = null!;
     }
 }
+

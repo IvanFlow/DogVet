@@ -1,11 +1,11 @@
-using DogVetAPI.Data.Models.Enums;
+using DogVetAPI.Data.Entities.Enums;
 
-namespace DogVetAPI.Data.Models
+namespace DogVetAPI.Data.Entities
 {
     /// <summary>
     /// Entity representing a sale note associated with a clinical history record
     /// </summary>
-    public class SaleNote : AuditEntity
+    public class SaleNoteEntity : AuditEntity
     {
         public DateTime NoteDate { get; set; }
         public decimal TotalAmount { get; set; }
@@ -15,7 +15,8 @@ namespace DogVetAPI.Data.Models
         public int MedicalHistoryId { get; set; }
 
         // Relationships
-        public MedicalHistory? MedicalHistory { get; set; }
-        public ICollection<SaleNoteConcept> Concepts { get; set; } = new List<SaleNoteConcept>();
+        public MedicalHistoryEntity? MedicalHistory { get; set; }
+        public ICollection<SaleNoteConceptEntity> Concepts { get; set; } = new List<SaleNoteConceptEntity>();
     }
 }
+

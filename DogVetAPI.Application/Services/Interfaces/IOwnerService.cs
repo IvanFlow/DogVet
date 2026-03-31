@@ -1,4 +1,4 @@
-using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Entities;
 
 namespace DogVetAPI.Application.Services.Interfaces
 {
@@ -7,12 +7,13 @@ namespace DogVetAPI.Application.Services.Interfaces
     /// </summary>
     public interface IOwnerService
     {
-        Task<IEnumerable<Owner>> GetAllOwnersAsync();
-        Task<Owner?> GetOwnerByIdAsync(int id);
-        Task<Owner> CreateOwnerAsync(Owner owner);
-        Task<Owner> UpdateOwnerAsync(Owner owner);
+        Task<IEnumerable<OwnerEntity>> GetAllOwnersAsync();
+        Task<OwnerEntity?> GetOwnerByIdAsync(int id);
+        Task<OwnerEntity> CreateOwnerAsync(OwnerEntity owner);
+        Task<OwnerEntity> UpdateOwnerAsync(OwnerEntity owner);
         Task<bool> DeleteOwnerAsync(int id);
         Task<bool> SoftDeleteOwnerAsync(int id);
-        Task<Owner?> GetOwnerWithPetsAsync(int id);
+        Task<OwnerEntity?> GetOwnerWithPetsAsync(int id);
     }
 }
+

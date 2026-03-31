@@ -1,9 +1,9 @@
-namespace DogVetAPI.Data.Models
+namespace DogVetAPI.Data.Entities
 {
     /// <summary>
     /// Entity representing a billable item within a sale note
     /// </summary>
-    public class SaleNoteConcept : AuditEntity
+    public class SaleNoteConceptEntity : AuditEntity
     {
         public string Description { get; set; } = string.Empty;
         public int Quantity { get; set; }
@@ -14,6 +14,7 @@ namespace DogVetAPI.Data.Models
         public int SaleNoteId { get; set; }
 
         // Relationship
-        public SaleNote? SaleNote { get; set; }
+        public SaleNoteEntity? SaleNote { get; set; }
     }
 }
+

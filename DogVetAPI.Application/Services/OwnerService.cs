@@ -1,6 +1,6 @@
 using DogVetAPI.Data.Repositories.Interfaces;
 using DogVetAPI.Application.Services.Interfaces;
-using DogVetAPI.Data.Models;
+using DogVetAPI.Data.Entities;
 
 namespace DogVetAPI.Application.Services
 {
@@ -11,17 +11,17 @@ namespace DogVetAPI.Application.Services
     {
         private readonly IOwnerRepository _ownerRepository = ownerRepository ?? throw new ArgumentNullException(nameof(ownerRepository));
 
-        public async Task<IEnumerable<Owner>> GetAllOwnersAsync()
+        public async Task<IEnumerable<OwnerEntity>> GetAllOwnersAsync()
         {
             return await _ownerRepository.GetAllActiveAsync();
         }
 
-        public async Task<Owner?> GetOwnerByIdAsync(int id)
+        public async Task<OwnerEntity?> GetOwnerByIdAsync(int id)
         {
             return await _ownerRepository.GetByIdAsync(id);
         }
 
-        public async Task<Owner> CreateOwnerAsync(Owner owner)
+        public async Task<OwnerEntity> CreateOwnerAsync(OwnerEntity owner)
         {
             owner.CreatedAt = DateTime.UtcNow;
             owner.UpdatedAt = DateTime.UtcNow;
@@ -32,7 +32,7 @@ namespace DogVetAPI.Application.Services
             return createdOwner;
         }
 
-        public async Task<Owner> UpdateOwnerAsync(Owner owner)
+        public async Task<OwnerEntity> UpdateOwnerAsync(OwnerEntity owner)
         {
             owner.UpdatedAt = DateTime.UtcNow;
             
@@ -51,7 +51,7 @@ namespace DogVetAPI.Application.Services
             return deleted;
         }
 
-        public async Task<Owner?> GetOwnerWithPetsAsync(int id)
+        public async Task<OwnerEntity?> GetOwnerWithPetsAsync(int id)
         {
             return await _ownerRepository.GetOwnerWithPetsAsync(id);
         }
@@ -84,3 +84,4 @@ namespace DogVetAPI.Application.Services
         }
     }
 }
+
