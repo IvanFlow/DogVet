@@ -36,6 +36,7 @@ namespace DogVetAPI.Data
             services.AddScoped<IOwnerRepository, OwnerRepository>();
             services.AddScoped<IPetRepository, PetRepository>();
             services.AddScoped<IMedicalHistoryRepository, MedicalHistoryRepository>();
+            services.AddScoped<IPrescriptionRepository, PrescriptionRepository>();
 
             return services;
         }

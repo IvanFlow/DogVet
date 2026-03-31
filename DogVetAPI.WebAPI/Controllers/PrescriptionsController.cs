@@ -1,17 +1,16 @@
 using DogVetAPI.Application;
+using DogVetAPI.Application.Services.Interfaces;
 using DogVetAPI.Data.Models;
 using DogVetAPI.Data.Models.Enums;
-using DogVetAPI.Data.DBContext;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace DogVetAPI.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PrescriptionsController(DogVetContext context, ILogger<PrescriptionsController> logger) : ControllerBase
+    public class PrescriptionsController(IPrescriptionService prescriptionService, ILogger<PrescriptionsController> logger) : ControllerBase
     {
-        private readonly DogVetContext _context = context ?? throw new ArgumentNullException(nameof(context));
+        private readonly IPrescriptionService _prescriptionService = prescriptionService ?? throw new ArgumentNullException(nameof(prescriptionService));
         private readonly ILogger<PrescriptionsController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         /// <summary>
@@ -22,12 +21,8 @@ namespace DogVetAPI.WebAPI.Controllers
         {
             try
             {
-                var prescriptions = await _context.Prescriptions
-                    .Where(p => p.MedicalHistoryId == medicalHistoryId)
-                    .ToListAsync();
-
-                var dtos = prescriptions.Select(p => MapToDto(p)).ToList();
-                return Ok(dtos);
+                var prescriptions = await _prescriptionService.GetByMedicalHistoryIdAsync(medicalHistoryId);
+                return Ok(prescriptions);
             }
             catch (Exception ex)
             {
@@ -47,45 +42,25 @@ namespace DogVetAPI.WebAPI.Controllers
                 if (request == null || request.MedicalHistoryId <= 0)
                     return BadRequest("Invalid medical history ID");
 
-                // Verify that the medical history record exists
-                var medicalHistory = await _context.MedicalHistories.FindAsync(request.MedicalHistoryId);
-                if (medicalHistory == null)
-                    return NotFound("Medical history record not found");
+                if (request.Prescriptions == null || !request.Prescriptions.Any())
+                    return BadRequest("At least one prescription is required");
 
-                // Delete existing prescriptions for this medical history
-                var existingPrescriptions = await _context.Prescriptions
-                    .Where(p => p.MedicalHistoryId == request.MedicalHistoryId)
-                    .ToListAsync();
-                
-                _context.Prescriptions.RemoveRange(existingPrescriptions);
-                await _context.SaveChangesAsync();
-
-                // Create new prescriptions
-                var newPrescriptions = new List<Prescription>();
-                if (request.Prescriptions != null && request.Prescriptions.Any())
+                // Convert request items to Prescription entities
+                var prescriptions = request.Prescriptions.Select(p => new Prescription
                 {
-                    foreach (var prescriptionRequest in request.Prescriptions)
-                    {
-                        var prescription = new Prescription
-                        {
-                            MedName = prescriptionRequest.MedName,
-                            Dose = Enum.Parse<DoseFrequency>(prescriptionRequest.Dose),
-                            DurationInDays = prescriptionRequest.DurationInDays,
-                            Status = Enum.Parse<PrescriptionStatus>(prescriptionRequest.Status),
-                            MedicalHistoryId = request.MedicalHistoryId,
-                            CreatedAt = DateTime.UtcNow,
-                            UpdatedAt = DateTime.UtcNow
-                        };
+                    MedName = p.MedName,
+                    Dose = Enum.Parse<DoseFrequency>(p.Dose),
+                    DurationInDays = p.DurationInDays,
+                    Status = Enum.Parse<PrescriptionStatus>(p.Status)
+                }).ToList();
 
-                        newPrescriptions.Add(prescription);
-                    }
-
-                    _context.Prescriptions.AddRange(newPrescriptions);
-                    await _context.SaveChangesAsync();
-                }
-
-                var dtos = newPrescriptions.Select(p => MapToDto(p)).ToList();
-                return Ok(dtos);
+                var result = await _prescriptionService.CreateOrUpdatePrescriptionsAsync(request.MedicalHistoryId, prescriptions);
+                return Ok(result);
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex, "Invalid operation");
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
@@ -138,19 +113,6 @@ namespace DogVetAPI.WebAPI.Controllers
                 _logger.LogError(ex, "Error retrieving prescription status options");
                 return StatusCode(500, "Internal server error");
             }
-        }
-
-        private PrescriptionDto MapToDto(Prescription prescription)
-        {
-            return new PrescriptionDto
-            {
-                Id = prescription.Id,
-                MedName = prescription.MedName,
-                Dose = prescription.Dose.ToString(),
-                DurationInDays = prescription.DurationInDays,
-                Status = prescription.Status.ToString(),
-                MedicalHistoryId = prescription.MedicalHistoryId
-            };
         }
     }
 
