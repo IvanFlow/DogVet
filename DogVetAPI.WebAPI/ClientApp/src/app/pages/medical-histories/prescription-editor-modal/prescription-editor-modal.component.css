@@ -209,3 +209,108 @@
 .btn-success:hover:not(:disabled) {
   background: #059669;
 }
+
+/* Desktop Table Layout */
+.prescriptions-table-container {
+  overflow-x: auto;
+}
+
+.prescriptions-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.prescriptions-table thead {
+  background: var(--color-bg-secondary);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.prescriptions-table th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+}
+
+.prescriptions-table tbody tr {
+  border-bottom: 1px solid var(--color-border);
+  transition: background 0.2s ease;
+}
+
+.prescriptions-table tbody tr:hover {
+  background: var(--color-bg-secondary);
+}
+
+.prescriptions-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.prescriptions-table td {
+  padding: 12px;
+  vertical-align: middle;
+}
+
+.prescriptions-table .col-index {
+  width: 40px;
+  text-align: center;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.prescriptions-table .col-medname {
+  width: 200px;
+}
+
+.prescriptions-table .col-dose {
+  width: 150px;
+}
+
+.prescriptions-table .col-duration {
+  width: 100px;
+}
+
+.prescriptions-table .col-status {
+  width: 120px;
+}
+
+.prescriptions-table .col-actions {
+  width: 80px;
+  text-align: center;
+}
+
+.prescriptions-table .form-control {
+  padding: 6px 8px;
+  font-size: var(--font-size-sm);
+}
+
+.prescriptions-table .error-text {
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.empty-state {
+  padding: var(--space-lg);
+  text-align: center;
+  color: var(--color-text-muted);
+  background: var(--color-bg-secondary);
+  border-radius: 6px;
+  border: 1px dashed var(--color-border);
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: var(--font-size-base);
+}
+
+/* Responsive modal width for desktop */
+@media (min-width: 768px) {
+  .modal {
+    max-width: 900px;
+  }
+}

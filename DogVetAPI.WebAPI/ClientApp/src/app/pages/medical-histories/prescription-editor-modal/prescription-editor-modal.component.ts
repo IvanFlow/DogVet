@@ -18,6 +18,7 @@ export class PrescriptionEditorModalComponent {
   isOpen = false;
   loading = false;
   error: string | null = null;
+  isMobile = window.innerWidth < 768;
   doseFrequencyOptions: { value: string; id: number }[] = [];
   prescriptionStatusOptions: { value: string; id: number }[] = [];
 
@@ -30,6 +31,11 @@ export class PrescriptionEditorModalComponent {
       prescriptions: this.fb.array([])
     });
     this.loadOptions();
+    
+    // Detect screen resize for responsive layout
+    window.addEventListener('resize', () => {
+      this.isMobile = window.innerWidth < 768;
+    });
   }
 
   get prescriptionsArray(): FormArray {

@@ -9,7 +9,8 @@
     <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
 
     <form [formGroup]="form">
-      <div formArrayName="prescriptions" class="prescriptions-list">
+      <!-- Mobile Layout: Cards -->
+      <div *ngIf="isMobile" formArrayName="prescriptions" class="prescriptions-list">
         <div *ngFor="let prescription of prescriptionsArray.controls; let i = index" class="prescription-item" [formGroupName]="i">
           <div class="prescription-header">
             <h3>Prescripción {{ i + 1 }}</h3>
@@ -17,10 +18,10 @@
           </div>
 
           <div class="form-group">
-            <label for="medName-{{ i }}">Nombre del Medicamento</label>
+            <label for="medName-mobile-{{ i }}">Nombre del Medicamento</label>
             <input
               type="text"
-              id="medName-{{ i }}"
+              id="medName-mobile-{{ i }}"
               class="form-control"
               formControlName="medName"
               placeholder="Ej: Amoxicilina"
@@ -31,8 +32,8 @@
           </div>
 
           <div class="form-group">
-            <label for="dose-{{ i }}">Frecuencia de Dosis</label>
-            <select id="dose-{{ i }}" class="form-control" formControlName="dose">
+            <label for="dose-mobile-{{ i }}">Frecuencia de Dosis</label>
+            <select id="dose-mobile-{{ i }}" class="form-control" formControlName="dose">
               <option *ngFor="let option of doseFrequencyOptions" [value]="option.value">
                 {{ option.value | doseFrequency }}
               </option>
@@ -40,10 +41,10 @@
           </div>
 
           <div class="form-group">
-            <label for="durationInDays-{{ i }}">Duración (días)</label>
+            <label for="durationInDays-mobile-{{ i }}">Duración (días)</label>
             <input
               type="number"
-              id="durationInDays-{{ i }}"
+              id="durationInDays-mobile-{{ i }}"
               class="form-control"
               formControlName="durationInDays"
               min="1"
@@ -55,14 +56,80 @@
           </div>
 
           <div class="form-group">
-            <label for="status-{{ i }}">Estado</label>
-            <select id="status-{{ i }}" class="form-control" formControlName="status">
+            <label for="status-mobile-{{ i }}">Estado</label>
+            <select id="status-mobile-{{ i }}" class="form-control" formControlName="status">
               <option *ngFor="let option of prescriptionStatusOptions" [value]="option.value">
                 {{ option.value | status }}
               </option>
             </select>
           </div>
         </div>
+      </div>
+
+      <!-- Desktop Layout: Table -->
+      <div *ngIf="!isMobile && prescriptionsArray.length > 0" formArrayName="prescriptions" class="prescriptions-table-container">
+        <table class="prescriptions-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre del Medicamento</th>
+              <th>Frecuencia de Dosis</th>
+              <th>Duración (días)</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let prescription of prescriptionsArray.controls; let i = index" [formGroupName]="i">
+              <td class="col-index">{{ i + 1 }}</td>
+              <td class="col-medname">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="medName"
+                  placeholder="Ej: Amoxicilina"
+                />
+                <div *ngIf="prescription.get('medName')?.invalid && prescription.get('medName')?.touched" class="error-text">
+                  Requerido
+                </div>
+              </td>
+              <td class="col-dose">
+                <select class="form-control" formControlName="dose">
+                  <option *ngFor="let option of doseFrequencyOptions" [value]="option.value">
+                    {{ option.value | doseFrequency }}
+                  </option>
+                </select>
+              </td>
+              <td class="col-duration">
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="durationInDays"
+                  min="1"
+                  placeholder="7"
+                />
+                <div *ngIf="prescription.get('durationInDays')?.invalid && prescription.get('durationInDays')?.touched" class="error-text">
+                  > 0
+                </div>
+              </td>
+              <td class="col-status">
+                <select class="form-control" formControlName="status">
+                  <option *ngFor="let option of prescriptionStatusOptions" [value]="option.value">
+                    {{ option.value | status }}
+                  </option>
+                </select>
+              </td>
+              <td class="col-actions">
+                <button type="button" class="btn-remove" (click)="removePrescription(i)">Remove</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Empty state for desktop -->
+      <div *ngIf="!isMobile && prescriptionsArray.length === 0" class="empty-state">
+        <p>No hay prescripciones. Haz clic en "Agregar otra" para crear una.</p>
       </div>
     </form>
   </div>
