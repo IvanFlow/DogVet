@@ -230,7 +230,7 @@
 }
 
 .prescriptions-table th {
-  padding: 12px;
+  padding: 10px 8px;
   text-align: left;
   font-weight: 600;
   color: var(--color-text-primary);
@@ -252,36 +252,44 @@
 }
 
 .prescriptions-table td {
-  padding: 12px;
+  padding: 8px;
   vertical-align: middle;
 }
 
 .prescriptions-table .col-index {
-  width: 40px;
+  width: 30px;
   text-align: center;
   font-weight: 500;
   color: var(--color-text-muted);
+  padding-right: 6px;
 }
 
 .prescriptions-table .col-medname {
-  width: 200px;
+  width: auto;
 }
 
 .prescriptions-table .col-dose {
-  width: 150px;
+  width: 140px;
 }
 
 .prescriptions-table .col-duration {
+  width: 110px;
+  white-space: nowrap;
+}
+
+.prescriptions-table .col-duration .form-control {
   width: 100px;
 }
 
 .prescriptions-table .col-status {
-  width: 120px;
+  width: 110px;
 }
 
 .prescriptions-table .col-actions {
-  width: 80px;
+  width: 28px;
   text-align: center;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 .prescriptions-table .form-control {
@@ -289,9 +297,32 @@
   font-size: var(--font-size-sm);
 }
 
+.prescriptions-table .col-medname .form-control {
+  width: 100%;
+  min-width: 180px;
+}
+
 .prescriptions-table .error-text {
   font-size: 11px;
   white-space: nowrap;
+}
+
+.btn-remove-x {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  opacity: 0.4;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.btn-remove-x:hover {
+  color: var(--color-danger);
+  opacity: 1;
 }
 
 .empty-state {

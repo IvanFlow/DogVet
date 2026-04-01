@@ -14,7 +14,7 @@
         <div *ngFor="let prescription of prescriptionsArray.controls; let i = index" class="prescription-item" [formGroupName]="i">
           <div class="prescription-header">
             <h3>Prescripción {{ i + 1 }}</h3>
-            <button type="button" class="btn-remove" (click)="removePrescription(i)">Remove</button>
+            <button type="button" class="btn-remove" (click)="removePrescription(i)">Eliminar</button>
           </div>
 
           <div class="form-group">
@@ -76,7 +76,7 @@
               <th>Frecuencia de Dosis</th>
               <th>Duración (días)</th>
               <th>Estado</th>
-              <th>Acciones</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -120,7 +120,7 @@
                 </select>
               </td>
               <td class="col-actions">
-                <button type="button" class="btn-remove" (click)="removePrescription(i)">Remove</button>
+                <button type="button" class="btn-remove-x" (click)="removePrescription(i)" title="Eliminar">×</button>
               </td>
             </tr>
           </tbody>
@@ -129,7 +129,7 @@
 
       <!-- Empty state for desktop -->
       <div *ngIf="!isMobile && prescriptionsArray.length === 0" class="empty-state">
-        <p>No hay prescripciones. Haz clic en "Agregar otra" para crear una.</p>
+        <p>No hay prescripciones. Haz clic en "Agregar" para crear una.</p>
       </div>
     </form>
   </div>
@@ -139,7 +139,7 @@
       Cancelar
     </button>
     <button type="button" class="btn btn-primary" (click)="addPrescription()">
-      + Agregar otra
+      + Agregar
     </button>
     <button type="button" class="btn btn-success" (click)="save()" [disabled]="loading">
       {{ loading ? 'Guardando...' : 'Guardar' }}
