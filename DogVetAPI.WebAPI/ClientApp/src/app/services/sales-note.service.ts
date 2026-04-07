@@ -2,6 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface PaymentStatusOption {
+  value: string;
+  id: number;
+}
+
 export interface SaleNoteConcept {
   id?: number;
   description: string;
@@ -41,5 +46,13 @@ export class SaleNoteService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/DeleteSaleNote`, { params: { id } });
+  }
+
+  updatePaymentStatus(id: number, paymentStatus: string): Observable<SaleNote> {
+    return this.http.patch<SaleNote>(`${this.apiUrl}/UpdatePaymentStatus`, null, { params: { id, paymentStatus } });
+  }
+
+  getPaymentStatuses(): Observable<PaymentStatusOption[]> {
+    return this.http.get<PaymentStatusOption[]>(`${this.apiUrl}/GetPaymentStatuses`);
   }
 }

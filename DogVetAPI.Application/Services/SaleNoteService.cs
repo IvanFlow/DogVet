@@ -2,17 +2,18 @@ using DogVetAPI.Application.Application;
 using DogVetAPI.Application.Mappers;
 using DogVetAPI.Application.Services.Interfaces;
 using DogVetAPI.Data.Entities;
+using DogVetAPI.Data.Entities.Enums;
 using DogVetAPI.Data.Repositories.Interfaces;
 
 namespace DogVetAPI.Application.Services;
 
 public class SaleNoteService : ISaleNoteService
 {
-    private readonly IRepository<SaleNoteEntity> _saleNoteRepository;
+    private readonly ISalesNoteRepository _saleNoteRepository;
     private readonly IRepository<SaleNoteConceptEntity> _conceptRepository;
 
     public SaleNoteService(
-        IRepository<SaleNoteEntity> saleNoteRepository,
+        ISalesNoteRepository saleNoteRepository,
         IRepository<SaleNoteConceptEntity> conceptRepository)
     {
         _saleNoteRepository = saleNoteRepository;
@@ -54,7 +55,7 @@ public class SaleNoteService : ISaleNoteService
 
     public async Task<SaleNoteDto?> GetByIdAsync(int id)
     {
-        var saleNote = await _saleNoteRepository.GetByIdAsync(id);
+        var saleNote = await _saleNoteRepository.GetByIdWithConceptsAsync(id);
         return saleNote?.ToDto();
     }
 
@@ -81,5 +82,19 @@ public class SaleNoteService : ISaleNoteService
         {
             return false;
         }
+    }
+
+    public async Task<SaleNoteDto?> UpdatePaymentStatusAsync(int id, string paymentStatus)
+    {
+        if (!Enum.TryParse<PaymentStatus>(paymentStatus, out var status))
+            throw new ArgumentException($"Estado de pago inválido: {paymentStatus}");
+
+        var saleNote = await _saleNoteRepository.GetByIdWithConceptsAsync(id);
+        if (saleNote == null)
+            return null;
+
+        saleNote.PaymentStatus = status;
+        await _saleNoteRepository.SaveChangesAsync();
+        return saleNote.ToDto();
     }
 }

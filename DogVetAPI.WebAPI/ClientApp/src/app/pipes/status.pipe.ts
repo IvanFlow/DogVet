@@ -11,6 +11,7 @@ export class StatusPipe implements PipeTransform {
     const statusMap: { [key: string]: string } = {
       'Completed': 'Completado',
       'Pending': 'Pendiente',
+      'Paid': 'Pagado',
       'Follow-up': 'Seguimiento',
       'Prescribed': 'Prescrito',
       'Administered': 'Administrado'

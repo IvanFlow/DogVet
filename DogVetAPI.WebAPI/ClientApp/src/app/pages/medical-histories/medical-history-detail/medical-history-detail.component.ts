@@ -89,6 +89,10 @@ export class MedicalHistoryDetailComponent implements OnInit {
     }
   }
 
+  openSaleNoteDetail(note: SaleNote) {
+    this.router.navigate(['/sale-notes', note.id]);
+  }
+
   delete() {
     if (!confirm('¿Deseas eliminar este registro médico?')) return;
     if (!this.record) return;

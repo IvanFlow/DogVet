@@ -1,0 +1,94 @@
+<div class="page-content">
+  <div *ngIf="loading" class="spinner-wrap">
+    <div class="spinner"></div>
+    <p style="text-align: center; margin-top: var(--space-md); color: var(--color-text-muted);">Cargando nota de venta...</p>
+  </div>
+  <div *ngIf="!loading && error" class="alert alert-danger">{{ error }}</div>
+
+  <ng-container *ngIf="!loading && !error && saleNote">
+    <div class="page-header">
+      <h1>📝 Nota de Venta #{{ saleNote.id }}</h1>
+      <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap;">
+        <button class="btn btn-ghost" (click)="goBack()">← Atrás</button>
+      </div>
+    </div>
+
+    <!-- Header Card -->
+    <div class="card" style="margin-bottom: var(--space-lg);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-md);">
+        <div style="display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap;">
+          <span [class]="'badge ' + (saleNote.paymentStatus === 'Paid' ? 'badge-success' : 'badge-warning')"
+                style="font-size: var(--font-size-base); padding: 6px 16px;">
+            {{ saleNote.paymentStatus | status }}
+          </span>
+          <div style="display: flex; gap: var(--space-xs);">
+            <button *ngFor="let s of paymentStatuses"
+                    [class]="'btn btn-sm ' + (saleNote.paymentStatus === s.value ? 'btn-primary' : 'btn-ghost')"
+                    [disabled]="updatingStatus || saleNote.paymentStatus === s.value"
+                    (click)="changeStatus(s.value)">
+              {{ s.value | status }}
+            </button>
+          </div>
+          <span *ngIf="updatingStatus" style="font-size: var(--font-size-sm); color: var(--color-text-muted);">Actualizando...</span>
+        </div>
+        <span style="color: var(--color-text-muted); font-size: var(--font-size-sm);">{{ saleNote.noteDate | spanishDate:'fullDate' }}</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Total</span>
+          <span class="info-value" style="font-size: var(--font-size-lg); font-weight: 600; color: var(--color-primary-dark);">
+            {{ saleNote.totalAmount | currency:'MXN':'symbol':'1.2-2' }}
+          </span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Número de Conceptos</span>
+          <span class="info-value">{{ saleNote.concepts?.length || 0 }}</span>
+        </div>
+      </div>
+      <div style="display: flex; gap: var(--space-sm); margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--color-border);">
+        <button class="btn btn-ghost btn-sm" style="color: var(--color-danger);" (click)="delete()">🗑️ Eliminar</button>
+      </div>
+    </div>
+
+    <!-- Concepts Section -->
+    <div class="card">
+      <h2 style="color: var(--color-primary-dark); margin-bottom: var(--space-md);">🧾 Conceptos a Cobrar</h2>
+
+      <div *ngIf="saleNote.concepts && saleNote.concepts.length > 0" style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--color-border);">
+              <th style="padding: var(--space-sm); text-align: left; font-weight: 500;">#</th>
+              <th style="padding: var(--space-sm); text-align: left; font-weight: 500;">Descripción</th>
+              <th style="padding: var(--space-sm); text-align: right; font-weight: 500;">Cantidad</th>
+              <th style="padding: var(--space-sm); text-align: right; font-weight: 500;">Precio Unitario</th>
+              <th style="padding: var(--space-sm); text-align: right; font-weight: 500;">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let concept of saleNote.concepts; let i = index" style="border-bottom: 1px solid var(--color-border);">
+              <td style="padding: var(--space-sm); color: var(--color-text-muted);">{{ i + 1 }}</td>
+              <td style="padding: var(--space-sm);">{{ concept.description }}</td>
+              <td style="padding: var(--space-sm); text-align: right;">{{ concept.quantity }}</td>
+              <td style="padding: var(--space-sm); text-align: right;">{{ concept.unitPrice | currency:'MXN':'symbol':'1.2-2' }}</td>
+              <td style="padding: var(--space-sm); text-align: right; font-weight: 500;">{{ concept.conceptPrice | currency:'MXN':'symbol':'1.2-2' }}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr style="border-top: 2px solid var(--color-border); background-color: var(--color-bg-secondary);">
+              <td colspan="4" style="padding: var(--space-sm); text-align: right; font-weight: 600;">Total:</td>
+              <td style="padding: var(--space-sm); text-align: right; font-weight: 600; color: var(--color-primary-dark);">
+                {{ saleNote.totalAmount | currency:'MXN':'symbol':'1.2-2' }}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div *ngIf="!saleNote.concepts || saleNote.concepts.length === 0"
+           style="text-align: center; padding: var(--space-lg); color: var(--color-text-muted); font-size: var(--font-size-sm);">
+        No hay conceptos registrados en esta nota.
+      </div>
+    </div>
+  </ng-container>
+</div>

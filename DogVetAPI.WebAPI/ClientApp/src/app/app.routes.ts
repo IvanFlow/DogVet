@@ -57,5 +57,10 @@ export const routes: Routes = [
     path: 'medical-histories',
     loadComponent: () => import('./pages/medical-histories/medical-history-list/medical-history-list.component').then(m => m.MedicalHistoryListComponent)
   },
+  // Sale Notes routes
+  {
+    path: 'sale-notes/:id',
+    loadComponent: () => import('./pages/sale-notes/sale-note-detail/sale-note-detail.component').then(m => m.SaleNoteDetailComponent)
+  },
   { path: '**', redirectTo: '/dashboard' }
 ];

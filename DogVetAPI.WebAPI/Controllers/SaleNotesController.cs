@@ -1,6 +1,8 @@
 using DogVetAPI.Application.Application;
 using DogVetAPI.Application.Services.Interfaces;
+using DogVetAPI.Data.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace DogVetAPI.WebAPI.Controllers
 {
@@ -73,6 +75,57 @@ namespace DogVetAPI.WebAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving sale notes");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        /// <summary>
+        /// Gets all available payment statuses
+        /// </summary>
+        [HttpGet("GetPaymentStatuses")]
+        public ActionResult<IEnumerable<object>> GetPaymentStatuses()
+        {
+            try
+            {
+                var options = Enum.GetValues(typeof(PaymentStatus))
+                    .Cast<PaymentStatus>()
+                    .Select(s => new { value = s.ToString(), id = (int)s })
+                    .OrderBy(x => x.id)
+                    .ToList();
+
+                return Ok(options);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving payment statuses");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        /// <summary>
+        /// Updates the payment status of a sale note
+        /// </summary>
+        [HttpPatch("UpdatePaymentStatus")]
+        public async Task<ActionResult<SaleNoteDto>> UpdatePaymentStatus([FromQuery] int id, [FromQuery] string paymentStatus)
+        {
+            try
+            {
+                if (id <= 0)
+                    return BadRequest("Invalid sale note ID");
+
+                var saleNote = await _saleNoteService.UpdatePaymentStatusAsync(id, paymentStatus);
+                if (saleNote == null)
+                    return NotFound($"Nota de venta con ID {id} no encontrada");
+
+                return Ok(saleNote);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating payment status");
                 return StatusCode(500, "Internal server error");
             }
         }

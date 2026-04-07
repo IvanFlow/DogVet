@@ -83,7 +83,7 @@
         <button class="btn btn-primary btn-sm" (click)="openSalesNoteEditor()">+ Crear Nota de Venta</button>
       </div>
       <div *ngIf="saleNotes.length > 0" class="entity-grid">
-        <div *ngFor="let note of saleNotes" class="entity-card">
+        <div *ngFor="let note of saleNotes" class="entity-card" style="cursor: pointer;" (click)="openSaleNoteDetail(note)">
           <div class="entity-name">Nota #{{ note.id }}</div>
           <div class="entity-meta">{{ note.noteDate | spanishDate:'mediumDate' }} · {{ note.totalAmount | currency:'MXN':'symbol':'1.2-2' }}</div>
           <span class="badge badge-info">{{ note.paymentStatus }}</span>
