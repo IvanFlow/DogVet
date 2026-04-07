@@ -1,0 +1,77 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="close()"></div>
+<div class="modal" *ngIf="isOpen">
+  <div class="modal-header">
+    <h2>📋 Seleccionar Prescripciones</h2>
+    <button class="modal-close" (click)="close()">✕</button>
+  </div>
+
+  <div class="modal-body">
+    <div *ngIf="prescriptions.length === 0" class="empty-state">
+      <p>No hay prescripciones disponibles para agregar a la nota de venta.</p>
+    </div>
+
+    <div *ngIf="prescriptions.length > 0">
+
+      <!-- Mobile Layout: Cards -->
+      <div *ngIf="isMobile" class="prescriptions-list">
+        <div *ngFor="let prescription of prescriptions" class="prescription-item">
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              [checked]="prescription.selected"
+              (change)="toggleSelection(prescription)"
+            />
+            <div class="prescription-content">
+              <div class="med-name">{{ prescription.medName }}</div>
+              <div class="med-details">
+                <span class="dose">{{ prescription.dose }}</span>
+                <span class="duration">{{ prescription.durationInDays }} días</span>
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Desktop Layout: Table -->
+      <div *ngIf="!isMobile" class="prescriptions-table-container">
+        <table class="prescriptions-table">
+          <thead>
+            <tr>
+              <th class="col-checkbox"></th>
+              <th>Medicamento</th>
+              <th>Frecuencia</th>
+              <th>Duración</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let prescription of prescriptions" [class.selected]="prescription.selected">
+              <td class="col-checkbox">
+                <input
+                  type="checkbox"
+                  [checked]="prescription.selected"
+                  (change)="toggleSelection(prescription)"
+                />
+              </td>
+              <td>{{ prescription.medName }}</td>
+              <td>{{ prescription.dose }}</td>
+              <td>{{ prescription.durationInDays }} días</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-ghost" (click)="close()">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="continue()"
+    >
+      Continuar ({{ selectedCount }} seleccionadas)
+    </button>
+  </div>
+</div>

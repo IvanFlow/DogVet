@@ -3,6 +3,7 @@ import { CommonModule, Location } from '@angular/common';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { MedicalHistoryService } from '../../../services/medical-history.service';
 import { PrescriptionService } from '../../../services/prescription.service';
+import { SaleNoteService, SaleNote } from '../../../services/sales-note.service';
 import { MedicalHistory } from '../../../models/medical-history.model';
 import { Prescription } from '../../../models/prescription.model';
 import { Pet } from '../../../models/pet.model';
@@ -10,11 +11,12 @@ import { StatusPipe } from '../../../pipes/status.pipe';
 import { DoseFrequencyPipe } from '../../../pipes/dose-frequency.pipe';
 import { SpanishDatePipe } from '../../../pipes/spanish-date.pipe';
 import { PrescriptionEditorModalComponent } from '../prescription-editor-modal/prescription-editor-modal.component';
+import { SalesNoteEditorModalComponent } from '../sales-note-editor-modal/sales-note-editor-modal.component';
 
 @Component({
   selector: 'app-medical-history-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, StatusPipe, DoseFrequencyPipe, SpanishDatePipe, PrescriptionEditorModalComponent],
+  imports: [CommonModule, RouterLink, StatusPipe, DoseFrequencyPipe, SpanishDatePipe, PrescriptionEditorModalComponent, SalesNoteEditorModalComponent],
   templateUrl: './medical-history-detail.component.html'
 })
 export class MedicalHistoryDetailComponent implements OnInit {
@@ -22,14 +24,17 @@ export class MedicalHistoryDetailComponent implements OnInit {
   pet?: Pet;
   followUpOfRecord?: MedicalHistory;
   prescriptions: Prescription[] = [];
+  saleNotes: SaleNote[] = [];
   loading = true;
   error: string | null = null;
 
   @ViewChild(PrescriptionEditorModalComponent) prescriptionModal!: PrescriptionEditorModalComponent;
+  @ViewChild(SalesNoteEditorModalComponent) salesNoteModal!: SalesNoteEditorModalComponent;
 
   constructor(
     private medicalHistoryService: MedicalHistoryService,
     private prescriptionService: PrescriptionService,
+    private saleNoteService: SaleNoteService,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location
@@ -45,6 +50,7 @@ export class MedicalHistoryDetailComponent implements OnInit {
       this.pet = undefined;
       this.followUpOfRecord = undefined;
       this.prescriptions = [];
+      this.saleNotes = [];
       this.medicalHistoryService.getById(id).subscribe({
         next: (data) => {
           this.record = data;
@@ -54,8 +60,11 @@ export class MedicalHistoryDetailComponent implements OnInit {
           }
           if (data.prescriptions && data.prescriptions.length > 0) {
             this.prescriptions = data.prescriptions;
-          } 
-          
+          }
+          this.saleNoteService.getByMedicalHistoryId(id).subscribe({
+            next: (notes) => { this.saleNotes = notes; },
+            error: () => { this.saleNotes = []; }
+          });
           this.loading = false;
           this.error = null;
         },
@@ -71,6 +80,12 @@ export class MedicalHistoryDetailComponent implements OnInit {
   openPrescriptionEditor() {
     if (this.record) {
       this.prescriptionModal.open(this.record.id, this.prescriptions);
+    }
+  }
+
+  openSalesNoteEditor() {
+    if (this.record) {
+      this.salesNoteModal.open(this.record.id, this.prescriptions as any);
     }
   }
 

@@ -1,0 +1,148 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="close()"></div>
+<div class="modal" *ngIf="isOpen">
+  <div class="modal-header">
+    <h2>📝 Crear Nota de Venta</h2>
+    <button class="modal-close" (click)="close()">✕</button>
+  </div>
+
+  <div class="modal-body">
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+    <form [formGroup]="form">
+      <!-- Mobile Layout: Cards -->
+      <div *ngIf="isMobile" formArrayName="concepts" class="line-items-list">
+        <div *ngFor="let item of conceptsArray.controls; let i = index" class="line-item-card" [formGroupName]="i">
+          <div class="item-header">
+            <h3>Concepto {{ i + 1 }}</h3>
+            <button type="button" class="btn-remove" (click)="removeConcept(i)">Eliminar</button>
+          </div>
+
+          <div class="form-group">
+            <label for="description-mobile-{{ i }}">Descripción</label>
+            <input
+              type="text"
+              id="description-mobile-{{ i }}"
+              class="form-control"
+              formControlName="description"
+              placeholder="Ej: Consulta veterinaria"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="quantity-mobile-{{ i }}">Cantidad</label>
+            <input
+              type="number"
+              id="quantity-mobile-{{ i }}"
+              class="form-control"
+              formControlName="quantity"
+              min="1"
+              placeholder="1"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="unitPrice-mobile-{{ i }}">Precio Unitario</label>
+            <input
+              type="number"
+              id="unitPrice-mobile-{{ i }}"
+              class="form-control"
+              formControlName="unitPrice"
+              min="0"
+              step="0.01"
+              placeholder="0.00"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Total</label>
+            <div class="total-display">{{ item.get('conceptPrice')?.value | currency }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop Layout: Table -->
+      <div *ngIf="!isMobile && conceptsArray.length > 0" formArrayName="concepts" class="line-items-table-container">
+        <table class="line-items-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Descripción</th>
+              <th>Cantidad</th>
+              <th>Precio Unitario</th>
+              <th>Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of conceptsArray.controls; let i = index" [formGroupName]="i">
+              <td class="col-index">{{ i + 1 }}</td>
+              <td class="col-description">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="description"
+                  placeholder="Descripción"
+                />
+              </td>
+              <td class="col-quantity">
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="quantity"
+                  min="1"
+                  placeholder="1"
+                />
+              </td>
+              <td class="col-unitprice">
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="unitPrice"
+                  min="0"
+                  step="0.01"
+                  placeholder="0.00"
+                />
+              </td>
+              <td class="col-total">
+                {{ item.get('conceptPrice')?.value | currency }}
+              </td>
+              <td class="col-actions">
+                <button type="button" class="btn-remove-x" (click)="removeConcept(i)" title="Eliminar">×</button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="total-row">
+              <td colspan="4" style="text-align: right; padding-right: 8px;">
+                <strong>Total:</strong>
+              </td>
+              <td class="col-total">
+                <strong>{{ calculateTotal() | currency }}</strong>
+              </td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- Empty state for desktop -->
+      <div *ngIf="!isMobile && conceptsArray.length === 0" class="empty-state">
+        <p>No hay conceptos. Haz clic en "Agregar Concepto" para crear uno.</p>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-ghost" (click)="close()" [disabled]="loading">
+      Cancelar
+    </button>
+    <button type="button" class="btn btn-primary" (click)="addConcept()">
+      + Agregar Concepto
+    </button>
+    <button type="button" class="btn btn-success" (click)="save()" [disabled]="loading || conceptsArray.length === 0">
+      {{ loading ? 'Guardando...' : 'Guardar Nota' }}
+    </button>
+  </div>
+</div>
+
+<app-prescription-selector-modal></app-prescription-selector-modal>
