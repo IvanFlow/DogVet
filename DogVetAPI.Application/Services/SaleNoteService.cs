@@ -27,7 +27,7 @@ public class SaleNoteService : ISaleNoteService
             MedicalHistoryId = request.MedicalHistoryId,
             NoteDate = DateTime.UtcNow,
             TotalAmount = request.Concepts.Sum(c => c.ConceptPrice),
-            PaymentStatus = DogVetAPI.Data.Entities.Enums.PaymentStatus.Pending
+            PaymentStatus = PaymentStatus.Pending
         };
 
         await _saleNoteRepository.AddAsync(saleNote);
@@ -89,7 +89,7 @@ public class SaleNoteService : ISaleNoteService
         if (!Enum.TryParse<PaymentStatus>(paymentStatus, out var status))
             throw new ArgumentException($"Estado de pago inválido: {paymentStatus}");
 
-        var saleNote = await _saleNoteRepository.GetByIdWithConceptsAsync(id);
+        var saleNote = await _saleNoteRepository.GetByIdAsync(id);
         if (saleNote == null)
             return null;
 
