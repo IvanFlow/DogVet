@@ -77,20 +77,24 @@
       </div>
     </div>
     <!-- Sale Notes Section -->
-    <div class="card" style="margin-bottom: var(--space-lg);">
+    <div *ngIf="saleNotes.length > 0" class="card" style="margin-bottom: var(--space-lg);">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md);">
-        <h2 style="color: var(--color-primary-dark);">📝 Notas de Venta{{ saleNotes.length > 0 ? ' (' + saleNotes.length + ')' : '' }}</h2>
+        <h2 style="color: var(--color-primary-dark);">📝 Notas de Venta ({{ saleNotes.length }})</h2>
         <button class="btn btn-primary btn-sm" (click)="openSalesNoteEditor()">+ Crear Nota de Venta</button>
       </div>
-      <div *ngIf="saleNotes.length > 0" class="entity-grid">
+      <div class="entity-grid">
         <div *ngFor="let note of saleNotes" class="entity-card" style="cursor: pointer;" (click)="openSaleNoteDetail(note)">
           <div class="entity-name">Nota #{{ note.id }}</div>
           <div class="entity-meta">{{ note.noteDate | spanishDate:'mediumDate' }} · {{ note.totalAmount | currency:'MXN':'symbol':'1.2-2' }}</div>
-          <span class="badge badge-info">{{ note.paymentStatus }}</span>
+          <span class="badge badge-info">{{ note.paymentStatus | status }}</span>
         </div>
       </div>
-      <div *ngIf="saleNotes.length === 0" style="text-align: center; padding: var(--space-md); color: var(--color-text-muted); font-size: var(--font-size-sm);">
-        No hay notas de venta registradas para este diagnóstico.
+    </div>
+    <!-- Empty State for Sale Notes -->
+    <div *ngIf="saleNotes.length === 0" class="card" style="margin-bottom: var(--space-lg); padding: var(--space-lg); text-align: center; background-color: var(--color-bg-secondary);">
+      <div style="display: flex; flex-direction: column; gap: var(--space-md); align-items: center;">
+        <div style="color: var(--color-text-muted); font-size: var(--font-size-sm);">📝 No hay notas de venta registradas para este diagnóstico</div>
+        <button class="btn btn-primary btn-sm" (click)="openSalesNoteEditor()">+ Crear Nota de Venta</button>
       </div>
     </div>
 
