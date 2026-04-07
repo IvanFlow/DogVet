@@ -11,6 +11,7 @@ namespace DogVetAPI.Application.Services.Interfaces
         Task<IEnumerable<PrescriptionDto>> GetByMedicalHistoryIdAsync(int medicalHistoryId);
         Task<IEnumerable<PrescriptionDto>> CreateOrUpdatePrescriptionsAsync(CreatePrescriptionsRequest request);
         Task<bool> DeleteAllPrescriptionsByMedicalHistoryIdAsync(int medicalHistoryId);
+        Task<bool> UpdatePrescriptionStatusAsync(int prescriptionId, string status);
     }
 }
 

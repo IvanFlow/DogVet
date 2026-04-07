@@ -11,13 +11,16 @@ public class SaleNoteService : ISaleNoteService
 {
     private readonly ISalesNoteRepository _saleNoteRepository;
     private readonly IRepository<SaleNoteConceptEntity> _conceptRepository;
+    private readonly IPrescriptionService _prescriptionService;
 
     public SaleNoteService(
         ISalesNoteRepository saleNoteRepository,
-        IRepository<SaleNoteConceptEntity> conceptRepository)
+        IRepository<SaleNoteConceptEntity> conceptRepository,
+        IPrescriptionService prescriptionService)
     {
         _saleNoteRepository = saleNoteRepository;
         _conceptRepository = conceptRepository;
+        _prescriptionService = prescriptionService;
     }
 
     public async Task<SaleNoteDto> CreateAsync(CreateSaleNoteRequest request)
@@ -49,6 +52,15 @@ public class SaleNoteService : ISaleNoteService
         }
 
         await _conceptRepository.SaveChangesAsync();
+
+        // Update prescription statuses to Administered
+        if (request.PrescriptionIds != null && request.PrescriptionIds.Count > 0)
+        {
+            foreach (var prescriptionId in request.PrescriptionIds)
+            {
+                await _prescriptionService.UpdatePrescriptionStatusAsync(prescriptionId, PrescriptionStatus.Administered.ToString());
+            }
+        }
 
         return saleNote.ToDto();
     }

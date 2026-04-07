@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, FormArray } from '@angular/forms';
-import { SaleNoteService, SaleNoteConcept, SaleNote } from '../../../services/sales-note.service';
+import { SaleNoteService, SaleNoteConcept, SaleNote, CreateSaleNoteRequest } from '../../../services/sales-note.service';
 import { PrescriptionSelectorModalComponent, PrescriptionWithSelected } from '../prescription-selector-modal/prescription-selector-modal.component';
 
 @Component({
@@ -112,13 +112,13 @@ export class SalesNoteEditorModalComponent implements OnInit {
     this.loading = true;
     this.error = '';
 
-    const saleNote: SaleNote = {
+    const createRequest: CreateSaleNoteRequest = {
       medicalHistoryId: this.medicalHistoryId!,
-      totalAmount: this.calculateTotal(),
-      concepts: this.conceptsArray.value as SaleNoteConcept[]
+      concepts: this.conceptsArray.value as SaleNoteConcept[],
+      prescriptionIds: this.selectedPrescriptions.map(p => p.id)
     };
 
-    this.saleNoteService.create(saleNote).subscribe(
+    this.saleNoteService.create(createRequest as any).subscribe(
       (result) => {
         this.loading = false;
         this.close();

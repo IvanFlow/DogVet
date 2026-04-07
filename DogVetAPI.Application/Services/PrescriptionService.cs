@@ -69,6 +69,28 @@ namespace DogVetAPI.Application.Services
                 return false;
             }
         }
+
+        public async Task<bool> UpdatePrescriptionStatusAsync(int prescriptionId, string status)
+        {
+            try
+            {
+                if (!Enum.TryParse<PrescriptionStatus>(status, out var prescriptionStatus))
+                    throw new ArgumentException($"Invalid prescription status: {status}");
+
+                var prescription = await _prescriptionRepository.GetByIdAsync(prescriptionId);
+                if (prescription == null)
+                    return false;
+
+                prescription.Status = prescriptionStatus;
+                prescription.UpdatedAt = DateTime.UtcNow;
+                await _prescriptionRepository.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
 

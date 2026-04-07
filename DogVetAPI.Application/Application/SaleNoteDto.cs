@@ -23,4 +23,5 @@ public class CreateSaleNoteRequest
 {
     public int MedicalHistoryId { get; set; }
     public List<SaleNoteConceptDto> Concepts { get; set; } = new();
+    public List<int> PrescriptionIds { get; set; } = new();
 }

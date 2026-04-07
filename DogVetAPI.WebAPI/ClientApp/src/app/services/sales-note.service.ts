@@ -24,6 +24,12 @@ export interface SaleNote {
   concepts: SaleNoteConcept[];
 }
 
+export interface CreateSaleNoteRequest {
+  medicalHistoryId: number;
+  concepts: SaleNoteConcept[];
+  prescriptionIds: number[];
+}
+
 @Injectable({
   providedIn: 'root'
 })

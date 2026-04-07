@@ -58,7 +58,7 @@ export class SaleNoteDetailComponent implements OnInit {
     this.updatingStatus = true;
     this.saleNoteService.updatePaymentStatus(this.saleNote.id, paymentStatus).subscribe({
       next: (updated) => {
-        this.saleNote = updated;
+        this.saleNote.paymentStatus = updated.paymentStatus;
         this.updatingStatus = false;
       },
       error: () => {
