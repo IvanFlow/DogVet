@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { SaleNoteService, SaleNoteConcept, SaleNote, CreateSaleNoteRequest } from '../../../services/sales-note.service';
 import { PrescriptionSelectorModalComponent, PrescriptionWithSelected } from '../prescription-selector-modal/prescription-selector-modal.component';
+import { CurrencyMxPipe } from '../../../pipes/currency-mx.pipe';
 
 @Component({
   selector: 'app-sales-note-editor-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PrescriptionSelectorModalComponent],
+  imports: [CommonModule, ReactiveFormsModule, PrescriptionSelectorModalComponent, CurrencyMxPipe],
   templateUrl: './sales-note-editor-modal.component.html',
   styleUrls: ['./sales-note-editor-modal.component.css']
 })

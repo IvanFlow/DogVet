@@ -55,7 +55,7 @@
 
           <div class="form-group">
             <label>Total</label>
-            <div class="total-display">{{ item.get('conceptPrice')?.value | currency }}</div>
+            <div class="total-display">{{ item.get('conceptPrice')?.value | currencyMx }}</div>
           </div>
         </div>
       </div>
@@ -104,7 +104,7 @@
                 />
               </td>
               <td class="col-total">
-                {{ item.get('conceptPrice')?.value | currency }}
+                {{ item.get('conceptPrice')?.value | currencyMx }}
               </td>
               <td class="col-actions">
                 <button type="button" class="btn-remove-x" (click)="removeConcept(i)" title="Eliminar">×</button>
@@ -117,7 +117,7 @@
                 <strong>Total:</strong>
               </td>
               <td class="col-total">
-                <strong>{{ calculateTotal() | currency }}</strong>
+                <strong>{{ calculateTotal() | currencyMx }}</strong>
               </td>
               <td></td>
             </tr>

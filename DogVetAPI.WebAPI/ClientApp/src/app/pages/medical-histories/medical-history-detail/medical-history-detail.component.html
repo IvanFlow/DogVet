@@ -85,7 +85,7 @@
       <div class="entity-grid">
         <div *ngFor="let note of saleNotes" class="entity-card" style="cursor: pointer;" (click)="openSaleNoteDetail(note)">
           <div class="entity-name">Nota #{{ note.id }}</div>
-          <div class="entity-meta">{{ note.noteDate | spanishDate:'mediumDate' }} · {{ note.totalAmount | currency:'MXN':'symbol':'1.2-2' }}</div>
+          <div class="entity-meta">{{ note.noteDate | spanishDate:'mediumDate' }} · {{ note.totalAmount | currencyMx }}</div>
           <span class="badge badge-info">{{ note.paymentStatus | status }}</span>
         </div>
       </div>

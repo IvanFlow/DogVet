@@ -10,13 +10,14 @@ import { Pet } from '../../../models/pet.model';
 import { StatusPipe } from '../../../pipes/status.pipe';
 import { DoseFrequencyPipe } from '../../../pipes/dose-frequency.pipe';
 import { SpanishDatePipe } from '../../../pipes/spanish-date.pipe';
+import { CurrencyMxPipe } from '../../../pipes/currency-mx.pipe';
 import { PrescriptionEditorModalComponent } from '../prescription-editor-modal/prescription-editor-modal.component';
 import { SalesNoteEditorModalComponent } from '../sales-note-editor-modal/sales-note-editor-modal.component';
 
 @Component({
   selector: 'app-medical-history-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, StatusPipe, DoseFrequencyPipe, SpanishDatePipe, PrescriptionEditorModalComponent, SalesNoteEditorModalComponent],
+  imports: [CommonModule, RouterLink, StatusPipe, DoseFrequencyPipe, SpanishDatePipe, CurrencyMxPipe, PrescriptionEditorModalComponent, SalesNoteEditorModalComponent],
   templateUrl: './medical-history-detail.component.html'
 })
 export class MedicalHistoryDetailComponent implements OnInit {

@@ -37,7 +37,7 @@
         <div class="info-item">
           <span class="info-label">Total</span>
           <span class="info-value" style="font-size: var(--font-size-lg); font-weight: 600; color: var(--color-primary-dark);">
-            {{ saleNote.totalAmount | currency:'MXN':'symbol':'1.2-2' }}
+            {{ saleNote.totalAmount | currencyMx }}
           </span>
         </div>
         <div class="info-item">
@@ -70,15 +70,15 @@
               <td style="padding: var(--space-sm); color: var(--color-text-muted);">{{ i + 1 }}</td>
               <td style="padding: var(--space-sm);">{{ concept.description }}</td>
               <td style="padding: var(--space-sm); text-align: right;">{{ concept.quantity }}</td>
-              <td style="padding: var(--space-sm); text-align: right;">{{ concept.unitPrice | currency:'MXN':'symbol':'1.2-2' }}</td>
-              <td style="padding: var(--space-sm); text-align: right; font-weight: 500;">{{ concept.conceptPrice | currency:'MXN':'symbol':'1.2-2' }}</td>
+              <td style="padding: var(--space-sm); text-align: right;">{{ concept.unitPrice | currencyMx }}</td>
+              <td style="padding: var(--space-sm); text-align: right; font-weight: 500;">{{ concept.conceptPrice | currencyMx }}</td>
             </tr>
           </tbody>
           <tfoot>
             <tr style="border-top: 2px solid var(--color-border); background-color: var(--color-bg-secondary);">
               <td colspan="4" style="padding: var(--space-sm); text-align: right; font-weight: 600;">Total:</td>
               <td style="padding: var(--space-sm); text-align: right; font-weight: 600; color: var(--color-primary-dark);">
-                {{ saleNote.totalAmount | currency:'MXN':'symbol':'1.2-2' }}
+                {{ saleNote.totalAmount | currencyMx }}
               </td>
             </tr>
           </tfoot>

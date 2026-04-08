@@ -4,11 +4,12 @@ import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { SaleNoteService, SaleNote, PaymentStatusOption } from '../../../services/sales-note.service';
 import { StatusPipe } from '../../../pipes/status.pipe';
 import { SpanishDatePipe } from '../../../pipes/spanish-date.pipe';
+import { CurrencyMxPipe } from '../../../pipes/currency-mx.pipe';
 
 @Component({
   selector: 'app-sale-note-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, SpanishDatePipe, StatusPipe],
+  imports: [CommonModule, RouterLink, SpanishDatePipe, StatusPipe, CurrencyMxPipe],
   templateUrl: './sale-note-detail.component.html'
 })
 export class SaleNoteDetailComponent implements OnInit {
