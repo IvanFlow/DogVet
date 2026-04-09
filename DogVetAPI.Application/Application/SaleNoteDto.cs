@@ -1,5 +1,11 @@
 namespace DogVetAPI.Application.Application;
 
+public class EnumOptionDto
+{
+    public string Value { get; set; } = string.Empty;
+    public int Id { get; set; }
+}
+
 public class SaleNoteDto
 {
     public int Id { get; set; }

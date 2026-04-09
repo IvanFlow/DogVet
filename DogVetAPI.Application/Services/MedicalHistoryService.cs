@@ -64,10 +64,10 @@ namespace DogVetAPI.Application.Services
             var createdRecord = await _medicalHistoryRepository.AddAsync(recordEntity);
             await _medicalHistoryRepository.SaveChangesAsync();
             
-            return createdRecord.ToDto();
+            return createdRecord.ToDto()!;
         }
 
-        public async Task<MedicalHistoryDto> UpdateRecordAsync(UpdateMedicalHistoryDto updateRecordDto)
+        public async Task<MedicalHistoryDto?> UpdateRecordAsync(UpdateMedicalHistoryDto updateRecordDto)
         {
 
             var existingRecordDto = await _medicalHistoryRepository.GetByIdAsync(updateRecordDto.Id);
@@ -88,7 +88,7 @@ namespace DogVetAPI.Application.Services
             var updatedRecord = _medicalHistoryRepository.Update(existingRecordDto);
             await _medicalHistoryRepository.SaveChangesAsync();
             
-            return updatedRecord.ToDto();
+            return updatedRecord.ToDto()!;
         }
 
         public async Task<bool> DeleteRecordAsync(int id)

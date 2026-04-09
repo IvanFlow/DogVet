@@ -1,7 +1,9 @@
 using DogVetAPI.Data.Repositories.Interfaces;
 using DogVetAPI.Application.Services.Interfaces;
+using DogVetAPI.Application.Application;
 using DogVetAPI.Application.Mappers;
 using DogVetAPI.Data.Entities;
+using DogVetAPI.Data.Entities.Enums;
 
 namespace DogVetAPI.Application.Services
 {
@@ -49,10 +51,10 @@ namespace DogVetAPI.Application.Services
             var createdPet = await _petRepository.AddAsync(pet);
             await _petRepository.SaveChangesAsync();
             
-            return createdPet.ToDto();
+            return createdPet.ToDto()!;
         }
 
-        public async Task<PetDto> UpdatePetAsync(UpdatePetDto updatePetDto)
+        public async Task<PetDto?> UpdatePetAsync(UpdatePetDto updatePetDto)
         {
 
              var existingPet = await _petRepository.GetByIdAsync(updatePetDto.Id);
@@ -74,7 +76,7 @@ namespace DogVetAPI.Application.Services
             var updatedPet = _petRepository.Update(existingPet);
             await _petRepository.SaveChangesAsync();
             
-            return updatedPet.ToDto();
+            return updatedPet.ToDto()!;
         }
 
         public async Task<bool> DeletePetAsync(int id)
@@ -108,6 +110,14 @@ namespace DogVetAPI.Application.Services
             await _petRepository.SaveChangesAsync();
 
             return true;
+        }
+
+        public IEnumerable<EnumOptionDto> GetSpeciesOptions()
+        {
+            return Enum.GetValues(typeof(Species))
+                .Cast<Species>()
+                .OrderBy(s => (int)s)
+                .Select(s => new EnumOptionDto { Value = s.ToString(), Id = (int)s });
         }
     }
 }

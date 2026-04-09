@@ -32,7 +32,7 @@ namespace DogVetAPI.Application.Mappers
 
             if (entity.Prescriptions != null && entity.Prescriptions.Any())
             {
-                dto.Prescriptions = entity.Prescriptions.Select(p => p.ToDto()).ToList();
+                dto.Prescriptions = entity.Prescriptions.Select(p => p.ToDto()!).ToList();
             }
 
             if (includeFollowUpOfRecord && entity.FollowUpOfRecord != null)
@@ -45,7 +45,7 @@ namespace DogVetAPI.Application.Mappers
 
         public static IEnumerable<MedicalHistoryDto> ToDto(this IEnumerable<MedicalHistoryEntity> entities)
         {
-            return entities?.Select(e => e.ToDto()) ?? Enumerable.Empty<MedicalHistoryDto>();
+            return entities?.Select(e => e.ToDto()!) ?? Enumerable.Empty<MedicalHistoryDto>();
         }
     }
 }

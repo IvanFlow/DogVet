@@ -1,8 +1,6 @@
 using DogVetAPI.Application.Application;
 using DogVetAPI.Application.Services.Interfaces;
-using DogVetAPI.Data.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 
 namespace DogVetAPI.WebAPI.Controllers
 {
@@ -83,17 +81,11 @@ namespace DogVetAPI.WebAPI.Controllers
         /// Gets all available payment statuses
         /// </summary>
         [HttpGet("GetPaymentStatuses")]
-        public ActionResult<IEnumerable<object>> GetPaymentStatuses()
+        public ActionResult<IEnumerable<EnumOptionDto>> GetPaymentStatuses()
         {
             try
             {
-                var options = Enum.GetValues(typeof(PaymentStatus))
-                    .Cast<PaymentStatus>()
-                    .Select(s => new { value = s.ToString(), id = (int)s })
-                    .OrderBy(x => x.id)
-                    .ToList();
-
-                return Ok(options);
+                return Ok(_saleNoteService.GetPaymentStatusOptions());
             }
             catch (Exception ex)
             {

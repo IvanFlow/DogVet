@@ -1,6 +1,6 @@
 using DogVetAPI.Application;
+using DogVetAPI.Application.Application;
 using DogVetAPI.Application.Services.Interfaces;
-using DogVetAPI.Data.Entities;
 using DogVetAPI.Data.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,17 +56,11 @@ namespace DogVetAPI.WebAPI.Controllers
         /// Gets all available species values
         /// </summary>
         [HttpGet("GetPetSpecies")]
-        public ActionResult<IEnumerable<object>> GetPetSpecies()
+        public ActionResult<IEnumerable<EnumOptionDto>> GetPetSpecies()
         {
             try
             {
-                var species = Enum.GetValues(typeof(Species))
-                    .Cast<Species>()
-                    .Select(s => new { value = s.ToString(), id = (int)s })
-                    .OrderBy(x => x.id)
-                    .ToList();
-
-                return Ok(species);
+                return Ok(_petService.GetSpeciesOptions());
             }
             catch (Exception ex)
             {

@@ -24,7 +24,7 @@ namespace DogVetAPI.Application.Mappers
                 CreatedAt = entity.CreatedAt,
                 UpdatedAt = entity.UpdatedAt,
                 Pets = withPets && entity.Pets != null
-                    ? entity.Pets.Select(p => p.ToDto()).ToList()
+                    ? entity.Pets.Select(p => p.ToDto()!).ToList()
                     : null
             };
 
@@ -33,7 +33,7 @@ namespace DogVetAPI.Application.Mappers
 
         public static IEnumerable<OwnerDto> ToDto(this IEnumerable<OwnerEntity> entities)
         {
-            return entities?.Select(e => e.ToDto()) ?? Enumerable.Empty<OwnerDto>();
+            return entities?.Select(e => e.ToDto()!) ?? Enumerable.Empty<OwnerDto>();
         }
     }
 }

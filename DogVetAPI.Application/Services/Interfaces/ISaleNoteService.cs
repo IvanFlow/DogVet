@@ -9,4 +9,5 @@ public interface ISaleNoteService
     Task<IEnumerable<SaleNoteDto>> GetByMedicalHistoryIdAsync(int medicalHistoryId);
     Task<bool> DeleteAsync(int id);
     Task<SaleNoteDto?> UpdatePaymentStatusAsync(int id, string paymentStatus);
+    IEnumerable<EnumOptionDto> GetPaymentStatusOptions();
 }

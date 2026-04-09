@@ -41,7 +41,7 @@ namespace DogVetAPI.Application.Services
             var createdOwner = await _ownerRepository.AddAsync(owner);
             await _ownerRepository.SaveChangesAsync();
             
-            return createdOwner.ToDto();
+            return createdOwner.ToDto()!;
         }
 
         public async Task<OwnerDto?> UpdateOwnerAsync(UpdateOwnerDto updateOwnerDto)

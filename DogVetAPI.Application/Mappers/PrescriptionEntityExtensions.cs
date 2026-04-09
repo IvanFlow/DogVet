@@ -25,7 +25,7 @@ namespace DogVetAPI.Application.Mappers
 
         public static IEnumerable<PrescriptionDto> ToDto(this IEnumerable<PrescriptionEntity> entities)
         {
-            return entities?.Select(e => e.ToDto()) ?? Enumerable.Empty<PrescriptionDto>();
+            return entities?.Select(e => e.ToDto()!) ?? Enumerable.Empty<PrescriptionDto>();
         }
     }
 }

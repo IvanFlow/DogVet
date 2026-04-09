@@ -1,4 +1,5 @@
 using DogVetAPI.Application.Services.Interfaces;
+using DogVetAPI.Application.Application;
 using DogVetAPI.Application.Mappers;
 using DogVetAPI.Data.Entities;
 using DogVetAPI.Data.Entities.Enums;
@@ -90,6 +91,22 @@ namespace DogVetAPI.Application.Services
             {
                 return false;
             }
+        }
+
+        public IEnumerable<EnumOptionDto> GetDoseFrequencyOptions()
+        {
+            return Enum.GetValues(typeof(DoseFrequency))
+                .Cast<DoseFrequency>()
+                .OrderBy(d => (int)d)
+                .Select(d => new EnumOptionDto { Value = d.ToString(), Id = (int)d });
+        }
+
+        public IEnumerable<EnumOptionDto> GetPrescriptionStatusOptions()
+        {
+            return Enum.GetValues(typeof(PrescriptionStatus))
+                .Cast<PrescriptionStatus>()
+                .OrderBy(s => (int)s)
+                .Select(s => new EnumOptionDto { Value = s.ToString(), Id = (int)s });
         }
     }
 }

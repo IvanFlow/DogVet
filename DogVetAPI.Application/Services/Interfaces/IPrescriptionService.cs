@@ -1,4 +1,5 @@
 using DogVetAPI.Application;
+using DogVetAPI.Application.Application;
 using DogVetAPI.Data.Entities;
 
 namespace DogVetAPI.Application.Services.Interfaces
@@ -12,6 +13,8 @@ namespace DogVetAPI.Application.Services.Interfaces
         Task<IEnumerable<PrescriptionDto>> CreateOrUpdatePrescriptionsAsync(CreatePrescriptionsRequest request);
         Task<bool> DeleteAllPrescriptionsByMedicalHistoryIdAsync(int medicalHistoryId);
         Task<bool> UpdatePrescriptionStatusAsync(int prescriptionId, string status);
+        IEnumerable<EnumOptionDto> GetDoseFrequencyOptions();
+        IEnumerable<EnumOptionDto> GetPrescriptionStatusOptions();
     }
 }
 

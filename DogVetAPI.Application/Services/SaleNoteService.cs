@@ -109,4 +109,12 @@ public class SaleNoteService : ISaleNoteService
         await _saleNoteRepository.SaveChangesAsync();
         return saleNote.ToDto();
     }
+
+    public IEnumerable<EnumOptionDto> GetPaymentStatusOptions()
+    {
+        return Enum.GetValues(typeof(PaymentStatus))
+            .Cast<PaymentStatus>()
+            .OrderBy(s => (int)s)
+            .Select(s => new EnumOptionDto { Value = s.ToString(), Id = (int)s });
+    }
 }

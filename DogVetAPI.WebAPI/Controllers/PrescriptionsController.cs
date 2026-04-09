@@ -1,7 +1,7 @@
 using DogVetAPI.Application;
+using DogVetAPI.Application.Application;
 using DogVetAPI.Application.Services.Interfaces;
 using DogVetAPI.Data.Entities;
-using DogVetAPI.Data.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogVetAPI.WebAPI.Controllers
@@ -64,17 +64,11 @@ namespace DogVetAPI.WebAPI.Controllers
         /// Gets all available dose frequency options
         /// </summary>
         [HttpGet("GetDoseFrequencyOptions")]
-        public ActionResult<IEnumerable<object>> GetDoseFrequencyOptions()
+        public ActionResult<IEnumerable<EnumOptionDto>> GetDoseFrequencyOptions()
         {
             try
             {
-                var options = Enum.GetValues(typeof(DoseFrequency))
-                    .Cast<DoseFrequency>()
-                    .Select(d => new { value = d.ToString(), id = (int)d })
-                    .OrderBy(x => x.id)
-                    .ToList();
-
-                return Ok(options);
+                return Ok(_prescriptionService.GetDoseFrequencyOptions());
             }
             catch (Exception ex)
             {
@@ -87,17 +81,11 @@ namespace DogVetAPI.WebAPI.Controllers
         /// Gets all available prescription status options
         /// </summary>
         [HttpGet("GetPrescriptionStatusOptions")]
-        public ActionResult<IEnumerable<object>> GetPrescriptionStatusOptions()
+        public ActionResult<IEnumerable<EnumOptionDto>> GetPrescriptionStatusOptions()
         {
             try
             {
-                var options = Enum.GetValues(typeof(PrescriptionStatus))
-                    .Cast<PrescriptionStatus>()
-                    .Select(s => new { value = s.ToString(), id = (int)s })
-                    .OrderBy(x => x.id)
-                    .ToList();
-
-                return Ok(options);
+                return Ok(_prescriptionService.GetPrescriptionStatusOptions());
             }
             catch (Exception ex)
             {
