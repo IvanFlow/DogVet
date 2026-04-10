@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { OwnerService } from '../../services/owner.service';
 import { PetService } from '../../services/pet.service';
 import { MedicalHistoryService } from '../../services/medical-history.service';
+import { SaleNoteService } from '../../services/sales-note.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,11 +21,13 @@ export class DashboardComponent implements OnInit {
   missedFollowUps = 0;
   overdueFollowUps = 0;
   recentRecords = 0;
+  recentSaleNotes = 0;
 
   constructor(
     private ownerService: OwnerService,
     private petService: PetService,
-    private medicalHistoryService: MedicalHistoryService
+    private medicalHistoryService: MedicalHistoryService,
+    private saleNoteService: SaleNoteService
   ) {}
 
   ngOnInit() {
@@ -66,6 +69,13 @@ export class DashboardComponent implements OnInit {
         ).length;
       },
       error: err => console.error('Error loading record count:', err)
+    });
+    this.saleNoteService.getAll().subscribe({
+      next: notes => {
+        const ago30 = new Date(); ago30.setDate(ago30.getDate() - 30);
+        this.recentSaleNotes = notes.filter(n => n.noteDate && new Date(n.noteDate) >= ago30).length;
+      },
+      error: err => console.error('Error loading sale notes count:', err)
     });
   }
 }

@@ -41,6 +41,14 @@
       </div>
       <a routerLink="/medical-histories" [state]="{clearFilters: true}" class="btn btn-outline btn-sm">Ver Todos</a>
     </div>
+    <div class="stat-card">
+      <div class="stat-icon">📝</div>
+      <div class="stat-body">
+        <div class="stat-number">{{ recentSaleNotes }}</div>
+        <div class="stat-label">Notas de Venta Últimos 30 días</div>
+      </div>
+      <a routerLink="/sale-notes" [state]="{clearFilters: true}" class="btn btn-outline btn-sm">Ver Todas</a>
+    </div>
   </div>
 
   <div class="stats-grid">
