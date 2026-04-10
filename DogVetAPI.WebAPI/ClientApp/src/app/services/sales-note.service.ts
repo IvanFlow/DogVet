@@ -38,6 +38,10 @@ export class SaleNoteService {
 
   constructor(private http: HttpClient) {}
 
+  getAll(): Observable<SaleNote[]> {
+    return this.http.get<SaleNote[]>(`${this.apiUrl}/GetAllSaleNotes`);
+  }
+
   create(saleNote: SaleNote): Observable<SaleNote> {
     return this.http.post<SaleNote>(`${this.apiUrl}/CreateSaleNote`, saleNote);
   }

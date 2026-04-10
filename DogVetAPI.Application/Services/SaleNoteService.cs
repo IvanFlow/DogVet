@@ -65,6 +65,12 @@ public class SaleNoteService : ISaleNoteService
         return saleNote.ToDto();
     }
 
+    public async Task<IEnumerable<SaleNoteDto>> GetAllAsync()
+    {
+        var notes = await _saleNoteRepository.GetAllAsync();
+        return notes.ToDtos();
+    }
+
     public async Task<SaleNoteDto?> GetByIdAsync(int id)
     {
         var saleNote = await _saleNoteRepository.GetByIdWithConceptsAsync(id);

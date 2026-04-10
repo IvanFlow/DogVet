@@ -59,6 +59,10 @@ export const routes: Routes = [
   },
   // Sale Notes routes
   {
+    path: 'sale-notes',
+    loadComponent: () => import('./pages/sale-notes/sale-notes-list/sale-notes-list.component').then(m => m.SaleNotesListComponent)
+  },
+  {
     path: 'sale-notes/:id',
     loadComponent: () => import('./pages/sale-notes/sale-note-detail/sale-note-detail.component').then(m => m.SaleNoteDetailComponent)
   },

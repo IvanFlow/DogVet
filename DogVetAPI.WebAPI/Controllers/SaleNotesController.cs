@@ -12,6 +12,24 @@ namespace DogVetAPI.WebAPI.Controllers
         private readonly ILogger<SaleNotesController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         /// <summary>
+        /// Gets all sale notes
+        /// </summary>
+        [HttpGet("GetAllSaleNotes")]
+        public async Task<ActionResult<IEnumerable<SaleNoteDto>>> GetAllSaleNotes()
+        {
+            try
+            {
+                var saleNotes = await _saleNoteService.GetAllAsync();
+                return Ok(saleNotes);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving sale notes");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        /// <summary>
         /// Creates a new sale note with concepts
         /// </summary>
         [HttpPost("CreateSaleNote")]

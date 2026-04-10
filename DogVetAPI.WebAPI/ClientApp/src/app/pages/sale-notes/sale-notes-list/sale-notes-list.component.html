@@ -1,0 +1,56 @@
+<div class="page-content">
+  <div class="page-header">
+    <h1>📝 Notas de Venta</h1>
+  </div>
+
+  <div class="card" style="margin-bottom: var(--space-md); display: flex; gap: var(--space-sm); flex-wrap: wrap;">
+    <input class="form-control" [(ngModel)]="search" placeholder="🔍 Buscar por número, fecha o estado..." style="flex: 1; min-width: 200px;" />
+    <select class="form-control" [(ngModel)]="filterStatus" style="width: auto; min-width: 150px;">
+      <option value="">Todos los estados</option>
+      <option value="Pending">Pendiente</option>
+      <option value="Paid">Pagado</option>
+    </select>
+  </div>
+
+  <div *ngIf="loading" class="spinner-wrap">
+    <div class="spinner"></div>
+    <p style="text-align: center; margin-top: var(--space-md); color: var(--color-text-muted);">Cargando notas de venta...</p>
+  </div>
+  <div *ngIf="!loading && error" class="alert alert-danger">{{ error }}</div>
+
+  <div *ngIf="!loading && !error">
+    <div *ngIf="filtered.length === 0" class="empty-state">
+      <span class="empty-icon">📝</span>
+      <p>No se encontraron notas de venta.</p>
+    </div>
+
+    <div *ngIf="filtered.length > 0" class="card table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th class="hide-mobile">Fecha</th>
+            <th>Total</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let note of filtered" (click)="navigateTo(note.id)" style="cursor: pointer;">
+            <td>
+              <a [routerLink]="['/sale-notes', note.id]" style="font-weight: 500;" (click)="$event.stopPropagation()">
+                #{{ note.id }}
+              </a>
+            </td>
+            <td class="hide-mobile">{{ note.noteDate | spanishDate:'shortDate' }}</td>
+            <td>{{ note.totalAmount | currencyMx }}</td>
+            <td>
+              <span [class]="'badge ' + (note.paymentStatus === 'Paid' ? 'badge-success' : 'badge-warning')">
+                {{ note.paymentStatus | status }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

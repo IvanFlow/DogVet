@@ -18,9 +18,15 @@ export interface MedicalHistoryListState {
   followUpDateRange?: string;
 }
 
+export interface SaleNoteListState {
+  search: string;
+  filterStatus: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class ListStateService {
   ownerList: OwnerListState = { search: '' };
   petList: PetListState = { search: '', filterOwner: '', filterSpecies: '' };
   medicalHistoryList: MedicalHistoryListState = { search: '', filterOwner: '', filterPet: '', filterByFollowUp: false, followUpDateRange: '' };
+  saleNoteList: SaleNoteListState = { search: '', filterStatus: '' };
 }
