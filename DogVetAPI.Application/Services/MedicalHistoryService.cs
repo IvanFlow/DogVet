@@ -84,6 +84,17 @@ namespace DogVetAPI.Application.Services
             existingRecordDto.VeterinarianId = updateRecordDto.VeterinarianId;
             existingRecordDto.FollowUpOf = updateRecordDto.FollowUpOf;
             existingRecordDto.UpdatedAt = DateTime.UtcNow;
+
+            if (updateRecordDto.FollowUpOf.HasValue)
+            {
+                var previousRecord = await _medicalHistoryRepository.GetByIdAsync(updateRecordDto.FollowUpOf.Value);
+                if (previousRecord != null)
+                {
+                    previousRecord.Status = MedicalHistoryStatusStrings.Completed;
+                    previousRecord.UpdatedAt = DateTime.UtcNow;
+                    _medicalHistoryRepository.Update(previousRecord);
+                }
+            }
             
             var updatedRecord = _medicalHistoryRepository.Update(existingRecordDto);
             await _medicalHistoryRepository.SaveChangesAsync();
