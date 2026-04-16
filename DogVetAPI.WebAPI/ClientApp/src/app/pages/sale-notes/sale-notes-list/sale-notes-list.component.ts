@@ -32,7 +32,7 @@ export class SaleNotesListComponent implements OnInit, OnDestroy {
         const matchesStatus = !this.filterStatus || n.paymentStatus === this.filterStatus;
         return matchesSearch && matchesStatus;
       })
-      .sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+      .sort((a, b) => new Date(b.noteDate ?? 0).getTime() - new Date(a.noteDate ?? 0).getTime());
   }
 
   constructor(

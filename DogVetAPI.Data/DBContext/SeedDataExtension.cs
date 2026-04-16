@@ -35,7 +35,7 @@ namespace DogVetAPI.Data.DBContext
             var pets = SeedPets(context, owners, seedDate);
             var medicalHistories = SeedMedicalHistories(context, pets, veterinarians, seedDate, today);
             var prescriptions = SeedPrescriptions(context, medicalHistories, seedDate);
-            var saleNotes = SeedSaleNotes(context, medicalHistories, seedDate);
+            var saleNotes = SeedSaleNotes(context, medicalHistories, seedDate, today);
             var saleConcepts = SeedSaleNoteConcepts(context, saleNotes, seedDate);
             var appointments = SeedAppointments(context, owners, pets, seedDate);
             
@@ -104,7 +104,7 @@ namespace DogVetAPI.Data.DBContext
                 // Carlos Gutierrez (owner[0]) - 3 pets
                 new PetEntity { Name = "Canelo", Breed = "Golden Retriever", Weight = 30.5, Color = "Dorado", Gender = "Macho", DateOfBirth = new DateTime(2023, 3, 10, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[0], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new PetEntity { Name = "Bella", Breed = "Labrador", Weight = 28.0, Color = "Chocolate", Gender = "Hembra", DateOfBirth = new DateTime(2024, 6, 15, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[0], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new PetEntity { Name = "Rocky", Breed = "German Shepherd", Weight = 35.2, Color = "Negro y café", Gender = "Macho", DateOfBirth = new DateTime(2022, 1, 20, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PetEntity { Name = "Rocky", Breed = "German Shepherd", Weight = 35.2, Color = "Negro y cafï¿½", Gender = "Macho", DateOfBirth = new DateTime(2022, 1, 20, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[0], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Maria Lopez (owner[1]) - 2 pets
                 new PetEntity { Name = "Negra", Breed = "Poodle Negro", Weight = 12.3, Color = "Negro", Gender = "Hembra", DateOfBirth = new DateTime(2024, 5, 5, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[1], CreatedAt = seedDate, UpdatedAt = seedDate },
@@ -119,29 +119,29 @@ namespace DogVetAPI.Data.DBContext
                 new PetEntity { Name = "Princesa", Breed = "Shih Tzu", Weight = 8.7, Color = "Blanco", Gender = "Hembra", DateOfBirth = new DateTime(2025, 2, 14, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[3], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Luis Perez (owner[4]) - 2 pets
-                new PetEntity { Name = "Thor", Breed = "Pastor Alemán", Weight = 35.2, Color = "Negro con café", Gender = "Macho", DateOfBirth = new DateTime(2022, 9, 1, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = false, Owner = owners[4], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PetEntity { Name = "Thor", Breed = "Pastor Alemï¿½n", Weight = 35.2, Color = "Negro con cafï¿½", Gender = "Macho", DateOfBirth = new DateTime(2022, 9, 1, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = false, Owner = owners[4], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new PetEntity { Name = "Nala", Breed = "Husky", Weight = 25.0, Color = "Blanco y gris", Gender = "Hembra", DateOfBirth = new DateTime(2023, 8, 25, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[4], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Gabriela Reyes (owner[5]) - 3 pets
-                new PetEntity { Name = "Gordo", Breed = "Bulldog Inglés", Weight = 28.0, Color = "Bayo", Gender = "Macho", DateOfBirth = new DateTime(2023, 5, 12, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[5], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PetEntity { Name = "Gordo", Breed = "Bulldog Inglï¿½s", Weight = 28.0, Color = "Bayo", Gender = "Macho", DateOfBirth = new DateTime(2023, 5, 12, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[5], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new PetEntity { Name = "Mimi", Breed = "Maltesa", Weight = 4.5, Color = "Blanco", Gender = "Hembra", DateOfBirth = new DateTime(2024, 7, 22, 0, 0, 0, DateTimeKind.Utc), Species = Species.Cat.ToString(), IsActive = true, Owner = owners[5], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new PetEntity { Name = "Rex", Breed = "Doberman", Weight = 32.0, Color = "Negro y fuego", Gender = "Macho", DateOfBirth = new DateTime(2022, 4, 5, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[5], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Francisco Mendez (owner[6]) - 2 pets
                 new PetEntity { Name = "Coco", Breed = "Pug", Weight = 8.0, Color = "Negro", Gender = "Macho", DateOfBirth = new DateTime(2021, 11, 30, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[6], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new PetEntity { Name = "Laila", Breed = "Dachshund", Weight = 6.5, Color = "Café oscuro", Gender = "Hembra", DateOfBirth = new DateTime(2023, 9, 14, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[6], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PetEntity { Name = "Laila", Breed = "Dachshund", Weight = 6.5, Color = "Cafï¿½ oscuro", Gender = "Hembra", DateOfBirth = new DateTime(2023, 9, 14, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[6], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Patricia Ruiz (owner[7]) - 1 pet
-                new PetEntity { Name = "Toby", Breed = "Jack Russell Terrier", Weight = 6.2, Color = "Blanco con café", Gender = "Macho", DateOfBirth = new DateTime(2024, 10, 8, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[7], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PetEntity { Name = "Toby", Breed = "Jack Russell Terrier", Weight = 6.2, Color = "Blanco con cafï¿½", Gender = "Macho", DateOfBirth = new DateTime(2024, 10, 8, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[7], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Antonio Campos (owner[8]) - 3 pets
                 new PetEntity { Name = "Fido", Breed = "Rottweiler", Weight = 40.0, Color = "Negro y fuego", Gender = "Macho", DateOfBirth = new DateTime(2022, 6, 18, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[8], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new PetEntity { Name = "Daisy", Breed = "Pinscher", Weight = 5.5, Color = "Rojo", Gender = "Hembra", DateOfBirth = new DateTime(2024, 8, 3, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[8], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new PetEntity { Name = "Duke", Breed = "Mastiff", Weight = 55.0, Color = "Café claro", Gender = "Macho", DateOfBirth = new DateTime(2020, 5, 27, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[8], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PetEntity { Name = "Duke", Breed = "Mastiff", Weight = 55.0, Color = "Cafï¿½ claro", Gender = "Macho", DateOfBirth = new DateTime(2020, 5, 27, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[8], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Sofia Valencia (owner[9]) - 2 pets
                 new PetEntity { Name = "Pelusa", Breed = "Poodle Blanco", Weight = 10.0, Color = "Blanco", Gender = "Hembra", DateOfBirth = new DateTime(2025, 1, 5, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[9], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new PetEntity { Name = "Simba", Breed = "Cocker Spaniel", Weight = 16.0, Color = "Café y blanco", Gender = "Macho", DateOfBirth = new DateTime(2022, 12, 10, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[9], CreatedAt = seedDate, UpdatedAt = seedDate }
+                new PetEntity { Name = "Simba", Breed = "Cocker Spaniel", Weight = 16.0, Color = "Cafï¿½ y blanco", Gender = "Macho", DateOfBirth = new DateTime(2022, 12, 10, 0, 0, 0, DateTimeKind.Utc), Species = Species.Dog.ToString(), IsActive = true, Owner = owners[9], CreatedAt = seedDate, UpdatedAt = seedDate }
             };
             context.Pets.AddRange(pets);
             return pets;
@@ -182,13 +182,13 @@ namespace DogVetAPI.Data.DBContext
             var visitPast8 = today.AddDays(-8);
             var visitPast5 = today.AddDays(-5);
             
-            // Overdue follow-ups (já pasaron)
+            // Overdue follow-ups (jï¿½ pasaron)
             var followUpOverdue30 = today.AddDays(-30);
             var followUpOverdue20 = today.AddDays(-20);
             var followUpOverdue15 = today.AddDays(-15);
             var followUpOverdue10 = today.AddDays(-10);
             
-            // Follow-ups próximos 30 días
+            // Follow-ups prï¿½ximos 30 dï¿½as
             var followUpNext5 = today.AddDays(5);
             var followUpNext10 = today.AddDays(10);
             var followUpNext12 = today.AddDays(12);
@@ -197,7 +197,7 @@ namespace DogVetAPI.Data.DBContext
             var followUpNext20 = today.AddDays(20);
             var followUpNext25 = today.AddDays(25);
             
-            // Follow-ups futuros (>30 días)
+            // Follow-ups futuros (>30 dï¿½as)
             var followUpFuture60 = today.AddDays(60);
             var followUpFuture75 = today.AddDays(75);
             var followUpFuture90 = today.AddDays(90);
@@ -206,109 +206,109 @@ namespace DogVetAPI.Data.DBContext
             var histories = new List<MedicalHistoryEntity>
             {
                 // Canelo (pets[0]) - Golden Retriever
-                new MedicalHistoryEntity { Diagnosis = "Revisión general anual con vacunación", Notes = "Signos vitales normales, vacunas DHPP y antirrábica al día. Peso adecuado.", VisitDate = visitPast10, FollowUpDate = null, Status = "Completed", Pet = pets[0], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Limpieza dental preventiva", Notes = "Acumulación leve de sarro, detartraje realizado sin complicaciones", VisitDate = visitPast30, FollowUpDate = followUpFuture120, Status = "Completed", Pet = pets[0], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Otitis externa bilateral", Notes = "Infecciones de oído relacionadas con alergias. Gotas y medicamento oral prescritos.", VisitDate = visitPast20, FollowUpDate = followUpOverdue20, Status = "Follow-up", Pet = pets[0], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Revisión de seguimiento - otitis", Notes = "infección mejorando con tratamiento. Continuar gotas por una semana más.", VisitDate = visitPast5, FollowUpDate = null, Status = "Completed", Pet = pets[0], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Revisiï¿½n general anual con vacunaciï¿½n", Notes = "Signos vitales normales, vacunas DHPP y antirrï¿½bica al dï¿½a. Peso adecuado.", VisitDate = visitPast10, FollowUpDate = null, Status = "Completed", Pet = pets[0], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Limpieza dental preventiva", Notes = "Acumulaciï¿½n leve de sarro, detartraje realizado sin complicaciones", VisitDate = visitPast30, FollowUpDate = followUpFuture120, Status = "Completed", Pet = pets[0], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Otitis externa bilateral", Notes = "Infecciones de oï¿½do relacionadas con alergias. Gotas y medicamento oral prescritos.", VisitDate = visitPast20, FollowUpDate = followUpOverdue20, Status = "Follow-up", Pet = pets[0], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Revisiï¿½n de seguimiento - otitis", Notes = "infecciï¿½n mejorando con tratamiento. Continuar gotas por una semana mï¿½s.", VisitDate = visitPast5, FollowUpDate = null, Status = "Completed", Pet = pets[0], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Bella (pets[1]) - Labrador
-                new MedicalHistoryEntity { Diagnosis = "vacunación de rutina para cachorra", Notes = "Primera dosis de DHPP aplicada. Revisar en 3-4 semanas para refuerzo.", VisitDate = visitPast120, FollowUpDate = visitPast90, Status = "Completed", Pet = pets[1], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Refuerzo de vacuna DHPP", Notes = "Segunda dosis de DHPP aplicada correctamente. Será revacunada en 1 año.", VisitDate = visitPast90, FollowUpDate = null, Status = "Completed", Pet = pets[1], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Alergia alimentaria con dermatitis", Notes = "Cambio de dieta recomendado. Medicamento antihistamínico prescrito.", VisitDate = visitPast45, FollowUpDate = followUpNext25, Status = "Follow-up", Pet = pets[1], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Revisión de seguimiento nutrición", Notes = "Se evalúa respuesta al nuevo alimento. Mejora notoria en condición de piel.", VisitDate = visitPast15, FollowUpDate = null, Status = "Completed", Pet = pets[1], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "vacunaciï¿½n de rutina para cachorra", Notes = "Primera dosis de DHPP aplicada. Revisar en 3-4 semanas para refuerzo.", VisitDate = visitPast120, FollowUpDate = visitPast90, Status = "Completed", Pet = pets[1], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Refuerzo de vacuna DHPP", Notes = "Segunda dosis de DHPP aplicada correctamente. Serï¿½ revacunada en 1 aï¿½o.", VisitDate = visitPast90, FollowUpDate = null, Status = "Completed", Pet = pets[1], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Alergia alimentaria con dermatitis", Notes = "Cambio de dieta recomendado. Medicamento antihistamï¿½nico prescrito.", VisitDate = visitPast45, FollowUpDate = followUpNext25, Status = "Follow-up", Pet = pets[1], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Revisiï¿½n de seguimiento nutriciï¿½n", Notes = "Se evalï¿½a respuesta al nuevo alimento. Mejora notoria en condiciï¿½n de piel.", VisitDate = visitPast15, FollowUpDate = null, Status = "Completed", Pet = pets[1], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Rocky (pets[2]) - German Shepherd
-                new MedicalHistoryEntity { Diagnosis = "Displasia de cadera - evaluación radiológica", Notes = "Radiografías realizadas. Grado moderado de displasia. Fisioterapia recomendada.", VisitDate = visitPast60, FollowUpDate = followUpFuture75, Status = "Follow-up", Pet = pets[2], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Control de peso y condición muscular", Notes = "Reducción de actividad debido a displasia. Dieta especial iniciada.", VisitDate = visitPast10, FollowUpDate = null, Status = "Completed", Pet = pets[2], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Revisión anual con pruebas de sangre", Notes = "Análisis completo realizado. Resultados dentro de parámetros normales.", VisitDate = visitPast5, FollowUpDate = null, Status = "Completed", Pet = pets[2], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Displasia de cadera - evaluaciï¿½n radiolï¿½gica", Notes = "Radiografï¿½as realizadas. Grado moderado de displasia. Fisioterapia recomendada.", VisitDate = visitPast60, FollowUpDate = followUpFuture75, Status = "Follow-up", Pet = pets[2], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Control de peso y condiciï¿½n muscular", Notes = "Reducciï¿½n de actividad debido a displasia. Dieta especial iniciada.", VisitDate = visitPast10, FollowUpDate = null, Status = "Completed", Pet = pets[2], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Revisiï¿½n anual con pruebas de sangre", Notes = "Anï¿½lisis completo realizado. Resultados dentro de parï¿½metros normales.", VisitDate = visitPast5, FollowUpDate = null, Status = "Completed", Pet = pets[2], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Negra (pets[3]) - Poodle Negro
-                new MedicalHistoryEntity { Diagnosis = "Otitis externa con infección bacteriana", Notes = "Cultivo realizado. Gotas antibacterianas prescritas. Control en 2 semanas.", VisitDate = visitPast15, FollowUpDate = followUpNext20, Status = "Follow-up", Pet = pets[3], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Revisión de seguimiento - otitis control", Notes = "infección controlada con gotas. Continuar tratamiento 7 días más.", VisitDate = visitPast10, FollowUpDate = null, Status = "Completed", Pet = pets[3], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Limpieza de oidos y Revisión dental", Notes = "Higiene correcta. Se recomienda limpieza semanal de oídos.", VisitDate = visitPast25, FollowUpDate = null, Status = "Completed", Pet = pets[3], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Revisión pre-grooming y vacunación", Notes = "Estado general excelente. Vacuna antirrábica aplicada.", VisitDate = visitPast45, FollowUpDate = null, Status = "Completed", Pet = pets[3], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Otitis externa con infecciï¿½n bacteriana", Notes = "Cultivo realizado. Gotas antibacterianas prescritas. Control en 2 semanas.", VisitDate = visitPast15, FollowUpDate = followUpNext20, Status = "Follow-up", Pet = pets[3], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Revisiï¿½n de seguimiento - otitis control", Notes = "infecciï¿½n controlada con gotas. Continuar tratamiento 7 dï¿½as mï¿½s.", VisitDate = visitPast10, FollowUpDate = null, Status = "Completed", Pet = pets[3], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Limpieza de oidos y Revisiï¿½n dental", Notes = "Higiene correcta. Se recomienda limpieza semanal de oï¿½dos.", VisitDate = visitPast25, FollowUpDate = null, Status = "Completed", Pet = pets[3], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Revisiï¿½n pre-grooming y vacunaciï¿½n", Notes = "Estado general excelente. Vacuna antirrï¿½bica aplicada.", VisitDate = visitPast45, FollowUpDate = null, Status = "Completed", Pet = pets[3], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Max (pets[4]) - Boxer
-                new MedicalHistoryEntity { Diagnosis = "Displasia de cadera leve", Notes = "Radiografías muestran displasia leve. Seguimiento clínico recomendado.", VisitDate = visitPast60, FollowUpDate = followUpNext20, Status = "Follow-up", Pet = pets[4], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Control articular y evaluación de dolor", Notes = "Sin evidencia de dolor. Peso adecuado. Suplemento articular iniciado.", VisitDate = visitPast10, FollowUpDate = null, Status = "Completed", Pet = pets[4], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Vacuna antirrábica de refuerzo", Notes = "Refuerzo aplicado sin complicaciones.", VisitDate = visitPast30, FollowUpDate = null, Status = "Completed", Pet = pets[4], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Displasia de cadera leve", Notes = "Radiografï¿½as muestran displasia leve. Seguimiento clï¿½nico recomendado.", VisitDate = visitPast60, FollowUpDate = followUpNext20, Status = "Follow-up", Pet = pets[4], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Control articular y evaluaciï¿½n de dolor", Notes = "Sin evidencia de dolor. Peso adecuado. Suplemento articular iniciado.", VisitDate = visitPast10, FollowUpDate = null, Status = "Completed", Pet = pets[4], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Vacuna antirrï¿½bica de refuerzo", Notes = "Refuerzo aplicado sin complicaciones.", VisitDate = visitPast30, FollowUpDate = null, Status = "Completed", Pet = pets[4], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Titan (pets[5]) - Beagle
-                new MedicalHistoryEntity { Diagnosis = "Otitis media recurrente", Notes = "Historial de infecciones de oído. evaluación auditiva recomendada.", VisitDate = visitPast25, FollowUpDate = followUpNext15, Status = "Follow-up", Pet = pets[5], Veterinarian = veterinarians[3], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Limpieza dental - eliminación de cálculo", Notes = "Detartraje completo realizado. Higiene oral deficiente. Cepillado diario recomendado.", VisitDate = visitPast45, FollowUpDate = followUpFuture90, Status = "Completed", Pet = pets[5], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Revisión geriátrica completa", Notes = "Perro adulto mayor evaluado. Signos vitales estables. Seguimiento preventivo recomendado.", VisitDate = visitPast15, FollowUpDate = followUpFuture120, Status = "Completed", Pet = pets[5], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Otitis media recurrente", Notes = "Historial de infecciones de oï¿½do. evaluaciï¿½n auditiva recomendada.", VisitDate = visitPast25, FollowUpDate = followUpNext15, Status = "Follow-up", Pet = pets[5], Veterinarian = veterinarians[3], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Limpieza dental - eliminaciï¿½n de cï¿½lculo", Notes = "Detartraje completo realizado. Higiene oral deficiente. Cepillado diario recomendado.", VisitDate = visitPast45, FollowUpDate = followUpFuture90, Status = "Completed", Pet = pets[5], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Revisiï¿½n geriï¿½trica completa", Notes = "Perro adulto mayor evaluado. Signos vitales estables. Seguimiento preventivo recomendado.", VisitDate = visitPast15, FollowUpDate = followUpFuture120, Status = "Completed", Pet = pets[5], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Luna (pets[6]) - Cocker Spaniel
-                new MedicalHistoryEntity { Diagnosis = "Queratitis ulcerativa en ojo derecho", Notes = "úlcera corneal superficial. Lubricantes oftálmicos y antibióticos prescritos.", VisitDate = visitPast30, FollowUpDate = visitPast20, Status = "Completed", Pet = pets[6], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Revisión oftalmológica post-tratamiento", Notes = "úlcera cicatrizada completamente. Visión recuperada.", VisitDate = visitPast25, FollowUpDate = null, Status = "Completed", Pet = pets[6], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "vacunación de rutina", Notes = "Vacunas DHPP y antirrábica aplicadas. Presencia de ectoparásitos detectada.", VisitDate = visitPast10, FollowUpDate = followUpNext10, Status = "Follow-up", Pet = pets[6], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Queratitis ulcerativa en ojo derecho", Notes = "ï¿½lcera corneal superficial. Lubricantes oftï¿½lmicos y antibiï¿½ticos prescritos.", VisitDate = visitPast30, FollowUpDate = visitPast20, Status = "Completed", Pet = pets[6], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Revisiï¿½n oftalmolï¿½gica post-tratamiento", Notes = "ï¿½lcera cicatrizada completamente. Visiï¿½n recuperada.", VisitDate = visitPast25, FollowUpDate = null, Status = "Completed", Pet = pets[6], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "vacunaciï¿½n de rutina", Notes = "Vacunas DHPP y antirrï¿½bica aplicadas. Presencia de ectoparï¿½sitos detectada.", VisitDate = visitPast10, FollowUpDate = followUpNext10, Status = "Follow-up", Pet = pets[6], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Charlie (pets[7]) - Schnauzer
-                new MedicalHistoryEntity { Diagnosis = "desparasitación cachorro - interna y externa", Notes = "Parásitos internos detectados en Análisis fecal. Tratamiento completo iniciado.", VisitDate = visitPast90, FollowUpDate = visitPast75, Status = "Completed", Pet = pets[7], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Refuerzo de desparasitación", Notes = "Análisis fecal repetido. Control negativo. Cachorro en buena salud.", VisitDate = visitPast75, FollowUpDate = null, Status = "Completed", Pet = pets[7], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "vacunación primaria - DHPP", Notes = "Primera dosis de vacuna polivalente aplicada correctamente.", VisitDate = visitPast85, FollowUpDate = visitPast65, Status = "Completed", Pet = pets[7], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "desparasitaciï¿½n cachorro - interna y externa", Notes = "Parï¿½sitos internos detectados en Anï¿½lisis fecal. Tratamiento completo iniciado.", VisitDate = visitPast90, FollowUpDate = visitPast75, Status = "Completed", Pet = pets[7], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Refuerzo de desparasitaciï¿½n", Notes = "Anï¿½lisis fecal repetido. Control negativo. Cachorro en buena salud.", VisitDate = visitPast75, FollowUpDate = null, Status = "Completed", Pet = pets[7], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "vacunaciï¿½n primaria - DHPP", Notes = "Primera dosis de vacuna polivalente aplicada correctamente.", VisitDate = visitPast85, FollowUpDate = visitPast65, Status = "Completed", Pet = pets[7], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Princesa (pets[8]) - Shih Tzu
-                new MedicalHistoryEntity { Diagnosis = "Conjuntivitis alérgica bilateral", Notes = "Inflamación leve de conjuntivas. Gotas oftálmicas y antihistamínico prescrito.", VisitDate = visitPast20, FollowUpDate = followUpOverdue15, Status = "Follow-up", Pet = pets[8], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Limpieza de oídos preventiva", Notes = "Orejas largas propensas a infecciones. Limpieza completa realizada.", VisitDate = visitPast40, FollowUpDate = followUpFuture75, Status = "Completed", Pet = pets[8], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "vacunación de cachorra", Notes = "DHPP y antirrábica iniciadas. Cachorrita pequeña pero saludable.", VisitDate = visitPast70, FollowUpDate = visitPast50, Status = "Completed", Pet = pets[8], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Conjuntivitis alï¿½rgica bilateral", Notes = "Inflamaciï¿½n leve de conjuntivas. Gotas oftï¿½lmicas y antihistamï¿½nico prescrito.", VisitDate = visitPast20, FollowUpDate = followUpOverdue15, Status = "Follow-up", Pet = pets[8], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Limpieza de oï¿½dos preventiva", Notes = "Orejas largas propensas a infecciones. Limpieza completa realizada.", VisitDate = visitPast40, FollowUpDate = followUpFuture75, Status = "Completed", Pet = pets[8], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "vacunaciï¿½n de cachorra", Notes = "DHPP y antirrï¿½bica iniciadas. Cachorrita pequeï¿½a pero saludable.", VisitDate = visitPast70, FollowUpDate = visitPast50, Status = "Completed", Pet = pets[8], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Thor (pets[9]) - Pastor Aleman (Inactivo)
-                new MedicalHistoryEntity { Diagnosis = "Enfermedad articular degenerativa avanzada", Notes = "Displasia severa progresiva. Medicamentos para dolor prescritos. Pronóstico limitado.", VisitDate = visitPast60, FollowUpDate = followUpNext10, Status = "Follow-up", Pet = pets[9], Veterinarian = veterinarians[4], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "evaluación geriátrica integral", Notes = "Perro adulto mayor con movilidad reducida. Calidad de vida evaluada.", VisitDate = visitPast90, FollowUpDate = null, Status = "Completed", Pet = pets[9], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Enfermedad articular degenerativa avanzada", Notes = "Displasia severa progresiva. Medicamentos para dolor prescritos. Pronï¿½stico limitado.", VisitDate = visitPast60, FollowUpDate = followUpNext10, Status = "Follow-up", Pet = pets[9], Veterinarian = veterinarians[4], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "evaluaciï¿½n geriï¿½trica integral", Notes = "Perro adulto mayor con movilidad reducida. Calidad de vida evaluada.", VisitDate = visitPast90, FollowUpDate = null, Status = "Completed", Pet = pets[9], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Nala (pets[10]) - Husky
-                new MedicalHistoryEntity { Diagnosis = "Alopecia estacional seasonal", Notes = "Caída excesiva de pelo típica de la raza. Suplemento de ácidos grasos prescrito.", VisitDate = visitPast25, FollowUpDate = followUpFuture120, Status = "Completed", Pet = pets[10], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Revisión post-muda", Notes = "Muda completada. Pelaje en excelente condición. Recomendación de cepillado frecuente mantenida.", VisitDate = visitPast10, FollowUpDate = null, Status = "Completed", Pet = pets[10], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Alopecia estacional seasonal", Notes = "Caï¿½da excesiva de pelo tï¿½pica de la raza. Suplemento de ï¿½cidos grasos prescrito.", VisitDate = visitPast25, FollowUpDate = followUpFuture120, Status = "Completed", Pet = pets[10], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Revisiï¿½n post-muda", Notes = "Muda completada. Pelaje en excelente condiciï¿½n. Recomendaciï¿½n de cepillado frecuente mantenida.", VisitDate = visitPast10, FollowUpDate = null, Status = "Completed", Pet = pets[10], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Gordo (pets[11]) - Bulldog Ingles
-                new MedicalHistoryEntity { Diagnosis = "Síndrome braquicefálico - dificultad respiratoria", Notes = "Respiración ruidosa y limitación en ejercicio. Cirugía correctiva evaluada.", VisitDate = visitPast40, FollowUpDate = followUpNext5, Status = "Follow-up", Pet = pets[11], Veterinarian = veterinarians[4], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "evaluación pre-quirurgica", Notes = "Análisis de sangre y Radiografías completadas. Apto para Cirugía.", VisitDate = visitPast50, FollowUpDate = null, Status = "Completed", Pet = pets[11], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Control de peso y dieta", Notes = "Sobrepeso leve detectado. Dieta baja en calorías recomendada.", VisitDate = visitPast8, FollowUpDate = followUpFuture90, Status = "Completed", Pet = pets[11], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Sï¿½ndrome braquicefï¿½lico - dificultad respiratoria", Notes = "Respiraciï¿½n ruidosa y limitaciï¿½n en ejercicio. Cirugï¿½a correctiva evaluada.", VisitDate = visitPast40, FollowUpDate = followUpNext5, Status = "Follow-up", Pet = pets[11], Veterinarian = veterinarians[4], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "evaluaciï¿½n pre-quirurgica", Notes = "Anï¿½lisis de sangre y Radiografï¿½as completadas. Apto para Cirugï¿½a.", VisitDate = visitPast50, FollowUpDate = null, Status = "Completed", Pet = pets[11], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Control de peso y dieta", Notes = "Sobrepeso leve detectado. Dieta baja en calorï¿½as recomendada.", VisitDate = visitPast8, FollowUpDate = followUpFuture90, Status = "Completed", Pet = pets[11], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Mimi (pets[12]) - Maltesa
-                new MedicalHistoryEntity { Diagnosis = "Calculus dental y enfermedad periodontal", Notes = "Acumulación severa de sarro. Limpieza dental urgente recomendada.", VisitDate = visitPast12, FollowUpDate = followUpOverdue10, Status = "Follow-up", Pet = pets[12], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Revisión rutinaria con vacunación", Notes = "Signos vitales normales. DHPP y antirrábica aplicadas.", VisitDate = visitPast50, FollowUpDate = null, Status = "Completed", Pet = pets[12], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Calculus dental y enfermedad periodontal", Notes = "Acumulaciï¿½n severa de sarro. Limpieza dental urgente recomendada.", VisitDate = visitPast12, FollowUpDate = followUpOverdue10, Status = "Follow-up", Pet = pets[12], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Revisiï¿½n rutinaria con vacunaciï¿½n", Notes = "Signos vitales normales. DHPP y antirrï¿½bica aplicadas.", VisitDate = visitPast50, FollowUpDate = null, Status = "Completed", Pet = pets[12], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Rex (pets[13]) - Doberman
-                new MedicalHistoryEntity { Diagnosis = "Cardiomiopatía dilatada - evaluación ecocardiográfica", Notes = "Función cardíaca reducida. Medicamentos para corazón prescritos. Restricción de ejercicio.", VisitDate = visitPast65, FollowUpDate = followUpFuture60, Status = "Follow-up", Pet = pets[13], Veterinarian = veterinarians[4], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Control cardíaco - evaluación de medicamentos", Notes = "Frecuencia cardíaca mejorando con tratamiento. Continuación de fármacos indicada.", VisitDate = visitPast8, FollowUpDate = null, Status = "Completed", Pet = pets[13], Veterinarian = veterinarians[4], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Revisión anual de rutina", Notes = "Dieta cardíaca y medicamentos continuados. Estado general estable.", VisitDate = visitPast30, FollowUpDate = null, Status = "Completed", Pet = pets[13], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Cardiomiopatï¿½a dilatada - evaluaciï¿½n ecocardiogrï¿½fica", Notes = "Funciï¿½n cardï¿½aca reducida. Medicamentos para corazï¿½n prescritos. Restricciï¿½n de ejercicio.", VisitDate = visitPast65, FollowUpDate = followUpFuture60, Status = "Follow-up", Pet = pets[13], Veterinarian = veterinarians[4], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Control cardï¿½aco - evaluaciï¿½n de medicamentos", Notes = "Frecuencia cardï¿½aca mejorando con tratamiento. Continuaciï¿½n de fï¿½rmacos indicada.", VisitDate = visitPast8, FollowUpDate = null, Status = "Completed", Pet = pets[13], Veterinarian = veterinarians[4], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Revisiï¿½n anual de rutina", Notes = "Dieta cardï¿½aca y medicamentos continuados. Estado general estable.", VisitDate = visitPast30, FollowUpDate = null, Status = "Completed", Pet = pets[13], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Coco (pets[14]) - Pug
-                new MedicalHistoryEntity { Diagnosis = "Obesidad - plan de Pérdida de peso", Notes = "Sobrepeso severo. Dieta restrictiva calórica iniciada. Ejercicio progresivo recomendado.", VisitDate = visitPast28, FollowUpDate = followUpNext12, Status = "Follow-up", Pet = pets[14], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Revisión oftalmológica preventiva", Notes = "Ojos prominentes evaluados. Sin úlceras detectadas. Limpieza de arrugas realizada.", VisitDate = visitPast35, FollowUpDate = null, Status = "Completed", Pet = pets[14], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Obesidad - plan de Pï¿½rdida de peso", Notes = "Sobrepeso severo. Dieta restrictiva calï¿½rica iniciada. Ejercicio progresivo recomendado.", VisitDate = visitPast28, FollowUpDate = followUpNext12, Status = "Follow-up", Pet = pets[14], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Revisiï¿½n oftalmolï¿½gica preventiva", Notes = "Ojos prominentes evaluados. Sin ï¿½lceras detectadas. Limpieza de arrugas realizada.", VisitDate = visitPast35, FollowUpDate = null, Status = "Completed", Pet = pets[14], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Laila (pets[15]) - Dachshund
-                new MedicalHistoryEntity { Diagnosis = "Parálisis lumbar - disco intervertebral herniad", Notes = "Pérdida parcial de movilidad trasera. Medicamentos y reposo prescrito.", VisitDate = visitPast75, FollowUpDate = followUpOverdue30, Status = "Follow-up", Pet = pets[15], Veterinarian = veterinarians[4], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "evaluación de recuperación neuromuscular", Notes = "Mejora leve en movilidad. Fisioterapia continuada recomendada.", VisitDate = visitPast5, FollowUpDate = null, Status = "Completed", Pet = pets[15], Veterinarian = veterinarians[4], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Parï¿½lisis lumbar - disco intervertebral herniad", Notes = "Pï¿½rdida parcial de movilidad trasera. Medicamentos y reposo prescrito.", VisitDate = visitPast75, FollowUpDate = followUpOverdue30, Status = "Follow-up", Pet = pets[15], Veterinarian = veterinarians[4], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "evaluaciï¿½n de recuperaciï¿½n neuromuscular", Notes = "Mejora leve en movilidad. Fisioterapia continuada recomendada.", VisitDate = visitPast5, FollowUpDate = null, Status = "Completed", Pet = pets[15], Veterinarian = veterinarians[4], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Toby (pets[16]) - Jack Russell Terrier
-                new MedicalHistoryEntity { Diagnosis = "Luxación patelar unilateral grado II", Notes = "Rótula dislocada ocasionalmente. Seguimiento clínico recomendado. Cirugía evaluada.", VisitDate = visitPast55, FollowUpDate = followUpFuture90, Status = "Completed", Pet = pets[16], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Revisión post-control - comportamiento y movilidad", Notes = "Perro activo. Sin síntomas agudos. Observación continuada recomendada.", VisitDate = visitPast8, FollowUpDate = null, Status = "Completed", Pet = pets[16], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Luxaciï¿½n patelar unilateral grado II", Notes = "Rï¿½tula dislocada ocasionalmente. Seguimiento clï¿½nico recomendado. Cirugï¿½a evaluada.", VisitDate = visitPast55, FollowUpDate = followUpFuture90, Status = "Completed", Pet = pets[16], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Revisiï¿½n post-control - comportamiento y movilidad", Notes = "Perro activo. Sin sï¿½ntomas agudos. Observaciï¿½n continuada recomendada.", VisitDate = visitPast8, FollowUpDate = null, Status = "Completed", Pet = pets[16], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Fido (pets[17]) - Rottweiler
-                new MedicalHistoryEntity { Diagnosis = "Gastroenteritis aguda - vómitos y diarrea", Notes = "Probable intoxicación alimentaria. Fluidoterapia y medicamentos antiemético prescritos.", VisitDate = visitPast15, FollowUpDate = followUpNext18, Status = "Follow-up", Pet = pets[17], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Revisión post-gastroenteritis", Notes = "recuperación completa. Digestión normalizada. Dieta blanda continuada 3 días más.", VisitDate = visitPast10, FollowUpDate = null, Status = "Completed", Pet = pets[17], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Revisión anual de rutina", Notes = "Signos vitales normales. Vacunaciones al día. Peso adecuado.", VisitDate = visitPast35, FollowUpDate = null, Status = "Completed", Pet = pets[17], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Gastroenteritis aguda - vï¿½mitos y diarrea", Notes = "Probable intoxicaciï¿½n alimentaria. Fluidoterapia y medicamentos antiemï¿½tico prescritos.", VisitDate = visitPast15, FollowUpDate = followUpNext18, Status = "Follow-up", Pet = pets[17], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Revisiï¿½n post-gastroenteritis", Notes = "recuperaciï¿½n completa. Digestiï¿½n normalizada. Dieta blanda continuada 3 dï¿½as mï¿½s.", VisitDate = visitPast10, FollowUpDate = null, Status = "Completed", Pet = pets[17], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Revisiï¿½n anual de rutina", Notes = "Signos vitales normales. Vacunaciones al dï¿½a. Peso adecuado.", VisitDate = visitPast35, FollowUpDate = null, Status = "Completed", Pet = pets[17], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Daisy (pets[18]) - Miniature Pinscher
-                new MedicalHistoryEntity { Diagnosis = "vacunación de cachorra - serie primaria", Notes = "Primera dosis DHPP y antirrábica aplicadas sin reacción.", VisitDate = visitPast120, FollowUpDate = visitPast105, Status = "Completed", Pet = pets[18], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Refuerzo de vacunación", Notes = "Segunda dosis DHPP aplicada. Tercera dosis en 3-4 semanas.", VisitDate = visitPast105, FollowUpDate = visitPast90, Status = "Completed", Pet = pets[18], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Caída de diente de cachorro - erupción normal", Notes = "Cambio adeacuado de dentición. Sin retención de dientes deciduos.", VisitDate = visitPast65, FollowUpDate = null, Status = "Completed", Pet = pets[18], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "vacunaciï¿½n de cachorra - serie primaria", Notes = "Primera dosis DHPP y antirrï¿½bica aplicadas sin reacciï¿½n.", VisitDate = visitPast120, FollowUpDate = visitPast105, Status = "Completed", Pet = pets[18], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Refuerzo de vacunaciï¿½n", Notes = "Segunda dosis DHPP aplicada. Tercera dosis en 3-4 semanas.", VisitDate = visitPast105, FollowUpDate = visitPast90, Status = "Completed", Pet = pets[18], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Caï¿½da de diente de cachorro - erupciï¿½n normal", Notes = "Cambio adeacuado de denticiï¿½n. Sin retenciï¿½n de dientes deciduos.", VisitDate = visitPast65, FollowUpDate = null, Status = "Completed", Pet = pets[18], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Duke (pets[19]) - Mastiff
                 new MedicalHistoryEntity { Diagnosis = "Artritis degenerativa - etapa avanzada", Notes = "Movilidad limitada. Medicamentos para dolor y condroprotectores prescritos.", VisitDate = visitPast100, FollowUpDate = followUpNext5, Status = "Follow-up", Pet = pets[19], Veterinarian = veterinarians[4], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "evaluación de calidad de vida - perro geriátrico", Notes = "Confort y medicación evaluados. Cama ortopédica recomendada.", VisitDate = visitPast5, FollowUpDate = null, Status = "Completed", Pet = pets[19], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "evaluaciï¿½n de calidad de vida - perro geriï¿½trico", Notes = "Confort y medicaciï¿½n evaluados. Cama ortopï¿½dica recomendada.", VisitDate = visitPast5, FollowUpDate = null, Status = "Completed", Pet = pets[19], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Pelusa (pets[20]) - Poodle Blanco
-                new MedicalHistoryEntity { Diagnosis = "Control de cachorra - Revisión integral", Notes = "Cachorra sana. Crecimiento adecuado. vacunación iniciada.", VisitDate = visitPast95, FollowUpDate = visitPast85, Status = "Completed", Pet = pets[20], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Serie de vacunación primaria completada", Notes = "Tercera dosis DHPP aplicada. Protección completa alcanzada.", VisitDate = visitPast75, FollowUpDate = null, Status = "Completed", Pet = pets[20], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Control de cachorra - Revisiï¿½n integral", Notes = "Cachorra sana. Crecimiento adecuado. vacunaciï¿½n iniciada.", VisitDate = visitPast95, FollowUpDate = visitPast85, Status = "Completed", Pet = pets[20], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Serie de vacunaciï¿½n primaria completada", Notes = "Tercera dosis DHPP aplicada. Protecciï¿½n completa alcanzada.", VisitDate = visitPast75, FollowUpDate = null, Status = "Completed", Pet = pets[20], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Simba (pets[21]) - Cocker Spaniel
-                new MedicalHistoryEntity { Diagnosis = "infección de oídos bilateral - otitis externa", Notes = "Inflamación moderada. Gotas antibacterianas y anti-inflamatorias prescritas.", VisitDate = visitPast18, FollowUpDate = followUpOverdue20, Status = "Follow-up", Pet = pets[21], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "Limpieza dental y Revisión oral", Notes = "Sarro presente. Detartraje recomendado. Higiene dental pobre.", VisitDate = visitPast42, FollowUpDate = followUpFuture90, Status = "Completed", Pet = pets[21], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new MedicalHistoryEntity { Diagnosis = "vacunación anual de refuerzo", Notes = "DHPP y antirrábica aplicadas. Historial de vacuna al día.", VisitDate = visitPast60, FollowUpDate = null, Status = "Completed", Pet = pets[21], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate }
+                new MedicalHistoryEntity { Diagnosis = "infecciï¿½n de oï¿½dos bilateral - otitis externa", Notes = "Inflamaciï¿½n moderada. Gotas antibacterianas y anti-inflamatorias prescritas.", VisitDate = visitPast18, FollowUpDate = followUpOverdue20, Status = "Follow-up", Pet = pets[21], Veterinarian = veterinarians[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "Limpieza dental y Revisiï¿½n oral", Notes = "Sarro presente. Detartraje recomendado. Higiene dental pobre.", VisitDate = visitPast42, FollowUpDate = followUpFuture90, Status = "Completed", Pet = pets[21], Veterinarian = veterinarians[1], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new MedicalHistoryEntity { Diagnosis = "vacunaciï¿½n anual de refuerzo", Notes = "DHPP y antirrï¿½bica aplicadas. Historial de vacuna al dï¿½a.", VisitDate = visitPast60, FollowUpDate = null, Status = "Completed", Pet = pets[21], Veterinarian = veterinarians[0], CreatedAt = seedDate, UpdatedAt = seedDate }
             };
             context.MedicalHistories.AddRange(histories);
             return histories;
@@ -321,7 +321,7 @@ namespace DogVetAPI.Data.DBContext
         {
             // Canelo: Otitis revision is a follow-up of the original otitis
             var caneloOtitis = context.MedicalHistories.FirstOrDefault(m => m.Diagnosis == "Otitis externa bilateral");
-            var caneloOtitisFollowUp = context.MedicalHistories.FirstOrDefault(m => m.Diagnosis == "Revisión de seguimiento - otitis");
+            var caneloOtitisFollowUp = context.MedicalHistories.FirstOrDefault(m => m.Diagnosis == "Revisiï¿½n de seguimiento - otitis");
             if (caneloOtitis != null && caneloOtitisFollowUp != null)
             {
                 caneloOtitisFollowUp.FollowUpOf = caneloOtitis.Id;
@@ -330,7 +330,7 @@ namespace DogVetAPI.Data.DBContext
 
             // Bella: Vaccation refuerzo is follow-up of initial vaccination
             var bellaVaccinationInitial = context.MedicalHistories.FirstOrDefault(m => 
-                m.Diagnosis == "vacunación de rutina para cachorra" && 
+                m.Diagnosis == "vacunaciï¿½n de rutina para cachorra" && 
                 m.VisitDate == new DateTime(2024, 8, 10, 0, 0, 0, DateTimeKind.Utc));
             var bellaVaccinationRefuerzo = context.MedicalHistories.FirstOrDefault(m => 
                 m.Diagnosis == "Refuerzo de vacuna DHPP");
@@ -340,9 +340,9 @@ namespace DogVetAPI.Data.DBContext
                 bellaVaccinationInitial.Status = "Completed"; // Mark initial vaccination as completed since it has a follow-up
             }
 
-            // Bella: nutrición follow-up is follow-up of alergia alimentaria
+            // Bella: nutriciï¿½n follow-up is follow-up of alergia alimentaria
             var bellaAllergy = context.MedicalHistories.FirstOrDefault(m => m.Diagnosis == "Alergia alimentaria con dermatitis");
-            var bellaNutrition = context.MedicalHistories.FirstOrDefault(m => m.Diagnosis == "Revisión de seguimiento nutrición");
+            var bellaNutrition = context.MedicalHistories.FirstOrDefault(m => m.Diagnosis == "Revisiï¿½n de seguimiento nutriciï¿½n");
             if (bellaAllergy != null && bellaNutrition != null)
             {
                 bellaNutrition.FollowUpOf = bellaAllergy.Id;
@@ -352,9 +352,9 @@ namespace DogVetAPI.Data.DBContext
 
             // Negra: Otitis control is follow-up of original otitis
             var negraOtitis = context.MedicalHistories.FirstOrDefault(m => 
-                m.Diagnosis == "Otitis externa con infección bacteriana");
+                m.Diagnosis == "Otitis externa con infecciï¿½n bacteriana");
             var negraOtitisControl = context.MedicalHistories.FirstOrDefault(m => 
-                m.Diagnosis == "Revisión de seguimiento - otitis control");
+                m.Diagnosis == "Revisiï¿½n de seguimiento - otitis control");
             if (negraOtitis != null && negraOtitisControl != null)
             {
                 negraOtitisControl.FollowUpOf = negraOtitis.Id;
@@ -365,7 +365,7 @@ namespace DogVetAPI.Data.DBContext
             var maxDysplasia = context.MedicalHistories.FirstOrDefault(m => 
                 m.Diagnosis == "Displasia de cadera leve");
             var maxArticularControl = context.MedicalHistories.FirstOrDefault(m => 
-                m.Diagnosis == "Control articular y evaluación de dolor");
+                m.Diagnosis == "Control articular y evaluaciï¿½n de dolor");
             if (maxDysplasia != null && maxArticularControl != null)
             {
                 maxArticularControl.FollowUpOf = maxDysplasia.Id;
@@ -374,9 +374,9 @@ namespace DogVetAPI.Data.DBContext
 
             // Charlie: Deworming refuerzo is follow-up of initial deworming
             var charlieDeworming = context.MedicalHistories.FirstOrDefault(m => 
-                m.Diagnosis == "desparasitación cachorro - interna y externa");
+                m.Diagnosis == "desparasitaciï¿½n cachorro - interna y externa");
             var charlieDeformingRefuerzo = context.MedicalHistories.FirstOrDefault(m => 
-                m.Diagnosis == "Refuerzo de desparasitación");
+                m.Diagnosis == "Refuerzo de desparasitaciï¿½n");
             if (charlieDeworming != null && charlieDeformingRefuerzo != null)
             {
                 charlieDeformingRefuerzo.FollowUpOf = charlieDeworming.Id;
@@ -387,7 +387,7 @@ namespace DogVetAPI.Data.DBContext
             var lunaKeratitis = context.MedicalHistories.FirstOrDefault(m => 
                 m.Diagnosis == "Queratitis ulcerativa en ojo derecho");
             var lunaOftalmologyPostTreatment = context.MedicalHistories.FirstOrDefault(m => 
-                m.Diagnosis == "Revisión oftalmológica post-tratamiento");
+                m.Diagnosis == "Revisiï¿½n oftalmolï¿½gica post-tratamiento");
             if (lunaKeratitis != null && lunaOftalmologyPostTreatment != null)
             {
                 lunaOftalmologyPostTreatment.FollowUpOf = lunaKeratitis.Id;
@@ -398,7 +398,7 @@ namespace DogVetAPI.Data.DBContext
             var nalaAlopecia = context.MedicalHistories.FirstOrDefault(m => 
                 m.Diagnosis == "Alopecia estacional seasonal");
             var nalaPostShedding = context.MedicalHistories.FirstOrDefault(m => 
-                m.Diagnosis == "Revisión post-muda");
+                m.Diagnosis == "Revisiï¿½n post-muda");
             if (nalaAlopecia != null && nalaPostShedding != null)
             {
                 nalaPostShedding.FollowUpOf = nalaAlopecia.Id;
@@ -407,9 +407,9 @@ namespace DogVetAPI.Data.DBContext
 
             // Rex: Cardiac control is follow-up of cardiomyopathy diagnosis
             var rexCardiomyopathy = context.MedicalHistories.FirstOrDefault(m => 
-                m.Diagnosis == "Cardiomiopatía dilatada - evaluación ecocardiográfica");
+                m.Diagnosis == "Cardiomiopatï¿½a dilatada - evaluaciï¿½n ecocardiogrï¿½fica");
             var rexCardiacControl = context.MedicalHistories.FirstOrDefault(m => 
-                m.Diagnosis == "Control cardíaco - evaluación de medicamentos");
+                m.Diagnosis == "Control cardï¿½aco - evaluaciï¿½n de medicamentos");
             if (rexCardiomyopathy != null && rexCardiacControl != null)
             {
                 rexCardiacControl.FollowUpOf = rexCardiomyopathy.Id;
@@ -418,9 +418,9 @@ namespace DogVetAPI.Data.DBContext
 
             // Laila: Recovery evaluation is follow-up of lumbar paralysis
             var lailaParalysis = context.MedicalHistories.FirstOrDefault(m => 
-                m.Diagnosis == "Parálisis lumbar - disco intervertebral herniad");
+                m.Diagnosis == "Parï¿½lisis lumbar - disco intervertebral herniad");
             var lailaRecovery = context.MedicalHistories.FirstOrDefault(m => 
-                m.Diagnosis == "evaluación de recuperación neuromuscular");
+                m.Diagnosis == "evaluaciï¿½n de recuperaciï¿½n neuromuscular");
             if (lailaParalysis != null && lailaRecovery != null)
             {
                 lailaRecovery.FollowUpOf = lailaParalysis.Id;
@@ -429,9 +429,9 @@ namespace DogVetAPI.Data.DBContext
 
             // Fido: Post-gastroenteritis review is follow-up of acute gastroenteritis
             var fidoGastroenteritis = context.MedicalHistories.FirstOrDefault(m => 
-                m.Diagnosis == "Gastroenteritis aguda - vómitos y diarrea");
+                m.Diagnosis == "Gastroenteritis aguda - vï¿½mitos y diarrea");
             var fidoPostGastroenteritis = context.MedicalHistories.FirstOrDefault(m => 
-                m.Diagnosis == "Revisión post-gastroenteritis");
+                m.Diagnosis == "Revisiï¿½n post-gastroenteritis");
             if (fidoGastroenteritis != null && fidoPostGastroenteritis != null)
             {
                 fidoPostGastroenteritis.FollowUpOf = fidoGastroenteritis.Id;
@@ -440,9 +440,9 @@ namespace DogVetAPI.Data.DBContext
 
             // Daisy: Vaccination refuerzo is follow-up of initial vaccination series
             var daisyVaccinationInitial = context.MedicalHistories.FirstOrDefault(m => 
-                m.Diagnosis == "vacunación de cachorra - serie primaria");
+                m.Diagnosis == "vacunaciï¿½n de cachorra - serie primaria");
             var daisyVaccinationRefuerzo = context.MedicalHistories.FirstOrDefault(m => 
-                m.Diagnosis == "Refuerzo de vacunación" && 
+                m.Diagnosis == "Refuerzo de vacunaciï¿½n" && 
                 m.Pet != null && m.Pet.Name == "Daisy");
             if (daisyVaccinationInitial != null && daisyVaccinationRefuerzo != null)
             {
@@ -463,10 +463,10 @@ namespace DogVetAPI.Data.DBContext
             {
                 // Otitis externa (medicalHistories[2]) - Canelo
                 new PrescriptionEntity { MedName = "Gotas antibacterianas otitis - Otomax", Dose = DoseFrequency.Every12Hours, DurationInDays = 14, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[2], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new PrescriptionEntity { MedName = "Cetirizina 10mg - antihistamínico", Dose = DoseFrequency.Daily, DurationInDays = 30, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[2], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PrescriptionEntity { MedName = "Cetirizina 10mg - antihistamï¿½nico", Dose = DoseFrequency.Daily, DurationInDays = 30, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[2], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Alergia alimentaria (medicalHistories[5]) - Bella
-                new PrescriptionEntity { MedName = "Cetirizina 10mg - antihistamínico", Dose = DoseFrequency.Daily, DurationInDays = 30, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[5], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PrescriptionEntity { MedName = "Cetirizina 10mg - antihistamï¿½nico", Dose = DoseFrequency.Daily, DurationInDays = 30, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[5], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new PrescriptionEntity { MedName = "Prednisona 5mg - corticosteroide", Dose = DoseFrequency.Daily, DurationInDays = 7, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[5], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Displasia de cadera (medicalHistories[6]) - Rocky
@@ -474,54 +474,54 @@ namespace DogVetAPI.Data.DBContext
                 new PrescriptionEntity { MedName = "Glucosamina + Condroitina - protector articular", Dose = DoseFrequency.Daily, DurationInDays = 90, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[6], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Otitis externa (medicalHistories[9]) - Negra
-                new PrescriptionEntity { MedName = "Enrofloxacino gotas - antibiótico", Dose = DoseFrequency.Every12Hours, DurationInDays = 10, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[9], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new PrescriptionEntity { MedName = "Limpieza de oídos - solución otológica", Dose = DoseFrequency.Daily, DurationInDays = 7, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[9], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PrescriptionEntity { MedName = "Enrofloxacino gotas - antibiï¿½tico", Dose = DoseFrequency.Every12Hours, DurationInDays = 10, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[9], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PrescriptionEntity { MedName = "Limpieza de oï¿½dos - soluciï¿½n otolï¿½gica", Dose = DoseFrequency.Daily, DurationInDays = 7, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[9], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Queratitis ulcerativa (medicalHistories[15]) - Luna
-                new PrescriptionEntity { MedName = "Ciprofloxacino gotas - antibiótico oftálmico", Dose = DoseFrequency.Every4Hours, DurationInDays = 14, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[15], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new PrescriptionEntity { MedName = "Lubricante oftálmico - protector corneal", Dose = DoseFrequency.Every6Hours, DurationInDays = 14, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[15], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PrescriptionEntity { MedName = "Ciprofloxacino gotas - antibiï¿½tico oftï¿½lmico", Dose = DoseFrequency.Every4Hours, DurationInDays = 14, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[15], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PrescriptionEntity { MedName = "Lubricante oftï¿½lmico - protector corneal", Dose = DoseFrequency.Every6Hours, DurationInDays = 14, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[15], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
-                // desparasitación (medicalHistories[17]) - Charlie
+                // desparasitaciï¿½n (medicalHistories[17]) - Charlie
                 new PrescriptionEntity { MedName = "Albendazol - antiparasitario interno", Dose = DoseFrequency.Daily, DurationInDays = 5, Status = PrescriptionStatus.Administered, MedicalHistory = medicalHistories[17], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new PrescriptionEntity { MedName = "Fipronil + Methoprene spray - antiparasitario externo", Dose = DoseFrequency.Weekly, DurationInDays = 21, Status = PrescriptionStatus.Administered, MedicalHistory = medicalHistories[17], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
-                // Conjuntivitis alérgica (medicalHistories[20]) - Princesa
-                new PrescriptionEntity { MedName = "Gotas oftálmicas antihistamínicas", Dose = DoseFrequency.Every12Hours, DurationInDays = 14, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[20], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new PrescriptionEntity { MedName = "Cetirizina 10mg - antihistamínico sistémico", Dose = DoseFrequency.Daily, DurationInDays = 21, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[20], CreatedAt = seedDate, UpdatedAt = seedDate },
+                // Conjuntivitis alï¿½rgica (medicalHistories[20]) - Princesa
+                new PrescriptionEntity { MedName = "Gotas oftï¿½lmicas antihistamï¿½nicas", Dose = DoseFrequency.Every12Hours, DurationInDays = 14, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[20], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PrescriptionEntity { MedName = "Cetirizina 10mg - antihistamï¿½nico sistï¿½mico", Dose = DoseFrequency.Daily, DurationInDays = 21, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[20], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Enfermedad articular (medicalHistories[23]) - Thor
-                new PrescriptionEntity { MedName = "Tramadol 50mg - analgésico", Dose = DoseFrequency.Every8Hours, DurationInDays = 30, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[23], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PrescriptionEntity { MedName = "Tramadol 50mg - analgï¿½sico", Dose = DoseFrequency.Every8Hours, DurationInDays = 30, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[23], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new PrescriptionEntity { MedName = "Meloxicam 15mg - antiinflamatorio", Dose = DoseFrequency.Daily, DurationInDays = 30, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[23], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Alopecia estacional (medicalHistories[25]) - Nala
-                new PrescriptionEntity { MedName = "Omega-3 + Omega-6 - suplemento ácidos grasos", Dose = DoseFrequency.Daily, DurationInDays = 90, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[25], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PrescriptionEntity { MedName = "Omega-3 + Omega-6 - suplemento ï¿½cidos grasos", Dose = DoseFrequency.Daily, DurationInDays = 90, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[25], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
-                // Síndrome braquicefálico (medicalHistories[27]) - Gordo
-                new PrescriptionEntity { MedName = "Furosemida 40mg - diurético", Dose = DoseFrequency.Daily, DurationInDays = 30, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[27], CreatedAt = seedDate, UpdatedAt = seedDate },
+                // Sï¿½ndrome braquicefï¿½lico (medicalHistories[27]) - Gordo
+                new PrescriptionEntity { MedName = "Furosemida 40mg - diurï¿½tico", Dose = DoseFrequency.Daily, DurationInDays = 30, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[27], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Calculus dental (medicalHistories[30]) - Mimi
                 new PrescriptionEntity { MedName = "Clorhexidina enjuague - desinfectante oral", Dose = DoseFrequency.Every12Hours, DurationInDays = 14, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[30], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
-                // Cardiomiopatía (medicalHistories[32]) - Rex
+                // Cardiomiopatï¿½a (medicalHistories[32]) - Rex
                 new PrescriptionEntity { MedName = "Enalapril 5mg - inhibidor ACE", Dose = DoseFrequency.Every12Hours, DurationInDays = 90, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[32], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new PrescriptionEntity { MedName = "Furosemida 40mg - diurético", Dose = DoseFrequency.Daily, DurationInDays = 90, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[32], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new PrescriptionEntity { MedName = "Pimobendan 5mg - inotrópico", Dose = DoseFrequency.Every12Hours, DurationInDays = 90, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[32], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PrescriptionEntity { MedName = "Furosemida 40mg - diurï¿½tico", Dose = DoseFrequency.Daily, DurationInDays = 90, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[32], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PrescriptionEntity { MedName = "Pimobendan 5mg - inotrï¿½pico", Dose = DoseFrequency.Every12Hours, DurationInDays = 90, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[32], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Obesidad (medicalHistories[35]) - Coco
                 new PrescriptionEntity { MedName = "Orlistat 120mg - inhibidor lipasa", Dose = DoseFrequency.Every8Hours, DurationInDays = 90, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[35], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
-                // Parálisis lumbar (medicalHistories[38]) - Laila
+                // Parï¿½lisis lumbar (medicalHistories[38]) - Laila
                 new PrescriptionEntity { MedName = "Metilprednisolona 4mg - corticosteroide", Dose = DoseFrequency.Daily, DurationInDays = 7, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[38], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new PrescriptionEntity { MedName = "Gabapentina 100mg - analgésico neuropático", Dose = DoseFrequency.Every8Hours, DurationInDays = 30, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[38], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PrescriptionEntity { MedName = "Gabapentina 100mg - analgï¿½sico neuropï¿½tico", Dose = DoseFrequency.Every8Hours, DurationInDays = 30, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[38], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Gastroenteritis (medicalHistories[42]) - Fido
-                new PrescriptionEntity { MedName = "Metoclopramida 10mg - antiemético", Dose = DoseFrequency.Every8Hours, DurationInDays = 5, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[42], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new PrescriptionEntity { MedName = "Famotidina 20mg - protector gástrico", Dose = DoseFrequency.Every12Hours, DurationInDays = 7, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[42], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new PrescriptionEntity { MedName = "Probiótico - flora intestinal", Dose = DoseFrequency.Daily, DurationInDays = 10, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[42], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PrescriptionEntity { MedName = "Metoclopramida 10mg - antiemï¿½tico", Dose = DoseFrequency.Every8Hours, DurationInDays = 5, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[42], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PrescriptionEntity { MedName = "Famotidina 20mg - protector gï¿½strico", Dose = DoseFrequency.Every12Hours, DurationInDays = 7, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[42], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new PrescriptionEntity { MedName = "Probiï¿½tico - flora intestinal", Dose = DoseFrequency.Daily, DurationInDays = 10, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[42], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
-                // infección de oídos (medicalHistories[46]) - Simba
+                // infecciï¿½n de oï¿½dos (medicalHistories[46]) - Simba
                 new PrescriptionEntity { MedName = "Gotas otitis - Otomax", Dose = DoseFrequency.Every12Hours, DurationInDays = 14, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[46], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new PrescriptionEntity { MedName = "Enrofloxacino 100mg - antibiótico sistémico", Dose = DoseFrequency.Daily, DurationInDays = 10, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[46], CreatedAt = seedDate, UpdatedAt = seedDate }
+                new PrescriptionEntity { MedName = "Enrofloxacino 100mg - antibiï¿½tico sistï¿½mico", Dose = DoseFrequency.Daily, DurationInDays = 10, Status = PrescriptionStatus.Prescribed, MedicalHistory = medicalHistories[46], CreatedAt = seedDate, UpdatedAt = seedDate }
             };
             context.Prescriptions.AddRange(prescriptions);
             return prescriptions;
@@ -531,28 +531,51 @@ namespace DogVetAPI.Data.DBContext
         /// Seed sale notes with medical history relationships
         /// Payment tracking for various medical treatments
         /// </summary>
-        private static List<SaleNoteEntity> SeedSaleNotes(DogVetContext context, List<MedicalHistoryEntity> medicalHistories, DateTime seedDate)
+        private static List<SaleNoteEntity> SeedSaleNotes(DogVetContext context, List<MedicalHistoryEntity> medicalHistories, DateTime seedDate, DateTime today)
         {
+            // Calculate dynamic dates relative to today
+            var notePast280 = today.AddDays(-280);  // May 2025
+            var notePast130 = today.AddDays(-130);  // November 2025
+            var notePast125 = today.AddDays(-125);  // November 2025
+            var notePast110 = today.AddDays(-110);  // December 2025
+            var notePast105 = today.AddDays(-105);  // December 2025
+            var notePast85 = today.AddDays(-85);    // January 2026
+            var notePast80 = today.AddDays(-80);    // January 2026
+            var notePast75 = today.AddDays(-75);    // January 2026
+            var notePast70 = today.AddDays(-70);    // January 2026
+            var notePast65 = today.AddDays(-65);    // January 2026
+            var notePast60 = today.AddDays(-60);    // January 2026
+            var notePast55 = today.AddDays(-55);    // January 2026
+            var notePast50 = today.AddDays(-50);    // January 2026
+            var notePast45 = today.AddDays(-45);    // January 2026
+            var notePast40 = today.AddDays(-40);    // January 2026
+            var notePast35 = today.AddDays(-35);    // February 2026
+            var notePast30 = today.AddDays(-30);    // February 2026
+            var notePast25 = today.AddDays(-25);    // February 2026
+            var notePast20 = today.AddDays(-20);    // February 2026
+            var notePast15 = today.AddDays(-15);    // February 2026
+            var notePast5 = today.AddDays(-5);      // April 2026
+            
             var saleNotes = new List<SaleNoteEntity>
             {
                 // Paid notes
-                new SaleNoteEntity { NoteDate = new DateTime(2026, 1, 5, 0, 0, 0, DateTimeKind.Utc), TotalAmount = 750.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[0], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteEntity { NoteDate = new DateTime(2026, 1, 10, 0, 0, 0, DateTimeKind.Utc), TotalAmount = 580.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[1], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteEntity { NoteDate = new DateTime(2026, 1, 12, 0, 0, 0, DateTimeKind.Utc), TotalAmount = 1150.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[2], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteEntity { NoteDate = new DateTime(2025, 12, 20, 0, 0, 0, DateTimeKind.Utc), TotalAmount = 420.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[3], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteEntity { NoteDate = new DateTime(2025, 11, 10, 0, 0, 0, DateTimeKind.Utc), TotalAmount = 680.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[4], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteEntity { NoteDate = new DateTime(2025, 9, 5, 0, 0, 0, DateTimeKind.Utc), TotalAmount = 950.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[6], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteEntity { NoteDate = new DateTime(2026, 1, 8, 0, 0, 0, DateTimeKind.Utc), TotalAmount = 520.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[9], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteEntity { NoteDate = new DateTime(2025, 11, 20, 0, 0, 0, DateTimeKind.Utc), TotalAmount = 780.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[15], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteEntity { NoteDate = new DateTime(2025, 5, 15, 0, 0, 0, DateTimeKind.Utc), TotalAmount = 350.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[17], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteEntity { NoteDate = new DateTime(2026, 1, 3, 0, 0, 0, DateTimeKind.Utc), TotalAmount = 640.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[29], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new SaleNoteEntity { NoteDate = notePast75, TotalAmount = 750.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[0], CreatedAt = notePast75, UpdatedAt = notePast75 },
+                new SaleNoteEntity { NoteDate = notePast70, TotalAmount = 580.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[1], CreatedAt = notePast70, UpdatedAt = notePast70 },
+                new SaleNoteEntity { NoteDate = notePast65, TotalAmount = 1150.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[2], CreatedAt = notePast65, UpdatedAt = notePast65 },
+                new SaleNoteEntity { NoteDate = notePast110, TotalAmount = 420.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[3], CreatedAt = notePast110, UpdatedAt = notePast110 },
+                new SaleNoteEntity { NoteDate = notePast130, TotalAmount = 680.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[4], CreatedAt = notePast130, UpdatedAt = notePast130 },
+                new SaleNoteEntity { NoteDate = notePast280, TotalAmount = 950.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[6], CreatedAt = notePast280, UpdatedAt = notePast280 },
+                new SaleNoteEntity { NoteDate = notePast80, TotalAmount = 520.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[9], CreatedAt = notePast80, UpdatedAt = notePast80 },
+                new SaleNoteEntity { NoteDate = notePast125, TotalAmount = 780.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[15], CreatedAt = notePast125, UpdatedAt = notePast125 },
+                new SaleNoteEntity { NoteDate = notePast280.AddDays(224), TotalAmount = 350.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[17], CreatedAt = notePast280.AddDays(224), UpdatedAt = notePast280.AddDays(224) },
+                new SaleNoteEntity { NoteDate = notePast60, TotalAmount = 640.00m, PaymentStatus = PaymentStatus.Paid, MedicalHistory = medicalHistories[29], CreatedAt = notePast60, UpdatedAt = notePast60 },
                 
                 // Pending notes
-                new SaleNoteEntity { NoteDate = new DateTime(2026, 1, 15, 0, 0, 0, DateTimeKind.Utc), TotalAmount = 1270.00m, PaymentStatus = PaymentStatus.Pending, MedicalHistory = medicalHistories[5], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteEntity { NoteDate = new DateTime(2026, 1, 25, 0, 0, 0, DateTimeKind.Utc), TotalAmount = 1145.00m, PaymentStatus = PaymentStatus.Pending, MedicalHistory = medicalHistories[8], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteEntity { NoteDate = new DateTime(2026, 1, 20, 0, 0, 0, DateTimeKind.Utc), TotalAmount = 850.00m, PaymentStatus = PaymentStatus.Pending, MedicalHistory = medicalHistories[7], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteEntity { NoteDate = new DateTime(2025, 12, 28, 0, 0, 0, DateTimeKind.Utc), TotalAmount = 520.00m, PaymentStatus = PaymentStatus.Pending, MedicalHistory = medicalHistories[20], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteEntity { NoteDate = new DateTime(2026, 1, 12, 0, 0, 0, DateTimeKind.Utc), TotalAmount = 715.00m, PaymentStatus = PaymentStatus.Pending, MedicalHistory = medicalHistories[42], CreatedAt = seedDate, UpdatedAt = seedDate }
+                new SaleNoteEntity { NoteDate = notePast30, TotalAmount = 1270.00m, PaymentStatus = PaymentStatus.Pending, MedicalHistory = medicalHistories[5], CreatedAt = notePast30, UpdatedAt = notePast30 },
+                new SaleNoteEntity { NoteDate = notePast25, TotalAmount = 1145.00m, PaymentStatus = PaymentStatus.Pending, MedicalHistory = medicalHistories[8], CreatedAt = notePast25, UpdatedAt = notePast25 },
+                new SaleNoteEntity { NoteDate = notePast20, TotalAmount = 850.00m, PaymentStatus = PaymentStatus.Pending, MedicalHistory = medicalHistories[7], CreatedAt = notePast20, UpdatedAt = notePast20 },
+                new SaleNoteEntity { NoteDate = notePast15, TotalAmount = 520.00m, PaymentStatus = PaymentStatus.Pending, MedicalHistory = medicalHistories[20], CreatedAt = notePast15, UpdatedAt = notePast15 },
+                new SaleNoteEntity { NoteDate = notePast5, TotalAmount = 715.00m, PaymentStatus = PaymentStatus.Pending, MedicalHistory = medicalHistories[42], CreatedAt = notePast5, UpdatedAt = notePast5 }
             };
             context.SaleNotes.AddRange(saleNotes);
             return saleNotes;
@@ -581,21 +604,21 @@ namespace DogVetAPI.Data.DBContext
                 
                 // Sale note 3
                 new SaleNoteConceptEntity { Description = "Consulta general", Quantity = 1, UnitPrice = 400.00m, ConceptPrice = 400.00m, SaleNote = saleNotes[3], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteConceptEntity { Description = "Vacuna antirrábica", Quantity = 1, UnitPrice = 120.00m, ConceptPrice = 120.00m, SaleNote = saleNotes[3], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new SaleNoteConceptEntity { Description = "Vacuna antirrï¿½bica", Quantity = 1, UnitPrice = 120.00m, ConceptPrice = 120.00m, SaleNote = saleNotes[3], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Sale note 4
                 new SaleNoteConceptEntity { Description = "Consulta general", Quantity = 1, UnitPrice = 400.00m, ConceptPrice = 400.00m, SaleNote = saleNotes[4], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteConceptEntity { Description = "Radiografía", Quantity = 1, UnitPrice = 550.00m, ConceptPrice = 550.00m, SaleNote = saleNotes[4], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new SaleNoteConceptEntity { Description = "Radiografï¿½a", Quantity = 1, UnitPrice = 550.00m, ConceptPrice = 550.00m, SaleNote = saleNotes[4], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new SaleNoteConceptEntity { Description = "Suplemento articular", Quantity = 1, UnitPrice = 200.00m, ConceptPrice = 200.00m, SaleNote = saleNotes[4], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Sale note 5
-                new SaleNoteConceptEntity { Description = "Revisión general", Quantity = 1, UnitPrice = 400.00m, ConceptPrice = 400.00m, SaleNote = saleNotes[5], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new SaleNoteConceptEntity { Description = "Revisiï¿½n general", Quantity = 1, UnitPrice = 400.00m, ConceptPrice = 400.00m, SaleNote = saleNotes[5], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new SaleNoteConceptEntity { Description = "Prueba alergia", Quantity = 1, UnitPrice = 650.00m, ConceptPrice = 650.00m, SaleNote = saleNotes[5], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteConceptEntity { Description = "antihistamínico oral", Quantity = 1, UnitPrice = 220.00m, ConceptPrice = 220.00m, SaleNote = saleNotes[5], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new SaleNoteConceptEntity { Description = "antihistamï¿½nico oral", Quantity = 1, UnitPrice = 220.00m, ConceptPrice = 220.00m, SaleNote = saleNotes[5], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Sale note 6
                 new SaleNoteConceptEntity { Description = "Consulta", Quantity = 1, UnitPrice = 400.00m, ConceptPrice = 400.00m, SaleNote = saleNotes[6], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteConceptEntity { Description = "Gotas oftálmicas antibióticas", Quantity = 1, UnitPrice = 200.00m, ConceptPrice = 200.00m, SaleNote = saleNotes[6], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new SaleNoteConceptEntity { Description = "Gotas oftï¿½lmicas antibiï¿½ticas", Quantity = 1, UnitPrice = 200.00m, ConceptPrice = 200.00m, SaleNote = saleNotes[6], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new SaleNoteConceptEntity { Description = "Lubricante ocular", Quantity = 1, UnitPrice = 120.00m, ConceptPrice = 120.00m, SaleNote = saleNotes[6], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Sale note 7
@@ -607,32 +630,32 @@ namespace DogVetAPI.Data.DBContext
                 new SaleNoteConceptEntity { Description = "Antiparasitario externo", Quantity = 1, UnitPrice = 170.00m, ConceptPrice = 170.00m, SaleNote = saleNotes[8], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Sale note 9
-                new SaleNoteConceptEntity { Description = "Revisión nutricional", Quantity = 1, UnitPrice = 400.00m, ConceptPrice = 400.00m, SaleNote = saleNotes[9], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteConceptEntity { Description = "Suplemento dietético", Quantity = 1, UnitPrice = 240.00m, ConceptPrice = 240.00m, SaleNote = saleNotes[9], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new SaleNoteConceptEntity { Description = "Revisiï¿½n nutricional", Quantity = 1, UnitPrice = 400.00m, ConceptPrice = 400.00m, SaleNote = saleNotes[9], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new SaleNoteConceptEntity { Description = "Suplemento dietï¿½tico", Quantity = 1, UnitPrice = 240.00m, ConceptPrice = 240.00m, SaleNote = saleNotes[9], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Sale note 10
-                new SaleNoteConceptEntity { Description = "evaluación alergia", Quantity = 1, UnitPrice = 600.00m, ConceptPrice = 600.00m, SaleNote = saleNotes[10], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteConceptEntity { Description = "Medicament antihistamínico", Quantity = 1, UnitPrice = 320.00m, ConceptPrice = 320.00m, SaleNote = saleNotes[10], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new SaleNoteConceptEntity { Description = "evaluaciï¿½n alergia", Quantity = 1, UnitPrice = 600.00m, ConceptPrice = 600.00m, SaleNote = saleNotes[10], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new SaleNoteConceptEntity { Description = "Medicament antihistamï¿½nico", Quantity = 1, UnitPrice = 320.00m, ConceptPrice = 320.00m, SaleNote = saleNotes[10], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new SaleNoteConceptEntity { Description = "Corticosteroide", Quantity = 1, UnitPrice = 350.00m, ConceptPrice = 350.00m, SaleNote = saleNotes[10], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Sale note 11
-                new SaleNoteConceptEntity { Description = "Radiografía articular", Quantity = 1, UnitPrice = 700.00m, ConceptPrice = 700.00m, SaleNote = saleNotes[11], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new SaleNoteConceptEntity { Description = "Radiografï¿½a articular", Quantity = 1, UnitPrice = 700.00m, ConceptPrice = 700.00m, SaleNote = saleNotes[11], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new SaleNoteConceptEntity { Description = "Antiinflamatorio oral", Quantity = 1, UnitPrice = 200.00m, ConceptPrice = 200.00m, SaleNote = saleNotes[11], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new SaleNoteConceptEntity { Description = "Suplemento articular premium", Quantity = 1, UnitPrice = 245.00m, ConceptPrice = 245.00m, SaleNote = saleNotes[11], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Sale note 12
-                new SaleNoteConceptEntity { Description = "Revisión oftalmológica", Quantity = 1, UnitPrice = 450.00m, ConceptPrice = 450.00m, SaleNote = saleNotes[12], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new SaleNoteConceptEntity { Description = "Revisiï¿½n oftalmolï¿½gica", Quantity = 1, UnitPrice = 450.00m, ConceptPrice = 450.00m, SaleNote = saleNotes[12], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new SaleNoteConceptEntity { Description = "Lubricante ocular artificial", Quantity = 1, UnitPrice = 220.00m, ConceptPrice = 220.00m, SaleNote = saleNotes[12], CreatedAt = seedDate, UpdatedAt = seedDate },
                 new SaleNoteConceptEntity { Description = "Gotas antibacterianas", Quantity = 1, UnitPrice = 180.00m, ConceptPrice = 180.00m, SaleNote = saleNotes[12], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Sale note 13
                 new SaleNoteConceptEntity { Description = "Consulta alergia conjuntival", Quantity = 1, UnitPrice = 400.00m, ConceptPrice = 400.00m, SaleNote = saleNotes[13], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteConceptEntity { Description = "Gotas oftálmicas antihistamínicas", Quantity = 1, UnitPrice = 120.00m, ConceptPrice = 120.00m, SaleNote = saleNotes[13], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new SaleNoteConceptEntity { Description = "Gotas oftï¿½lmicas antihistamï¿½nicas", Quantity = 1, UnitPrice = 120.00m, ConceptPrice = 120.00m, SaleNote = saleNotes[13], CreatedAt = seedDate, UpdatedAt = seedDate },
                 
                 // Sale note 14
-                new SaleNoteConceptEntity { Description = "evaluación GI urgente", Quantity = 1, UnitPrice = 500.00m, ConceptPrice = 500.00m, SaleNote = saleNotes[14], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteConceptEntity { Description = "antiemético IV", Quantity = 1, UnitPrice = 150.00m, ConceptPrice = 150.00m, SaleNote = saleNotes[14], CreatedAt = seedDate, UpdatedAt = seedDate },
-                new SaleNoteConceptEntity { Description = "Protector gástrico oral", Quantity = 1, UnitPrice = 65.00m, ConceptPrice = 65.00m, SaleNote = saleNotes[14], CreatedAt = seedDate, UpdatedAt = seedDate }
+                new SaleNoteConceptEntity { Description = "evaluaciï¿½n GI urgente", Quantity = 1, UnitPrice = 500.00m, ConceptPrice = 500.00m, SaleNote = saleNotes[14], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new SaleNoteConceptEntity { Description = "antiemï¿½tico IV", Quantity = 1, UnitPrice = 150.00m, ConceptPrice = 150.00m, SaleNote = saleNotes[14], CreatedAt = seedDate, UpdatedAt = seedDate },
+                new SaleNoteConceptEntity { Description = "Protector gï¿½strico oral", Quantity = 1, UnitPrice = 65.00m, ConceptPrice = 65.00m, SaleNote = saleNotes[14], CreatedAt = seedDate, UpdatedAt = seedDate }
             };
             context.SaleNoteConcepts.AddRange(concepts);
             return concepts;

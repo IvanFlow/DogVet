@@ -72,8 +72,13 @@ export class DashboardComponent implements OnInit {
     });
     this.saleNoteService.getAll().subscribe({
       next: notes => {
-        const ago30 = new Date(); ago30.setDate(ago30.getDate() - 30);
-        this.recentSaleNotes = notes.filter(n => n.noteDate && new Date(n.noteDate) >= ago30).length;
+        const now = new Date();
+        const ago30 = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+        this.recentSaleNotes = notes.filter(n => {
+          if (!n.noteDate) return false;
+          const noteDate = new Date(n.noteDate);
+          return noteDate.getTime() >= ago30.getTime();
+        }).length;
       },
       error: err => console.error('Error loading sale notes count:', err)
     });
