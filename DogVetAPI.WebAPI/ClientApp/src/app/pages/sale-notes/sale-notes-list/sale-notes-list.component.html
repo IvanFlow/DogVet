@@ -41,7 +41,7 @@
                 #{{ note.id }}
               </a>
             </td>
-            <td class="hide-mobile">{{ note.noteDate | spanishDate:'shortDate' }}</td>
+            <td class="hide-mobile">{{ note.noteDate | spanishDate:'mediumDate' }}</td>
             <td>{{ note.totalAmount | currencyMx }}</td>
             <td>
               <span [class]="'badge ' + (note.paymentStatus === 'Paid' ? 'badge-success' : 'badge-warning')">
