@@ -54,7 +54,7 @@ export class SaleNotesListComponent implements OnInit, OnDestroy {
 
     if (shouldClearFilters) {
       this.search = '';
-      this.filterStatus = '';
+      this.filterStatus = history.state?.filterStatus || '';
       history.replaceState({ ...history.state, clearFilters: false }, '');
     } else {
       this.search = this.listState.saleNoteList.search;

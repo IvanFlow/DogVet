@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit {
   overdueFollowUps = 0;
   recentRecords = 0;
   recentSaleNotes = 0;
+  pendingSaleNotes = 0;
 
   constructor(
     private ownerService: OwnerService,
@@ -79,6 +80,7 @@ export class DashboardComponent implements OnInit {
           const noteDate = new Date(n.noteDate);
           return noteDate.getTime() >= ago30.getTime();
         }).length;
+        this.pendingSaleNotes = notes.filter(n => n.paymentStatus === 'Pending').length;
       },
       error: err => console.error('Error loading sale notes count:', err)
     });

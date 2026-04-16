@@ -49,6 +49,14 @@
       </div>
       <a routerLink="/sale-notes" [state]="{clearFilters: true}" class="btn btn-outline btn-sm">Ver Todas</a>
     </div>
+    <div class="stat-card">
+      <div class="stat-icon">⏳</div>
+      <div class="stat-body">
+        <div class="stat-number">{{ pendingSaleNotes }}</div>
+        <div class="stat-label">Notas de Venta Pendientes</div>
+      </div>
+      <a routerLink="/sale-notes" [state]="{clearFilters: true, filterStatus: 'Pending'}" class="btn btn-outline btn-sm">Ver Todas</a>
+    </div>
   </div>
 
   <div class="stats-grid">
