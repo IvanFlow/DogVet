@@ -1,4 +1,5 @@
 using DogVetAPI.Data.Entities;
+using System.Linq.Expressions;
 
 namespace DogVetAPI.Data.Repositories.Interfaces
 {
@@ -14,6 +15,7 @@ namespace DogVetAPI.Data.Repositories.Interfaces
         T Update(T entity);
         Task<bool> DeleteAsync(int id);
         Task<bool> ExistsAsync(int id);
+        Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null);
         Task SaveChangesAsync();
     }
 }

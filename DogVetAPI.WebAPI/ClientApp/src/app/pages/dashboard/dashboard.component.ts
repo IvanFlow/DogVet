@@ -5,6 +5,7 @@ import { OwnerService } from '../../services/owner.service';
 import { PetService } from '../../services/pet.service';
 import { MedicalHistoryService } from '../../services/medical-history.service';
 import { SaleNoteService } from '../../services/sales-note.service';
+import { DashboardService } from '../../services/dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,10 +29,20 @@ export class DashboardComponent implements OnInit {
     private ownerService: OwnerService,
     private petService: PetService,
     private medicalHistoryService: MedicalHistoryService,
-    private saleNoteService: SaleNoteService
+    private saleNoteService: SaleNoteService,
+    private dashboardService: DashboardService
   ) {}
 
   ngOnInit() {
+    this.dashboardService.getKpis().subscribe({
+      next: kpis => {
+        this.recordCount = kpis.totalMedicalRecords;
+        this.upcomingFollowUps = kpis.upcomingFollowUps;
+        this.missedFollowUps = kpis.missedFollowUps;
+        this.overdueFollowUps = kpis.overdueFollowUps;
+      },
+      error: err => console.error('Error loading dashboard KPIs:', err)
+    });
     this.ownerService.getAll().subscribe({
       next: o => { 
         this.ownerCount = o.length;
@@ -47,27 +58,9 @@ export class DashboardComponent implements OnInit {
     this.medicalHistoryService.getAll().subscribe({
       next: r => {
         const now = new Date();
-        const in30 = new Date(); in30.setDate(now.getDate() + 30);
         const ago30 = new Date(); ago30.setDate(now.getDate() - 30);
 
-        this.recordCount = r.length;
         this.recentRecords = r.filter(rec => new Date(rec.visitDate) >= ago30).length;
-        this.upcomingFollowUps = r.filter(rec =>
-          rec.followUpDate &&
-          new Date(rec.followUpDate) >= now &&
-          new Date(rec.followUpDate) <= in30 &&
-          rec.status !== 'Completed'
-        ).length;
-        this.missedFollowUps = r.filter(rec =>
-          rec.followUpDate &&
-          new Date(rec.followUpDate) > now &&
-          rec.status !== 'Completed'
-        ).length;
-        this.overdueFollowUps = r.filter(rec =>
-          rec.followUpDate &&
-          new Date(rec.followUpDate) < now &&
-          rec.status !== 'Completed'
-        ).length;
       },
       error: err => console.error('Error loading record count:', err)
     });

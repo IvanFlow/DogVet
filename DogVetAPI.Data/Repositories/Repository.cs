@@ -1,6 +1,7 @@
 using DogVetAPI.Data.DBContext;
 using DogVetAPI.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DogVetAPI.Data.Repositories
 {
@@ -53,6 +54,13 @@ namespace DogVetAPI.Data.Repositories
         public virtual async Task<bool> ExistsAsync(int id)
         {
             return await _dbSet.FindAsync(id) != null;
+        }
+
+        public virtual async Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null)
+        {
+            return predicate is null
+                ? await _dbSet.CountAsync()
+                : await _dbSet.CountAsync(predicate);
         }
 
         public virtual async Task SaveChangesAsync()

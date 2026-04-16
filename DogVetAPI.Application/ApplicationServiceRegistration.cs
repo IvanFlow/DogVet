@@ -20,6 +20,7 @@ namespace DogVetAPI.Application
             services.AddScoped<IMedicalHistoryService, MedicalHistoryService>();
             services.AddScoped<IPrescriptionService, PrescriptionService>();
             services.AddScoped<ISaleNoteService, SaleNoteService>();
+            services.AddScoped<IDashboardService, DashboardService>();
 
             return services;
         }
