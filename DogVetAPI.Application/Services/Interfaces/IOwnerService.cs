@@ -9,6 +9,7 @@ namespace DogVetAPI.Application.Services.Interfaces
     public interface IOwnerService
     {
         Task<IEnumerable<OwnerDto>> GetAllOwnersAsync();
+        Task<IEnumerable<OwnerDto>> GetFilteredOwnersAsync(string? search);
         Task<OwnerDto?> GetOwnerByIdAsync(int id);
         Task<OwnerDto> CreateOwnerAsync(CreateOwnerDto createOwnerDto);
         Task<OwnerDto?> UpdateOwnerAsync(UpdateOwnerDto updateOwnerDto);

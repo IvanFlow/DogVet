@@ -18,6 +18,22 @@ namespace DogVetAPI.Application.Services
             return owners.ToDto();
         }
 
+        public async Task<IEnumerable<OwnerDto>> GetFilteredOwnersAsync(string? search)
+        {
+            if (string.IsNullOrWhiteSpace(search))
+                return (await _ownerRepository.GetAllActiveAsync()).ToDto();
+
+            var s = search.ToLower();
+            var owners = await _ownerRepository.GetAllAsync(o =>
+                o.IsActive &&
+                (o.FirstName.ToLower().Contains(s) ||
+                 o.LastName.ToLower().Contains(s) ||
+                 o.Email.ToLower().Contains(s) ||
+                 o.City.ToLower().Contains(s)));
+
+            return owners.ToDto();
+        }
+
         public async Task<OwnerDto?> GetOwnerByIdAsync(int id)
         {
             var owner = await _ownerRepository.GetByIdAsync(id);

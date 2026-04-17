@@ -32,6 +32,24 @@ namespace DogVetAPI.WebAPI.Controllers
         }
 
         /// <summary>
+        /// Gets owners filtered by search term (name, email, city)
+        /// </summary>
+        [HttpGet("GetFilteredOwners")]
+        public async Task<ActionResult<IEnumerable<OwnerDto>>> GetFilteredOwners([FromQuery] string? search)
+        {
+            try
+            {
+                var ownerDtos = await _ownerService.GetFilteredOwnersAsync(search);
+                return Ok(ownerDtos);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving filtered owners");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        /// <summary>
         /// Gets an owner by ID
         /// </summary>
         [HttpGet("GetOwnerById")]

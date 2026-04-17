@@ -5,20 +5,20 @@
   </div>
 
   <div class="card" style="margin-bottom: var(--space-md);">
-    <input class="form-control" [(ngModel)]="search" placeholder="🔍 Buscar por nombre, email o ciudad..." />
+    <input class="form-control" [ngModel]="search" (ngModelChange)="onSearchChange($event)" placeholder="🔍 Buscar por nombre, email o ciudad..." />
   </div>
 
   <div *ngIf="loading" class="spinner-wrap"><div class="spinner"></div><p style="text-align: center; margin-top: var(--space-md); color: var(--color-text-muted);">Cargando propietarios...</p></div>
   <div *ngIf="!loading && error" class="alert alert-danger">{{ error }}</div>
 
   <div *ngIf="!loading ">
-    <div *ngIf="filtered.length === 0" class="empty-state">
+    <div *ngIf="owners.length === 0" class="empty-state">
       <span class="empty-icon">👤</span>
       <p>No se encontraron propietarios.</p>
       <a routerLink="/owners/new" class="btn btn-primary" style="margin-top: var(--space-md);">Registrar primer propietario</a>
     </div>
 
-    <div *ngIf="filtered.length > 0" class="card table-wrapper">
+    <div *ngIf="owners.length > 0" class="card table-wrapper">
       <table>
         <thead>
           <tr>
@@ -29,7 +29,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let owner of filtered" (click)="navigateTo(owner.id)" style="cursor:pointer;">
+          <tr *ngFor="let owner of owners" (click)="navigateTo(owner.id)" style="cursor:pointer;">
             <td>
               <a [routerLink]="['/owners', owner.id]" style="font-weight: 500;" (click)="$event.stopPropagation()">
                 {{ owner.firstName }} {{ owner.lastName }}

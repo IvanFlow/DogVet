@@ -13,6 +13,12 @@ export class OwnerService {
     return this.http.get<Owner[]>(`${this.baseUrl}/GetAllOwners`);
   }
 
+  getFiltered(search?: string): Observable<Owner[]> {
+    const params: Record<string, string> = {};
+    if (search) params['search'] = search;
+    return this.http.get<Owner[]>(`${this.baseUrl}/GetFilteredOwners`, { params });
+  }
+
   getById(id: number): Observable<Owner> {
     return this.http.get<Owner>(`${this.baseUrl}/GetOwnerById`, { params: { id } });
   }
