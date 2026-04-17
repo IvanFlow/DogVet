@@ -4,9 +4,14 @@ import { Observable } from 'rxjs';
 
 export interface DashboardKpis {
   totalMedicalRecords: number;
+  recentMedicalRecords: number;
   upcomingFollowUps: number;
   missedFollowUps: number;
   overdueFollowUps: number;
+  totalOwners: number;
+  totalPets: number;
+  recentSaleNotes: number;
+  pendingSaleNotes: number;
 }
 
 @Injectable({
