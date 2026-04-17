@@ -21,15 +21,18 @@ public class DashboardService(IMedicalHistoryRepository medicalHistoryRepository
                 r.FollowUpDate.HasValue &&
                 r.FollowUpDate >= now &&
                 r.FollowUpDate <= in30 &&
-                r.Status != MedicalHistoryStatusStrings.Completed),
+                r.Status != MedicalHistoryStatusStrings.Completed &&
+                r.Pet.IsActive ),
             MissedFollowUps = await _medicalHistoryRepository.CountAsync(r =>
                 r.FollowUpDate.HasValue &&
                 r.FollowUpDate > now &&
-                r.Status != MedicalHistoryStatusStrings.Completed),
+                r.Status != MedicalHistoryStatusStrings.Completed &&
+                r.Pet.IsActive ),
             OverdueFollowUps = await _medicalHistoryRepository.CountAsync(r =>
                 r.FollowUpDate.HasValue &&
                 r.FollowUpDate < now &&
-                r.Status != MedicalHistoryStatusStrings.Completed)
+                r.Status != MedicalHistoryStatusStrings.Completed &&
+                r.Pet.IsActive )
         };
     }
 }
