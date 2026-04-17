@@ -8,7 +8,7 @@ namespace DogVetAPI.Data.Repositories.Interfaces
     /// </summary>
     public interface IRepository<T> where T : class
     {
-        Task<IEnumerable<T>> GetAllAsync();
+        Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null);
         Task<T?> GetByIdAsync(int id);
         Task<T> AddAsync(T entity);
         Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities);

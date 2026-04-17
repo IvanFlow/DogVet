@@ -13,9 +13,11 @@ namespace DogVetAPI.Data.Repositories
         protected readonly DogVetContext _context = context ?? throw new ArgumentNullException(nameof(context));
         protected readonly DbSet<T> _dbSet = context.Set<T>();
 
-        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        public virtual async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null)
         {
-            return await _dbSet.ToListAsync();
+            return predicate is null
+                ? await _dbSet.ToListAsync()
+                : await _dbSet.Where(predicate).ToListAsync();
         }
 
         public virtual async Task<T?> GetByIdAsync(int id)
