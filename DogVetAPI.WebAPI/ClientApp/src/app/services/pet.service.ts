@@ -13,6 +13,14 @@ export class PetService {
     return this.http.get<Pet[]>(`${this.baseUrl}/GetAllPets`);
   }
 
+  getFiltered(search?: string, ownerId?: number, species?: string): Observable<Pet[]> {
+    const params: Record<string, string> = {};
+    if (search) params['search'] = search;
+    if (ownerId) params['ownerId'] = String(ownerId);
+    if (species) params['species'] = species;
+    return this.http.get<Pet[]>(`${this.baseUrl}/GetFilteredPets`, { params });
+  }
+
   getById(id: number): Observable<Pet> {
     return this.http.get<Pet>(`${this.baseUrl}/GetPetById`, { params: { id } });
   }

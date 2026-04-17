@@ -32,6 +32,24 @@ namespace DogVetAPI.WebAPI.Controllers
         }
 
         /// <summary>
+        /// Gets pets filtered by search term, owner and species
+        /// </summary>
+        [HttpGet("GetFilteredPets")]
+        public async Task<ActionResult<IEnumerable<PetDto>>> GetFilteredPets([FromQuery] string? search, [FromQuery] int? ownerId, [FromQuery] string? species)
+        {
+            try
+            {
+                var petDtos = await _petService.GetFilteredPetsAsync(search, ownerId, species);
+                return Ok(petDtos);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving filtered pets");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        /// <summary>
         /// Gets a pet by ID
         /// </summary>
         [HttpGet("GetPetById")]

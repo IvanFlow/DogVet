@@ -5,14 +5,14 @@
   </div>
 
   <div class="card" style="margin-bottom: var(--space-md); display: flex; gap: var(--space-md); flex-wrap: wrap;">
-    <input class="form-control" style="flex: 1; min-width: 200px;" [(ngModel)]="search" placeholder="🔍 Buscar por nombre o raza..." />
-    <select class="form-control" style="width: 180px;" [(ngModel)]="filterOwner">
+    <input class="form-control" style="flex: 1; min-width: 200px;" [ngModel]="search" (ngModelChange)="search = $event; onFilterChange()" placeholder="🔍 Buscar por nombre o raza..." />
+    <select class="form-control" style="width: 180px;" [ngModel]="filterOwner" (ngModelChange)="filterOwner = $event; onFilterChange()">
       <option value="">Todos los Propietarios</option>
-      <option *ngFor="let o of owners" [value]="o.id">{{ o.firstName }} {{ o.lastName }}</option>
+      <option *ngFor="let o of ownerOptions" [value]="o.id">{{ o.name }}</option>
     </select>
-    <select class="form-control" style="width: 150px;" [(ngModel)]="filterSpecies">
+    <select class="form-control" style="width: 150px;" [ngModel]="filterSpecies" (ngModelChange)="filterSpecies = $event; onFilterChange()">
       <option value="">Todas las Especies</option>
-      <option *ngFor="let s of species" [value]="s.value">{{ s.value | species }}</option>
+      <option *ngFor="let s of speciesOptions" [value]="s">{{ s | species }}</option>
     </select>
   </div>
 
@@ -20,13 +20,13 @@
   <div *ngIf="!loading && error" class="alert alert-danger">{{ error }}</div>
 
   <div *ngIf="!loading && !error">
-    <div *ngIf="filtered.length === 0" class="empty-state">
+    <div *ngIf="pets.length === 0" class="empty-state">
       <span class="empty-icon">🐕</span>
       <p>No se encontraron mascotas.</p>
       <a routerLink="/pets/new" class="btn btn-primary" style="margin-top: var(--space-md);">Registrar primera mascota</a>
     </div>
 
-    <div *ngIf="filtered.length > 0" class="card table-wrapper">
+    <div *ngIf="pets.length > 0" class="card table-wrapper">
       <table>
         <thead>
           <tr>
@@ -39,7 +39,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let pet of filtered" (click)="navigateTo(pet.id)" style="cursor:pointer;">
+          <tr *ngFor="let pet of pets" (click)="navigateTo(pet.id)" style="cursor:pointer;">
             <td><a [routerLink]="['/pets', pet.id]" style="font-weight:500;" (click)="$event.stopPropagation()">{{ pet.name }}</a></td>
             <td class="hide-mobile">{{ pet.species | species }}</td>
             <td>{{ pet.breed }}</td>

@@ -20,6 +20,20 @@ namespace DogVetAPI.Application.Services
             return pets.ToDto();
         }
 
+        public async Task<IEnumerable<PetDto>> GetFilteredPetsAsync(string? search, int? ownerId, string? species)
+        {
+            var hasSearch = !string.IsNullOrWhiteSpace(search);
+            var s = search?.ToLower();
+
+            var pets = await _petRepository.GetAllAsync(p =>
+                p.IsActive &&
+                (!hasSearch || p.Name.ToLower().Contains(s!) || p.Breed.ToLower().Contains(s!)) &&
+                (ownerId == null || p.OwnerId == ownerId) &&
+                (string.IsNullOrWhiteSpace(species) || p.Species == species));
+
+            return pets.ToDto();
+        }
+
         public async Task<PetDto?> GetPetByIdAsync(int id)
         {
             var pet = await _petRepository.GetByIdAsync(id);

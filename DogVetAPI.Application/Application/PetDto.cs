@@ -15,6 +15,7 @@ namespace DogVetAPI.Application
         public string? Species { get; set; }
         public bool IsActive { get; set; }
         public int OwnerId { get; set; }
+        public string? OwnerName { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public List<MedicalHistoryDto>? MedicalHistories { get; set; }

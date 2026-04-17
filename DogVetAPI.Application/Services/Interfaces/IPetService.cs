@@ -10,6 +10,7 @@ namespace DogVetAPI.Application.Services.Interfaces
     public interface IPetService
     {
         Task<IEnumerable<PetDto>> GetAllPetsAsync();
+        Task<IEnumerable<PetDto>> GetFilteredPetsAsync(string? search, int? ownerId, string? species);
         Task<PetDto?> GetPetByIdAsync(int id);
         Task<PetDto?> GetPetWithHistoryAsync(int id);
         Task<PetDto> CreatePetAsync(CreatePetDto createPetDto);

@@ -24,6 +24,7 @@ namespace DogVetAPI.Application.Mappers
                 Species = entity.Species,
                 IsActive = entity.IsActive,
                 OwnerId = entity.OwnerId,
+                OwnerName = entity.Owner != null ? $"{entity.Owner.FirstName} {entity.Owner.LastName}" : null,
                 CreatedAt = entity.CreatedAt,
                 UpdatedAt = entity.UpdatedAt,
                 MedicalHistories = withHistory && entity.MedicalHistories != null

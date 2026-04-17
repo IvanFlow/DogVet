@@ -2,6 +2,7 @@ using DogVetAPI.Data.DBContext;
 using DogVetAPI.Data.Repositories.Interfaces;
 using DogVetAPI.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DogVetAPI.Data.Repositories
 {
@@ -10,6 +11,14 @@ namespace DogVetAPI.Data.Repositories
     /// </summary>
     public class PetRepository(DogVetContext context) : Repository<PetEntity>(context), IPetRepository
     {
+        public override async Task<IEnumerable<PetEntity>> GetAllAsync(Expression<Func<PetEntity, bool>>? predicate = null)
+        {
+            var query = _dbSet.Include(p => p.Owner).AsQueryable();
+            if (predicate != null)
+                query = query.Where(predicate);
+            return await query.ToListAsync();
+        }
+
         public async Task<PetEntity?> GetPetWithHistoryAsync(int id)
         {
             return await _dbSet
